@@ -1,0 +1,52 @@
+name: Mark Stale Branches
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Ejecuta semanalmente
+  workflow_dispatch:      # Permite ejecutar el workflow manualmente
+
+jobs:
+  mark-stale-branches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Identify Stale Branches
+        run: |
+          # Número de días sin actividad para considerar una rama como "stale"
+          DAYS=1
+          stale_date=$(date -d "$DAYS days ago" +%Y-%m-%d)
+
+          # Configurar git para usar GitHub CLI token
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Instalar GitHub CLI
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh
+
+          # Autenticar en GitHub CLI
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+          # Listar todas las ramas remotas
+          branches=$(git branch -r | grep -v '\->' | while read remote; do echo ${remote#origin/}; done)
+
+          # Revisar cada rama para determinar si es "stale"
+          for branch in $branches; do
+            # Obtener la fecha del último commit en la rama
+            last_commit_date=$(git log -1 --format=%ci origin/$branch | cut -d' ' -f1)
+
+            # Comparar fechas
+            if [[ "$last_commit_date" < "$stale_date" ]]; then
+              echo "La rama '$branch' está 'stale' (último commit hace más de $DAYS días)"
+              # Aquí podrías agregar lógica para renombrar la rama o enviar notificaciones
+              # Por ejemplo, renombrar la rama:
+              # git push origin origin/$branch:refs/heads/stale/$branch
+              # git push origin --delete origin/$branch
+            fi
+          done
