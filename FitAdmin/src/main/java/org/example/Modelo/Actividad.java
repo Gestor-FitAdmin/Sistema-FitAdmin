@@ -36,7 +36,7 @@ public abstract class Actividad {
 
     //metodos
 
-    public abstract String obtenerActividad();
+    public abstract String obtenerNombreActividad();
     //public abstract double calcularPrecioDeUnaClase();
     //public abstract double calcularPrecioCuota();
 }
