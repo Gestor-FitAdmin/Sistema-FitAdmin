@@ -1,5 +1,7 @@
 package org.example.Modelo;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 public abstract class Persona {
@@ -27,5 +29,43 @@ public abstract class Persona {
 
     //Getters Y Setters
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getDNI() {
+        return DNI;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public Double getAltura() {
+        return altura;
+    }
+
+    public Date getFechaDeNacimiento() {
+        return fechaDeNacimiento;
+    }
+
+
     //Metodos
+     public int calcularEdad()
+     {
+         Date fechaActual = new Date();
+         LocalDate fechaNacimientoLocalDate = LocalDate.ofInstant(getFechaDeNacimiento().toInstant(), java.time.ZoneId.systemDefault());
+         LocalDate fechaActualLocalDate = LocalDate.ofInstant(fechaActual.toInstant(), java.time.ZoneId.systemDefault());
+        int edad = Period.between(fechaNacimientoLocalDate, fechaActualLocalDate).getYears();
+
+         return edad;
+     }
 }
