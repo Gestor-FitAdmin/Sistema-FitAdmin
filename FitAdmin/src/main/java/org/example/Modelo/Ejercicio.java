@@ -1,5 +1,7 @@
 package org.example.Modelo;
 
+import java.util.Objects;
+
 public class Ejercicio {
     //atributos
 
@@ -7,7 +9,7 @@ public class Ejercicio {
     private String nombreEjercicio; //ej: curl de bicep
     private String grupoMuscular; //hombros,piernas,core,brazos,espalda,pecho
     private String complejidad; //facil,medio,dificil
-    private String materialDeTrabajo; //barra,mancuera,peso libre,maquina,kettlebell,polea,bandas
+    private String materialDeTrabajo; //barra,mancuerna,peso libre,maquina,kettlebell,polea,bandas
 
     private int repeticiones;
     private int series;
@@ -102,5 +104,41 @@ public class Ejercicio {
 
 
     //metodos
-    
+
+
+    @Override
+    public boolean equals(Object o) {
+        boolean rta = false;
+
+        if(o != null)
+        {
+            if(o instanceof Ejercicio aComparar)
+            {
+                if(this.getTipoDeEjercicio().equalsIgnoreCase(aComparar.getTipoDeEjercicio()) && this.getNombreEjercicio().equalsIgnoreCase(aComparar.getNombreEjercicio()))
+                {
+                    rta = true;
+                }
+            }
+        }
+
+        return rta;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Ejercicio{" +
+                "tipoDeEjercicio='" + tipoDeEjercicio + '\'' +
+                ", nombreEjercicio='" + nombreEjercicio + '\'' +
+                ", grupoMuscular='" + grupoMuscular + '\'' +
+                ", complejidad='" + complejidad + '\'' +
+                ", materialDeTrabajo='" + materialDeTrabajo + '\'' +
+                ", repeticiones=" + repeticiones +
+                ", series=" + series +"\n"+
+                '}';
+    }
 }
