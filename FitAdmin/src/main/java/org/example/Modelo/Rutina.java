@@ -1,8 +1,12 @@
 package org.example.Modelo;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.Enum.EObjetivo;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -42,6 +46,24 @@ public class Rutina
     }
 
     //metodos
+
+
+    public ArrayList<Ejercicio> leerJSONEjercicio(String archivo) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayList<Ejercicio> ejercicioArrayList = new ArrayList<>();
+        try{
+            File fichero = new File(archivo);
+            ejercicioArrayList = objectMapper.readValue(fichero, new TypeReference<ArrayList<Ejercicio>>() {});
+        }
+        catch (IOException e){
+            throw e;
+        }
+
+        return  ejercicioArrayList;
+    }
+
+
 
 
 }

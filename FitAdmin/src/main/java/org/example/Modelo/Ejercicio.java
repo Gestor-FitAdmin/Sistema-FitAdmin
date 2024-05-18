@@ -7,11 +7,14 @@ public class Ejercicio {
     private String nombreEjercicio; //ej: curl de bicep
     private String grupoMuscular; //hombros,piernas,core,brazos,espalda,pecho
     private String complejidad; //facil,medio,dificil
-    private String materialDeTrabajo; //barra,mancuerna,peso
+    private String materialDeTrabajo; //barra,mancuera,peso libre,maquina,kettlebell,polea,bandas
+
     private int repeticiones;
     private int series;
     //constructores
 
+
+    /*
     public Ejercicio()
     {
         tipoDeEjercicio="Sin tipo de ejercicio";
@@ -23,6 +26,9 @@ public class Ejercicio {
         series=-1;
     }
 
+     */
+
+    /*
     public Ejercicio(String tipoDeEjercicio, String nombreEjercicio, String grupoMuscular, String complejidad, String materialDeTrabajo, int repeticiones, int series) {
         this.tipoDeEjercicio = tipoDeEjercicio;
         this.nombreEjercicio = nombreEjercicio;
@@ -32,6 +38,8 @@ public class Ejercicio {
         this.repeticiones = repeticiones;
         this.series = series;
     }
+
+     */
 
 
     //get y set
@@ -94,8 +102,5 @@ public class Ejercicio {
 
 
     //metodos
-
-
     
-
 }
