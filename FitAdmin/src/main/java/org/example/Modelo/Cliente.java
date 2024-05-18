@@ -16,7 +16,7 @@ public class Cliente extends Persona{
 
     //Constructor
 
-    public Cliente(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, Date fechaDeNacimiento, int idSocio, String eMail, boolean cuotaPagada) {
+    public Cliente(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, String fechaDeNacimiento, int idSocio, String eMail, boolean cuotaPagada) {
         super(nombre, apellido, DNI, sexo, peso, altura, fechaDeNacimiento);
         this.idSocio = idSocio;
         this.eMail = eMail;

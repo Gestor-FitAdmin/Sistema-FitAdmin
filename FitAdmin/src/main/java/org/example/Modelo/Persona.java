@@ -2,6 +2,7 @@ package org.example.Modelo;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public abstract class Persona {
@@ -13,18 +14,20 @@ public abstract class Persona {
     private String sexo;
     private Double peso;
     private Double altura;
-    private Date fechaDeNacimiento;
+    private LocalDate fechaDeNacimiento;
+    private int edad;
 
     //Constructor
 
-    public Persona(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, Date fechaDeNacimiento) {
+    public Persona(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, String fechaDeNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.DNI = DNI;
         this.sexo = sexo;
         this.peso = peso;
         this.altura = altura;
-        this.fechaDeNacimiento = fechaDeNacimiento;
+        this.fechaDeNacimiento = formatearFechaALocalDate(fechaDeNacimiento); //formateo string DD-MM-YYYY
+        edad = calcularEdad();
     }
 
     //Getters Y Setters
@@ -53,18 +56,28 @@ public abstract class Persona {
         return altura;
     }
 
-    public Date getFechaDeNacimiento() {
+    public LocalDate getFechaDeNacimiento() {
         return fechaDeNacimiento;
     }
 
+    public int getEdad() {
+        return edad;
+    }
 
     //Metodos
-     public int calcularEdad()
+
+    private LocalDate formatearFechaALocalDate(String fecha)
+    {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        return LocalDate.parse(fecha,formato);
+    }
+
+
+     private int calcularEdad()
      {
-         Date fechaActual = new Date();
-         LocalDate fechaNacimientoLocalDate = LocalDate.ofInstant(getFechaDeNacimiento().toInstant(), java.time.ZoneId.systemDefault());
-         LocalDate fechaActualLocalDate = LocalDate.ofInstant(fechaActual.toInstant(), java.time.ZoneId.systemDefault());
-        int edad = Period.between(fechaNacimientoLocalDate, fechaActualLocalDate).getYears();
+         LocalDate fechaActual = LocalDate.now();
+         int edad = Period.between(fechaDeNacimiento, fechaActual).getYears();
 
          return edad;
      }
