@@ -16,12 +16,11 @@ public class Rutina
     //atributos
     private LinkedHashSet<Ejercicio> rutina;//nos importa el orden de realizacion de ejercicios
     private EObjetivo objetivo; //Perder peso|Ganar fuerza|Ganar musculo
-    private int cantidadDeDias;//dias de entrenamiento
+    //dias de entrenamiento
     //constructores
 
-    public Rutina(EObjetivo objetivo, int cantidadDeDias) {
+    public Rutina(EObjetivo objetivo) {
         this.objetivo = objetivo;
-        this.cantidadDeDias = cantidadDeDias;
         rutina = new LinkedHashSet<>();
     }
 
@@ -37,21 +36,57 @@ public class Rutina
         this.objetivo = objetivo;
     }
 
-    public int getCantidadDeDias()
-    {
-        return cantidadDeDias;
-    }
-
-    public void setCantidadDeDias(int cantidadDeDias)
-    {
-        this.cantidadDeDias = cantidadDeDias;
-    }
-
     //metodos
 
-    public void crearUnaRutina(Cliente cliente)
+    public boolean agregarUnEjercicioARutina(Ejercicio nuevoEjercicio)
     {
+        //al ser un LinkedHashSet, el ejercicio no se repetiria y tiene orden
+        return rutina.add(nuevoEjercicio);
+    }
 
+    public boolean sacarUnEjercicioDeRutinaXId(int idEjercicioAEliminar)
+    {
+        boolean flag=false;
+        Iterator<Ejercicio> iterator = rutina.iterator();
+        while (iterator.hasNext() && flag==false)
+        {
+            Ejercicio ejercicioAux=iterator.next();
+            if (ejercicioAux.getIdEjercicio() == idEjercicioAEliminar)
+            {
+                rutina.remove(ejercicioAux);
+                flag=true;
+            }
+
+        }
+        return flag;
+    }
+
+    public boolean sacarUnEjercicioDeRutinaXObjeto(Ejercicio ejercicioAEliminar)
+    {
+       return rutina.remove(ejercicioAEliminar);
+    }
+
+    public ArrayList<Ejercicio> leerJSONEjercicio(String archivo) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayList<Ejercicio> ejercicioArrayList = new ArrayList<>();
+        try{
+
+            //todo: verificar si el trycatch va aca
+
+            File fichero = new File(archivo);
+            ejercicioArrayList = objectMapper.readValue(fichero, new TypeReference<ArrayList<Ejercicio>>() {});
+        }
+        catch (IOException e){
+            throw e;
+        }
+
+        return  ejercicioArrayList;
+    }
+
+
+    /*
+    public void crearUnaRutina(Cliente cliente){
         switch(objetivo.ordinal())
         {
             case 1: //perder peso
@@ -61,17 +96,14 @@ public class Rutina
 
                 break;
             case 3://ganar musculo
-
-                break;
+    break;
             default:
 
                 break;
 
         }
 
-
-    }
-    private ArrayList instanciarJSONaArrayList(String archivo)
+        private ArrayList instanciarJSONaArrayList(String archivo)
     {
         ArrayList<Ejercicio> ejerciciosJSON;
         try {
@@ -93,7 +125,7 @@ public class Rutina
         return peso/Math.pow(altura,2); //me sirve para ver la dificultad de la rutina
     }
 
-    public void generarRutinaDelDia(String archivo,EObjetivo objetivo,int cantMaximaDeSeries)//HAY QUE AGREGAR CLIENTES PARA CALCULAR LA DIFICULTAD CON EL PESO Y DEMAS ATRIBUTOS IMC(YA ESTA HECHA LA FUNCION HAY QUE IMPLEMENTARLA)
+public void generarRutinaDelDia(String archivo,EObjetivo objetivo,int cantMaximaDeSeries)//HAY QUE AGREGAR CLIENTES PARA CALCULAR LA DIFICULTAD CON EL PESO Y DEMAS ATRIBUTOS IMC(YA ESTA HECHA LA FUNCION HAY QUE IMPLEMENTARLA)
      {
          //Ejemplo cantMaximaDeSeries maximo de series|| tope maximo por ejemplo prensa = 4 series + sentadilla 4 series + peso muerto 4 series + bici 4 series + bco plano 4 series = 20
 
@@ -152,6 +184,8 @@ public class Rutina
      {
          return (double) cantidadActual/cantidadDeSeriesMaximas;
      }
+     */
+
 
 
 
@@ -176,13 +210,24 @@ public class Rutina
 
         return  ejercicioArrayList;
     }
+    
+
+
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rutina rutina1 = (Rutina) o;
-        return cantidadDeDias == rutina1.cantidadDeDias && Objects.equals(rutina, rutina1.rutina) && objetivo == rutina1.objetivo;
+        boolean flag=false;
+        if (o != null)
+        {
+            if (o instanceof Rutina rutinaAComparar)
+            {
+                if (this.rutina.equals(rutinaAComparar.rutina) && this.objetivo == rutinaAComparar.objetivo )
+                {
+                    flag=true;
+                }
+            }
+        }
+        return flag;
     }
 
     @Override
@@ -195,7 +240,6 @@ public class Rutina
         return "Rutina{" +
                 "rutina=" + rutina +
                 ", objetivo=" + objetivo +
-                ", cantidadDeDias=" + cantidadDeDias +
                 '}';
     }
 }
