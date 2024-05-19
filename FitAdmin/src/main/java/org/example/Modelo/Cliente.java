@@ -88,6 +88,6 @@ public class Cliente extends Persona{
                 ", estado=" + estado +
                 ", rutinaSemanal=" + rutinaSemanal +
                 ", actividadesInscripto=" + actividadesInscripto +
-                "} " + super.toString();
+                "} " + super.toString()+"\n";
     }
 }
