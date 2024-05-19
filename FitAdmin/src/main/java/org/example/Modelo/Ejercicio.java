@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Ejercicio {
     //atributos
 
+    private int idEjercicio;
     private String tipoDeEjercicio; //cardio, empuje, traccion
     private String nombreEjercicio; //ej: curl de bicep
     private String grupoMuscular; //hombros,piernas,core,brazos,espalda,pecho
@@ -16,7 +17,7 @@ public class Ejercicio {
     //constructores
 
 
-    /*
+
     public Ejercicio()
     {
         tipoDeEjercicio="Sin tipo de ejercicio";
@@ -26,12 +27,10 @@ public class Ejercicio {
         materialDeTrabajo="Sin material de trabajo";
         repeticiones=-1;
         series=-1;
+        idEjercicio=-1;
     }
 
-     */
-
-    /*
-    public Ejercicio(String tipoDeEjercicio, String nombreEjercicio, String grupoMuscular, String complejidad, String materialDeTrabajo, int repeticiones, int series) {
+    public Ejercicio(String tipoDeEjercicio, String nombreEjercicio, String grupoMuscular, String complejidad, String materialDeTrabajo, int repeticiones, int series,int idEjercicio) {
         this.tipoDeEjercicio = tipoDeEjercicio;
         this.nombreEjercicio = nombreEjercicio;
         this.grupoMuscular = grupoMuscular;
@@ -39,9 +38,9 @@ public class Ejercicio {
         this.materialDeTrabajo = materialDeTrabajo;
         this.repeticiones = repeticiones;
         this.series = series;
+        this.idEjercicio=idEjercicio; //todo: VER SI EL ID VIENE DESDE EL JSON O LO AUTOINCREMENTAMOS NOSOTROS
     }
 
-     */
 
 
     //get y set
@@ -72,6 +71,10 @@ public class Ejercicio {
 
     public int getSeries() {
         return series;
+    }
+
+    public int getIdEjercicio() {
+        return idEjercicio;
     }
 
     public void setTipoDeEjercicio(String tipoDeEjercicio) {
@@ -114,10 +117,16 @@ public class Ejercicio {
         {
             if(o instanceof Ejercicio aComparar)
             {
-                if(this.getTipoDeEjercicio().equalsIgnoreCase(aComparar.getTipoDeEjercicio()) && this.getNombreEjercicio().equalsIgnoreCase(aComparar.getNombreEjercicio()))
-                {
-                    rta = true;
+
+                if (this.idEjercicio == aComparar.idEjercicio){
+                    rta=true;
                 }
+
+//                if(this.getTipoDeEjercicio().equalsIgnoreCase(aComparar.getTipoDeEjercicio()) && this.getNombreEjercicio().equalsIgnoreCase(aComparar.getNombreEjercicio()))
+//                {
+//                    //si el tipo de ejercicio y el nombre son iguales retorno true
+//                    rta = true;
+//                }
             }
         }
 
