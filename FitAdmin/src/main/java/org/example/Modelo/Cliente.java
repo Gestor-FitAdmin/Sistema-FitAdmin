@@ -1,5 +1,9 @@
 package org.example.Modelo;
 
+import org.example.Enum.EDiasSemana;
+
+import javax.swing.plaf.basic.BasicViewportUI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,10 +62,6 @@ public class Cliente extends Persona{
         this.actividadesInscripto = actividadesInscripto;
     }
 
-    public void setRutinaSemanal(HashMap<String, Rutina> rutinaSemanal) {
-        this.rutinaSemanal = rutinaSemanal;
-    }
-
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
@@ -71,6 +71,12 @@ public class Cliente extends Persona{
     }
 
     //Metodos
+
+    public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
+        String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
+
+        rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
+    }
 
     
 }
