@@ -44,6 +44,41 @@ public class Rutina
         return rutina.add(nuevoEjercicio);
     }
 
+    public boolean sacarUnEjercicioDeRutinaXObjeto(Ejercicio ejercicioAEliminar)
+    {
+        return rutina.remove(ejercicioAEliminar);
+    }
+
+    public boolean agregarUnEjercicioARutinaXId(int idEjercicioAAgregar, int repeticiones, int series){
+        boolean flag=false;
+        Iterator<Ejercicio> iterator = rutina.iterator();
+        while (iterator.hasNext() && flag==false)
+        {
+            Ejercicio ejercicioAux=iterator.next();
+            if (ejercicioAux.getIdEjercicio() == idEjercicioAAgregar)
+            {
+                ejercicioAux.setRepeticiones(repeticiones);
+                ejercicioAux.setSeries(series);
+                rutina.add(ejercicioAux);
+                flag=true;
+            }
+
+        }
+        return flag;
+    }
+
+    public boolean agregarUnEjercicioARutinaXID(int idEjercicioAAgregar, int repeticiones, int series) throws IOException {
+        boolean flag = false;
+            LinkedHashSet<Ejercicio> ejercicios;
+
+            ejercicios = leerJSONEjercicio("ejercicios.json"){
+
+        }
+
+
+        return flag;
+    }
+
     public boolean sacarUnEjercicioDeRutinaXId(int idEjercicioAEliminar)
     {
         boolean flag=false;
@@ -61,10 +96,9 @@ public class Rutina
         return flag;
     }
 
-    public boolean sacarUnEjercicioDeRutinaXObjeto(Ejercicio ejercicioAEliminar)
-    {
-       return rutina.remove(ejercicioAEliminar);
-    }
+
+
+
 
 
     //funcion para leer el JSON de un ejerciciod
@@ -89,110 +123,6 @@ public class Rutina
         return  ejercicioArrayList;
     }
 
-
-
-
-
-    /*
-    public void crearUnaRutina(Cliente cliente){
-        switch(objetivo.ordinal())
-        {
-            case 1: //perder peso
-                //generarRutina(objetivo,cliente);
-                break;
-            case 2://ganar fuerza
-
-                break;
-            case 3://ganar musculo
-    break;
-            default:
-
-                break;
-
-        }
-
-        private ArrayList instanciarJSONaArrayList(String archivo)
-    {
-        ArrayList<Ejercicio> ejerciciosJSON;
-        try {
-            ejerciciosJSON = leerJSONEjercicio(archivo);//obtengo todos los ejercicios del sistema
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Random rand = new Random();
-        for(int i = 0 ;i<ejerciciosJSON.size();i++)
-        {
-            ejerciciosJSON.get(i).setSeries(rand.nextInt(4 - 3 + 1) + 3);
-            ejerciciosJSON.get(i).setRepeticiones(rand.nextInt(15 - 6 + 1) + 6);
-        }
-
-        return ejerciciosJSON;
-    }
-    private double calcularIMC(double peso,double altura)///18.5 y 24.9 se considera normal
-    {
-        return peso/Math.pow(altura,2); //me sirve para ver la dificultad de la rutina
-    }
-
-public void generarRutinaDelDia(String archivo,EObjetivo objetivo,int cantMaximaDeSeries)//HAY QUE AGREGAR CLIENTES PARA CALCULAR LA DIFICULTAD CON EL PESO Y DEMAS ATRIBUTOS IMC(YA ESTA HECHA LA FUNCION HAY QUE IMPLEMENTARLA)
-     {
-         //Ejemplo cantMaximaDeSeries maximo de series|| tope maximo por ejemplo prensa = 4 series + sentadilla 4 series + peso muerto 4 series + bici 4 series + bco plano 4 series = 20
-
-         int contadorSeries = 0;//me va a contar cuantas series voy acumulando del JSON
-         int i = 0;
-
-         ArrayList <Ejercicio> ejerciciosJSON = instanciarJSONaArrayList(archivo);
-         //si es perder peso, el 70% va a ser de cardio
-         if(objetivo.equals(EObjetivo.PERDER_PESO))//perder peso
-         {
-                 while(i<ejerciciosJSON.size())//si recorri el json y termino, espero a que el contador se llene porque necesito la rutina entera
-                 {
-                             if((ejerciciosJSON.get(i).getTipoDeEjercicio().equalsIgnoreCase("cardio")) && (calcularPorcentaje(cantMaximaDeSeries,contadorSeries)< 0.65))//65%
-                             {
-                                 rutina.add(ejerciciosJSON.get(i));
-                                 contadorSeries += ejerciciosJSON.get(i).getSeries();
-
-                             }
-
-                     i++;
-                 }
-                 i = 0;
-                 while(contadorSeries<cantMaximaDeSeries)//Si pasa el 65% le pongo otro ejercicio distinto a cardio y si es menor 1.1 por el margen de error que tienen las series
-                 {
-
-                        if(calcularPorcentaje(cantMaximaDeSeries,contadorSeries)>=0.65 && calcularPorcentaje(cantMaximaDeSeries,contadorSeries)<1)
-                        {
-                         Random rand = new Random();
-                         int numeroAleatorio = rand.nextInt(ejerciciosJSON.size());//creo un random para que la rutina de 0 a el tamaño de ejercicios que tenga el JSON
-
-                            Ejercicio e = ejerciciosJSON.get(numeroAleatorio);
-
-                         if(!e.getNombreEjercicio().equalsIgnoreCase("Cardio"))
-                         {
-                             rutina.add(e);
-                             contadorSeries+= e.getSeries();
-                         }
-
-                    }
-                 }
-
-         }
-
-
-     }
-    private int calcularFrecuenciaDelTipoDeEjercicio(String tipoEjercicio) {
-        int frecuencia = 0;
-        for (Ejercicio ejercicio : rutina) {
-            if (ejercicio.getTipoDeEjercicio().equalsIgnoreCase(tipoEjercicio)) {
-                frecuencia++;
-            }
-        }
-        return frecuencia;
-    }
-     private double calcularPorcentaje(int cantidadDeSeriesMaximas,int cantidadActual)
-     {
-         return (double) cantidadActual/cantidadDeSeriesMaximas;
-     }
-    */
 
 
     @Override
