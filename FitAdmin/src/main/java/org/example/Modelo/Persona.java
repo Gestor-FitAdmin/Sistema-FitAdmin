@@ -68,7 +68,7 @@ public abstract class Persona {
 
     private LocalDate formatearFechaALocalDate(String fecha)
     {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         return LocalDate.parse(fecha,formato);
     }
@@ -80,4 +80,18 @@ public abstract class Persona {
 
          return Period.between(fechaDeNacimiento, fechaActual).getYears();
      }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", DNI='" + DNI + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", peso=" + peso +
+                ", altura=" + altura +
+                ", fechaDeNacimiento=" + fechaDeNacimiento +
+                ", edad=" + edad +
+                '}';
+    }
 }

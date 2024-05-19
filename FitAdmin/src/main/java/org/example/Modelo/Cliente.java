@@ -78,5 +78,16 @@ public class Cliente extends Persona{
         rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
     }
 
-    
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "idSocio=" + idSocio +
+                ", eMail='" + eMail + '\'' +
+                ", cuotaPagada=" + cuotaPagada +
+                ", estado=" + estado +
+                ", rutinaSemanal=" + rutinaSemanal +
+                ", actividadesInscripto=" + actividadesInscripto +
+                "} " + super.toString();
+    }
 }
