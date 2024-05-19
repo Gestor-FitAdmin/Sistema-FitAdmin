@@ -3,9 +3,9 @@ package org.example.Interfaces;
 public interface IEstadistica
 {
    int  contarTotalClientes();
-   String listarClientesActivos();
-   String listarClientesInactivos();
-   String listarClientesXGenero(String genero);
-   String listarClientesEnXActividad(String actividad);
+   int contarClientesActivos();
+   int contarClientesInactivos();
+   int contarClientesXGenero(String genero);
+   int contarClientesXActividad(String actividad);
    double recaudacionTotal();
 }

@@ -1,8 +1,6 @@
 package org.example.Interfaces;
 
-import org.example.Modelo.Cliente;
-
-public interface IColeccion <E>
+public interface IMetodosCrud<E>
 {
 
     //cambiar nombre de interface a metodos CRUD o similar

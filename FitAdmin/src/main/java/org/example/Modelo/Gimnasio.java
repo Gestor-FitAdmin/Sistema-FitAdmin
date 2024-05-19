@@ -1,15 +1,15 @@
 package org.example.Modelo;
 
-import org.example.Interfaces.IColeccion;
+import org.example.Excepciones.MailSinArrobaE;
+import org.example.Interfaces.IMetodosCrud;
+import org.example.Interfaces.IEstadistica;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
 
-public class Gimnasio implements IColeccion<Cliente>
+public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
 {
     //atributos
     private String nombre;
@@ -20,17 +20,50 @@ public class Gimnasio implements IColeccion<Cliente>
     private ArrayList<Actividad> actividades;
     //constructores
 
+    public Gimnasio(){
+        nombre="Sin nombre";
+        direccion="Sin direccion";
+        usuario="Sin usuario";
+        contrasenia="Sin contrasenia";
+        clientes = new HashMap<>();
+        actividades = new ArrayList<>();
+    }
+
     public Gimnasio(String nombre, String direccion, String usuario, String contrasenia) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
-
         clientes = new HashMap<>();
         actividades = new ArrayList<>();
     }
 
     //getters y setters
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    private String getContrasenia(){
+        return contrasenia;
+    }
+
+    public HashMap<Integer, Cliente> getClientes() {
+        return clientes;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public ArrayList<Actividad> getActividades() {
+        return actividades;
+    }
+
 
     //metodos
 
@@ -38,41 +71,49 @@ public class Gimnasio implements IColeccion<Cliente>
 
 
 
-    public void enviarUnMail(String mailCliente, String mensaje) throws MessagingException{
+    public void enviarUnMail(String mailCliente, String mensaje) throws MessagingException, MailSinArrobaE {
         //VERIFICAR SI TIENE UN ARROBA UNICAMENTE
+
+        if (!mailCliente.contains("@")) //todo: agregar una excepcion
+        {
+            throw new MailSinArrobaE();
+        }
 
         String mailFit = "f69343696@gmail.com"; //mail nuestro
         String contraFit = "xpve mrro kysx ishp"; //contrasenia de app de google
-
-
-
         Properties props = new Properties(); //conjunto de propiedades para la autenticacion/verificacion
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-        //NO BORRAR LA AUTENTICACION DEBIDO A QUE ES INDISPENSABLE
 
-        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() //inicio de sesion
-        {
-            protected PasswordAuthentication getPasswordAuthentication() //autenticacion de contrasenia
+            props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
+            props.put("mail.smtp.port", "587"); //TLS Port
+            props.put("mail.smtp.auth", "true"); //enable authentication
+            props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+
+            //NO BORRAR LA AUTENTICACION DEBIDO A QUE ES INDISPENSABLE
+
+            Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() //inicio de sesion
             {
-                return new PasswordAuthentication(mailFit, contraFit); //retornamos si se autentico correctamente la contrasenia
+                protected PasswordAuthentication getPasswordAuthentication() //autenticacion de contrasenia
+                {
+                    return new PasswordAuthentication(mailFit, contraFit); //retornamos si se autentico correctamente la contrasenia
+                }
+            });
+
+            try{
+                //todo: verificar el try catch ya que tiene q estar fuera de la clase(throws)
+
+                MimeMessage message = new MimeMessage(session); //creamos el mensaje para construirlo
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailCliente, true)); //mail del cliente a enviar
+                message.setSubject("Sistema automatico FitAdmin. Importante aviso"); //el titulo
+                message.setText(mensaje); //mensaje
+
+                Transport.send(message); // clase message finalizada y enviada por mail
+            }catch (MessagingException me){
+                throw me;
             }
-        });
 
-        try{
-            //verificar el try catch ya que tiene q estar fuera de la clase(throws)
 
-            MimeMessage message = new MimeMessage(session); //creamos el mensaje para construirlo
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailCliente, true)); //mail del cliente a enviar
-            message.setSubject("Sistema automatico FitAdmin. Importante aviso"); //el titulo
-            message.setText(mensaje); //mensaje
 
-            Transport.send(message); // clase message finalizada y enviada por mail
-        }catch (MessagingException me){
-            throw me;
-        }
+
     }
 
 
@@ -92,7 +133,7 @@ public class Gimnasio implements IColeccion<Cliente>
     public boolean archivar(Cliente clienteAArchivar) {
         //modificamos el estado del cliente false
         boolean flag=false;
-        if (clienteAArchivar.isEstado() == true || clientes.containsKey(clienteAArchivar.getIdSocio())) //si el estado es true y el id cliente existe, entonces se puede archivar
+        if (clienteAArchivar.isEstado() || clientes.containsKey(clienteAArchivar.getIdSocio())) //si el estado es true y el id cliente existe, entonces se puede archivar
         {
             clienteAArchivar.setEstado(false);
             flag=true;
@@ -118,5 +159,91 @@ public class Gimnasio implements IColeccion<Cliente>
     }
 
 
+    @Override
+    public int contarTotalClientes() {
+        //retorno el total de clientes que es igual al tamanio del mapa
+        return clientes.size();
+    }
 
+    @Override
+    public int contarClientesActivos() {
+        //recorro el mapa con iterator y analizo los clientes activos y los acumulo
+        int cont=0;
+        Iterator<Map.Entry<Integer,Cliente>> iterator= clientes.entrySet().iterator();
+
+        while (iterator.hasNext())
+        {
+            Cliente auxCliente= iterator.next().getValue();
+            if (auxCliente.isEstado())
+            {
+                cont++;
+            }
+        }
+
+        return cont;
+    }
+
+    @Override
+    public int contarClientesInactivos() {
+        //idem clientesActivos pero con Inactivos
+        int cont=0;
+        Iterator<Map.Entry<Integer,Cliente>> iterator= clientes.entrySet().iterator();
+
+        while (iterator.hasNext())
+        {
+            Cliente auxCliente= iterator.next().getValue();
+            if (!auxCliente.isEstado())
+            {
+                cont++;
+            }
+        }
+
+        return cont;
+    }
+
+    @Override
+    public int contarClientesXGenero(String genero) {
+        //recorro el mapa con iterator y analizo los clientes X genero y los acumulo
+        int cont=0;
+        Iterator<Map.Entry<Integer,Cliente>> iterator= clientes.entrySet().iterator();
+
+
+        while (iterator.hasNext())
+        {
+            Cliente auxCliente= iterator.next().getValue();
+            if (auxCliente.getSexo().equalsIgnoreCase(genero))
+            {
+                cont++;
+            }
+        }
+
+        return cont;
+    }
+
+    @Override
+    public int contarClientesXActividad(String actividad) {
+        //recorro el mapa con iterator y analizo los clientes X una actividad y los acumulo
+        int cont=0;
+        Iterator<Map.Entry<Integer,Cliente>> iterator= clientes.entrySet().iterator();
+
+        while (iterator.hasNext()) // recorro todos los clientes
+        {
+            Cliente auxCliente= iterator.next().getValue();
+
+            for (Actividad auxActividad : auxCliente.getActividadesInscripto()) //recorro todas las actividades de ese cliente
+            {
+                if (auxActividad.obtenerNombreActividad().equalsIgnoreCase(actividad)) //si contiene la actividad buscada aumento el contador
+                {
+                    cont++;
+                }
+            }
+        }
+
+        return cont;
+    }
+
+    @Override
+    public double recaudacionTotal() {
+        return 0;
+    }
 }
