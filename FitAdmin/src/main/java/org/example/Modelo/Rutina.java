@@ -49,32 +49,43 @@ public class Rutina
         return rutina.remove(ejercicioAEliminar);
     }
 
-    public boolean agregarUnEjercicioARutinaXId(int idEjercicioAAgregar, int repeticiones, int series){
-        boolean flag=false;
-        Iterator<Ejercicio> iterator = rutina.iterator();
-        while (iterator.hasNext() && flag==false)
-        {
-            Ejercicio ejercicioAux=iterator.next();
-            if (ejercicioAux.getIdEjercicio() == idEjercicioAAgregar)
-            {
-                ejercicioAux.setRepeticiones(repeticiones);
-                ejercicioAux.setSeries(series);
-                rutina.add(ejercicioAux);
-                flag=true;
-            }
-
-        }
-        return flag;
-    }
+//    public boolean agregarUnEjercicioARutinaXId(int idEjercicioAAgregar, int repeticiones, int series){
+//        boolean flag=false;
+//        Iterator<Ejercicio> iterator = rutina.iterator();
+//        while (iterator.hasNext() && flag==false)
+//        {
+//            Ejercicio ejercicioAux=iterator.next();
+//            if (ejercicioAux.getIdEjercicio() == idEjercicioAAgregar)
+//            {
+//                ejercicioAux.setRepeticiones(repeticiones);
+//                ejercicioAux.setSeries(series);
+//                rutina.add(ejercicioAux);
+//                flag=true;
+//            }
+//
+//        }
+//        return flag;
+//    }
 
     public boolean agregarUnEjercicioARutinaXID(int idEjercicioAAgregar, int repeticiones, int series) throws IOException {
         boolean flag = false;
-            LinkedHashSet<Ejercicio> ejercicios;
+            ArrayList<Ejercicio> ejercicios;
 
-            ejercicios = leerJSONEjercicio("ejercicios.json"){
+            try {
+                ejercicios = leerJSON("ejercicios.json");
 
-        }
-
+                for (Ejercicio ejercicio : ejercicios) {
+                    if (ejercicio.getIdEjercicio() == idEjercicioAAgregar) {
+                        ejercicio.setSeries(series);
+                        ejercicio.setRepeticiones(repeticiones);
+                        rutina.add(ejercicio);
+                        flag = true;
+                    }
+                }
+            }
+            catch (IOException e){
+                throw e;
+            }
 
         return flag;
     }
@@ -102,7 +113,7 @@ public class Rutina
 
 
     //funcion para leer el JSON de un ejerciciod
-    public ArrayList<Ejercicio> leerJSONEjercicio(String archivo) throws IOException {
+    public ArrayList<Ejercicio> leerJSON(String archivo) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper(); // Clase para serializar y deserializar datos de JSON
         ArrayList<Ejercicio> ejercicioArrayList;
