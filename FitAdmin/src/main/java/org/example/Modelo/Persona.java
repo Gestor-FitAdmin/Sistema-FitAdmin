@@ -1,11 +1,12 @@
 package org.example.Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public abstract class Persona {
+public abstract class Persona implements Serializable {//todo : implemet Serializable para poder luego hacer un archivo de las clases que hereden de serializable
 
 //Atributos
     private String nombre;
