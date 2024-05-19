@@ -1,12 +1,14 @@
 package org.example;
 
+import com.dropbox.core.DbxException;
+import org.example.API.DropBoxAPI;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DbxException {
         Gimnasio gimnasio= new Gimnasio("fitAdmin","Villa urquiza","gonza","velez2do");
 
 //        try {
@@ -19,7 +21,7 @@ public class Main {
 //        catch (MessagingException e) {
 //            throw new RuntimeException(e);
 //        }
-       gimnasio.leerArchivoCliente("clientes.ser");
+       //gimnasio.leerArchivoCliente("clientes.ser");
        //System.out.println("LO QUE ESTA EN EL ARCHIVO");
         //System.out.println(gimnasio);
 
@@ -32,7 +34,11 @@ public class Main {
         System.out.println("GUARDO TODO");
         gimnasio.guardarClientesEnArchivo("clientes.ser");*/
 
-        System.out.println(gimnasio);
+        //System.out.println(gimnasio);
+
+        DropBoxAPI api = new DropBoxAPI();
+        //api.verPDF();
+        api.descargarURL();
 
 
     }
