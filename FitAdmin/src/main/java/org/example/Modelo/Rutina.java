@@ -7,6 +7,7 @@ import org.example.Enum.EObjetivo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -151,13 +152,23 @@ public class Rutina
      {
          return (double) cantidadActual/cantidadDeSeriesMaximas;
      }
+
+
+
+     //funcion para leer el JSON de un ejerciciod
     public ArrayList<Ejercicio> leerJSONEjercicio(String archivo) throws IOException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ArrayList<Ejercicio> ejercicioArrayList = new ArrayList<>();
-        try{
-            File fichero = new File(archivo);
-            ejercicioArrayList = objectMapper.readValue(fichero, new TypeReference<ArrayList<Ejercicio>>() {});
+        ObjectMapper objectMapper = new ObjectMapper(); // Clase para serializar y deserializar datos de JSON
+        ArrayList<Ejercicio> ejercicioArrayList;
+
+                    //Intentar leer un archivo desde el ClassPath
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(archivo)){
+            if(inputStream == null){
+                throw new IOException("Archivo no encontrado: " + archivo);
+            }
+
+            //Carga el ArrayList con los datos del JSON
+            ejercicioArrayList = objectMapper.readValue(inputStream, new TypeReference<ArrayList<Ejercicio>>() {});
         }
         catch (IOException e){
             throw e;
