@@ -148,6 +148,6 @@ public class Ejercicio {
                 ", materialDeTrabajo='" + materialDeTrabajo + '\'' +
                 ", repeticiones=" + repeticiones +
                 ", series=" + series +"\n"+
-                '}' + "\n";
+                '}';
     }
 }
