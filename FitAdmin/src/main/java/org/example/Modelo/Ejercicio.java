@@ -11,7 +11,6 @@ public class Ejercicio {
     private String grupoMuscular; //hombros,piernas,core,brazos,espalda,pecho
     private String complejidad; //facil,medio,dificil
     private String materialDeTrabajo; //barra,mancuerna,peso libre,maquina,kettlebell,polea,bandas
-
     private int repeticiones;
     private int series;
     //constructores
@@ -141,13 +140,14 @@ public class Ejercicio {
     @Override
     public String toString() {
         return "Ejercicio{" +
-                "tipoDeEjercicio='" + tipoDeEjercicio + '\'' +
+                "idEjercicio=" + idEjercicio +
+                ", tipoDeEjercicio='" + tipoDeEjercicio + '\'' +
                 ", nombreEjercicio='" + nombreEjercicio + '\'' +
                 ", grupoMuscular='" + grupoMuscular + '\'' +
                 ", complejidad='" + complejidad + '\'' +
                 ", materialDeTrabajo='" + materialDeTrabajo + '\'' +
                 ", repeticiones=" + repeticiones +
-                ", series=" + series +"\n"+
-                '}';
+                ", series=" + series +
+                '}' + "\n";
     }
 }
