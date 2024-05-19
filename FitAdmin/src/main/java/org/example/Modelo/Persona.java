@@ -77,8 +77,7 @@ public abstract class Persona {
      private int calcularEdad()
      {
          LocalDate fechaActual = LocalDate.now();
-         int edad = Period.between(fechaDeNacimiento, fechaActual).getYears();
 
-         return edad;
+         return Period.between(fechaDeNacimiento, fechaActual).getYears();
      }
 }
