@@ -1,78 +1,87 @@
 
-
-
 [
-    {
-      "tipoDeEjercicio": "cardio",
-      "nombreEjercicio": "Correr en cinta",
-      "grupoMuscular": "Piernas",
-      "complejidad": "medio",
-      "materialDeTrabajo": "cinta"
-    },
-    {
-      "tipoDeEjercicio": "empuje",
-      "nombreEjercicio": "Press de banca",
-      "grupoMuscular": "Pecho",
-      "complejidad": "medio",
-      "materialDeTrabajo": "barra"
-    },
-    {
-      "tipoDeEjercicio": "traccion",
-      "nombreEjercicio": "Dominadas",
-      "grupoMuscular": "Espalda",
-      "complejidad": "dificil",
-      "materialDeTrabajo": "barra"
-    },
-    {
-      "tipoDeEjercicio": "empuje",
-      "nombreEjercicio": "Flexiones de pecho",
-      "grupoMuscular": "Pecho",
-      "complejidad": "facil",
-      "materialDeTrabajo": "peso libre"
-    },
-    {
-      "tipoDeEjercicio": "cardio",
-      "nombreEjercicio": "Caminata rápida",
-      "grupoMuscular": "Piernas",
-      "complejidad": "facil",
-      "materialDeTrabajo": "ninguno"
-    },
-    {
-      "tipoDeEjercicio": "traccion",
-      "nombreEjercicio": "Remo con barra",
-      "grupoMuscular": "Espalda",
-      "complejidad": "medio",
-      "materialDeTrabajo": "barra"
-    },
-    {
-      "tipoDeEjercicio": "empuje",
-      "nombreEjercicio": "Press militar",
-      "grupoMuscular": "Hombros",
-      "complejidad": "medio",
-      "materialDeTrabajo": "barra"
-    },
-    {
-      "tipoDeEjercicio": "cardio",
-      "nombreEjercicio": "Ciclismo",
-      "grupoMuscular": "Piernas",
-      "complejidad": "medio",
-      "materialDeTrabajo": "bicicleta"
-    },
-    {
-      "tipoDeEjercicio": "traccion",
-      "nombreEjercicio": "Jalones en polea alta",
-      "grupoMuscular": "Espalda",
-      "complejidad": "medio",
-      "materialDeTrabajo": "polea"
-    },
-    {
-      "tipoDeEjercicio": "empuje",
-      "nombreEjercicio": "Flexiones de tríceps en banco",
-      "grupoMuscular": "Tríceps",
-      "complejidad": "medio",
-      "materialDeTrabajo": "peso libre"
-    },
   {
+    "idEjercicio": 1,
+    "tipoDeEjercicio": "cardio",
+    "nombreEjercicio": "Correr en cinta",
+    "grupoMuscular": "Piernas",
+    "complejidad": "medio",
+    "materialDeTrabajo": "cinta"
+  },
+  {
+    "idEjercicio": 2,
+    "tipoDeEjercicio": "empuje",
+    "nombreEjercicio": "Press de banca",
+    "grupoMuscular": "Pecho",
+    "complejidad": "medio",
+    "materialDeTrabajo": "barra"
+  },
+  {
+    "idEjercicio": 3,
+    "tipoDeEjercicio": "traccion",
+    "nombreEjercicio": "Dominadas",
+    "grupoMuscular": "Espalda",
+    "complejidad": "dificil",
+    "materialDeTrabajo": "barra"
+  },
+  {
+    "idEjercicio": 4,
+    "tipoDeEjercicio": "empuje",
+    "nombreEjercicio": "Flexiones de pecho",
+    "grupoMuscular": "Pecho",
+    "complejidad": "facil",
+    "materialDeTrabajo": "peso libre"
+  },
+  {
+    "idEjercicio": 5,
+    "tipoDeEjercicio": "cardio",
+    "nombreEjercicio": "Caminata rápida",
+    "grupoMuscular": "Piernas",
+    "complejidad": "facil",
+    "materialDeTrabajo": "ninguno"
+  },
+  {
+    "idEjercicio": 6,
+    "tipoDeEjercicio": "traccion",
+    "nombreEjercicio": "Remo con barra",
+    "grupoMuscular": "Espalda",
+    "complejidad": "medio",
+    "materialDeTrabajo": "barra"
+  },
+  {
+    "idEjercicio": 7,
+    "tipoDeEjercicio": "empuje",
+    "nombreEjercicio": "Press militar",
+    "grupoMuscular": "Hombros",
+    "complejidad": "medio",
+    "materialDeTrabajo": "barra"
+  },
+  {
+    "idEjercicio": 8,
+    "tipoDeEjercicio": "cardio",
+    "nombreEjercicio": "Ciclismo",
+    "grupoMuscular": "Piernas",
+    "complejidad": "medio",
+    "materialDeTrabajo": "bicicleta"
+  },
+  {
+    "idEjercicio": 9,
+    "tipoDeEjercicio": "traccion",
+    "nombreEjercicio": "Jalones en polea alta",
+    "grupoMuscular": "Espalda",
+    "complejidad": "medio",
+    "materialDeTrabajo": "polea"
+  },
+  {
+    "idEjercicio": 10,
+    "tipoDeEjercicio": "empuje",
+    "nombreEjercicio": "Flexiones de tríceps en banco",
+    "grupoMuscular": "Tríceps",
+    "complejidad": "medio",
+    "materialDeTrabajo": "peso libre"
+  },
+  {
+    "idEjercicio": 11,
     "tipoDeEjercicio": "cardio",
     "nombreEjercicio": "Saltos en caja",
     "grupoMuscular": "Piernas",
@@ -80,6 +89,7 @@
     "materialDeTrabajo": "caja"
   },
   {
+    "idEjercicio": 12,
     "tipoDeEjercicio": "empuje",
     "nombreEjercicio": "Flexiones en pared",
     "grupoMuscular": "Pecho",
@@ -87,6 +97,7 @@
     "materialDeTrabajo": "ninguno"
   },
   {
+    "idEjercicio": 13,
     "tipoDeEjercicio": "traccion",
     "nombreEjercicio": "Remo con mancuerna",
     "grupoMuscular": "Espalda",
@@ -94,6 +105,7 @@
     "materialDeTrabajo": "mancuerna"
   },
   {
+    "idEjercicio": 14,
     "tipoDeEjercicio": "empuje",
     "nombreEjercicio": "Press de hombros con mancuernas",
     "grupoMuscular": "Hombros",
@@ -101,6 +113,7 @@
     "materialDeTrabajo": "mancuerna"
   },
   {
+    "idEjercicio": 15,
     "tipoDeEjercicio": "cardio",
     "nombreEjercicio": "Burpees",
     "grupoMuscular": "Cuerpo completo",
@@ -108,6 +121,7 @@
     "materialDeTrabajo": "ninguno"
   },
   {
+    "idEjercicio": 16,
     "tipoDeEjercicio": "traccion",
     "nombreEjercicio": "Pulldowns con agarre neutro",
     "grupoMuscular": "Espalda",
@@ -115,6 +129,7 @@
     "materialDeTrabajo": "polea"
   },
   {
+    "idEjercicio": 17,
     "tipoDeEjercicio": "empuje",
     "nombreEjercicio": "Flexiones hindúes",
     "grupoMuscular": "Pecho",
@@ -122,6 +137,7 @@
     "materialDeTrabajo": "ninguno"
   },
   {
+    "idEjercicio": 18,
     "tipoDeEjercicio": "cardio",
     "nombreEjercicio": "Sprints",
     "grupoMuscular": "Piernas",
@@ -129,6 +145,7 @@
     "materialDeTrabajo": "ninguno"
   },
   {
+    "idEjercicio": 19,
     "tipoDeEjercicio": "traccion",
     "nombreEjercicio": "Peso muerto rumano",
     "grupoMuscular": "Espalda",
@@ -136,6 +153,7 @@
     "materialDeTrabajo": "barra"
   },
   {
+    "idEjercicio": 20,
     "tipoDeEjercicio": "empuje",
     "nombreEjercicio": "Flexiones de pino",
     "grupoMuscular": "Pecho",
