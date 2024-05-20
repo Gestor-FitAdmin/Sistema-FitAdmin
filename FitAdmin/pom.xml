@@ -34,6 +34,17 @@
             <artifactId>dropbox-core-sdk</artifactId>
             <version>7.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version> <!-- Puedes ajustar la versión según la que desees utilizar -->
+        </dependency>
 
     </dependencies>
 

@@ -1,12 +1,21 @@
 package org.example.Modelo;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.util.*;
 
@@ -68,9 +77,34 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
 
     //metodos
 
-    //metodos que faltan hacer: Leer archivo binario de clientes para poder cargarlos en el hashmap
+    public boolean crearUnPDFRutina(Rutina rutina)
+    {
+        boolean rta = false;
+        String dest = "rutina.pdf";
+        try {
+            // Crear un escritor de PDF
+            PdfWriter writer = new PdfWriter(dest);
+
+            // Crear un documento PDF
+            PdfDocument pdf = new PdfDocument(writer);
+
+            // Crear un documento de layout
+            Document document = new Document(pdf);
+
+            // Agregar un párrafo al documento
+            document.add(new Paragraph(rutina.toString()));
+
+            // Cerrar el documento
+            document.close();
+            rta = true;
+            System.out.println("PDF creado con éxito.");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
+        return rta;
+    }
 
     public void enviarUnMail(String mailCliente, String mensaje) throws MessagingException, MailSinArrobaE {
         //VERIFICAR SI TIENE UN ARROBA UNICAMENTE
@@ -106,6 +140,22 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailCliente, true)); //mail del cliente a enviar
                 message.setSubject("Sistema automatico FitAdmin. Importante aviso"); //el titulo
                 message.setText(mensaje); //mensaje
+
+                // Adjuntar el archivo PDF
+                String rutaPDF = "rutina.pdf";//direccion de la rutina general
+                Multipart multipart = new MimeMultipart();// Creamos un objeto MimeMultipart para manejar múltiples partes del mensaje
+                MimeBodyPart messageBodyPart = new MimeBodyPart();// Creamos una parte del cuerpo del mensaje y establecemos el texto del mensaje
+                messageBodyPart.setText(mensaje);
+                multipart.addBodyPart(messageBodyPart);// Agregamos la parte del cuerpo del mensaje al objeto MimeMultipart
+
+                MimeBodyPart attachmentPart = new MimeBodyPart();// Creamos otra parte del cuerpo del mensaje para el archivo adjunto
+                DataSource source = new FileDataSource(rutaPDF);// Creamos un DataSource utilizando la ruta del archivo PDF
+                attachmentPart.setDataHandler(new DataHandler(source));// Configuramos el manejador de datos de la parte del cuerpo del archivo adjunto
+                attachmentPart.setFileName(new File(rutaPDF).getName());// Establecemos el nombre del archivo adjunto utilizando el nombre del archivo PDF
+                multipart.addBodyPart(attachmentPart);// Agregamos la parte del cuerpo del archivo adjunto al objeto MimeMultipart
+
+                message.setContent(multipart);// Establecemos el contenido del mensaje como el objeto MimeMultipart que contiene tanto el cuerpo del mensaje como el archivo adjunto
+
 
                 Transport.send(message); // clase message finalizada y enviada por mail
             }catch (MessagingException me){
