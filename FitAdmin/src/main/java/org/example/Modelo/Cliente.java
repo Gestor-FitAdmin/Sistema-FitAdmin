@@ -2,11 +2,7 @@ package org.example.Modelo;
 
 import org.example.Enum.EDiasSemana;
 
-import javax.swing.plaf.basic.BasicViewportUI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Cliente extends Persona{
 
@@ -15,7 +11,7 @@ public class Cliente extends Persona{
     private String eMail;
     private boolean cuotaPagada;
     private boolean estado;
-    private HashMap<String, Rutina> rutinaSemanal;
+    private LinkedHashMap<String, Rutina> rutinaSemanal;
     private HashSet<Actividad> actividadesInscripto;
 
     //Constructor
@@ -27,7 +23,7 @@ public class Cliente extends Persona{
         this.cuotaPagada = cuotaPagada;
         this.estado = true; //cuando se crea el cliente el estado siempre es true
 
-        rutinaSemanal = new HashMap<>();
+        rutinaSemanal = new LinkedHashMap<>();
         actividadesInscripto = new HashSet<>();
     }
 
@@ -71,6 +67,7 @@ public class Cliente extends Persona{
         this.eMail = eMail;
     }
 
+
     //Metodos
 
     public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
@@ -78,8 +75,27 @@ public class Cliente extends Persona{
 
         rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
     }
+    //Esta funcion me va a servir para ordenar por dias y luego imprimir el PDF correctamente
+    public String formatearDatosCliente(Cliente cliente)
+    {
+        String msj = "";
+        if(cliente!= null)
+        {
+            msj +="Numero de socio: "+ cliente.getIdSocio()+"\n";
+            msj +="Nombre: "+ cliente.getNombre()+"\n";
+            msj +="Apellido: "+ cliente.getApellido()+"\n";
+            msj +="DNI: "+ cliente.getDNI()+"\n";
+            msj +="E-Mail: "+ cliente.geteMail()+"\n";
+            msj +="Sexo: "+ cliente.getSexo()+"\n";
+            msj +="Edad: "+ cliente.getEdad()+"\n";
+            msj +="Fecha de nacimiento: "+ cliente.getFechaDeNacimiento()+"\n";
+            msj +="Peso: "+ cliente.getPeso()+"\n";
+            msj +="Altura: "+ cliente.getAltura()+"\n";
+            msj +="Actividades en las que se encuentra inscripto: "+ cliente.getActividadesInscripto()+"\n";
+        }
 
-
+        return msj;
+    }
     @Override
     public String toString() {
         return "Cliente{" +
@@ -89,6 +105,9 @@ public class Cliente extends Persona{
                 ", estado=" + estado +
                 ", rutinaSemanal=" + rutinaSemanal +
                 ", actividadesInscripto=" + actividadesInscripto +
-                "} " + super.toString()+"\n";
+                '}';
     }
 }
+
+
+
