@@ -15,12 +15,12 @@ import java.util.Date;
 
 
 public class DropBoxAPI {
-    private String ACCESS_TOKEN = "sl.B1lu8tfr3cgsRgoodZJrISND9Jm-DXloTLrHPAjMS8s1M9QqCk_bB3ln5yGxlTwdOrWEFm8ItAwRk4ICDNRZHC1spbfSFU4vCgXw3D8ZXGzzHFBso_N--AtxGJArZ-GkQ7lOEavgNjSwMNOm0hzC3Ys";
+    private String ACCESS_TOKEN = "sl.B1m4ZwYAtXFQmi6VsCwtvnz2H5TMrvE4EOg1GaVWUepfFp4Bq3z-tgRv7WNtjDMAXPBJZbmM8ZLJLoZuawQ0Acrz8DQtDfKndJApATUlXY70XbLw34HcntwAjZVh3lHgdBh6hXe8VZe7d4NjwLoCaBg";
     private String CARPETA = "Aplicaciones/fitAdmin"; // Ruta de la carpeta en Dropbox
     private DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
     private DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
 
-    //todo: verificar como subir el ACCESS TOKEN A GH
+    //todo: verificar si el TOKEN se vence
 
    public void subirPDF() throws IOException, DbxException {
 
@@ -42,7 +42,7 @@ public class DropBoxAPI {
         //hay que especificar el tipo de archivo que quiero. EJ: rutina.pdf
         String s="/";
         s= s.concat(rutaRutina);
-
+        s= s.concat(".pdf");
         try {
             return client.files().getTemporaryLink(s).getLink();
         } catch (DbxException e) {
