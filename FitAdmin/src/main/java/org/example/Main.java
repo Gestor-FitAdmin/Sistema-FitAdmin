@@ -1,7 +1,6 @@
 package org.example;
 
 import com.dropbox.core.DbxException;
-import org.example.API.DropBoxAPI;
 import org.example.Enum.EDiasSemana;
 import org.example.Enum.EObjetivo;
 import org.example.Excepciones.MailSinArrobaE;
@@ -28,7 +27,7 @@ public class Main {
         ejercicio.setSeries(4);
         rutina.agregarUnEjercicioARutina(ejercicio);
 
-        cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.LUNES);
+        /*cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.LUNES);
         cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.MARTES);
         cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.MIERCOLES);
         cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.JUEVES);
@@ -36,14 +35,15 @@ public class Main {
         cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.SABADO);
         cliente.asignarUnaRutinaAUnDia(rutina,EDiasSemana.DOMINGO);
 
-        gimnasio.CrearUnPDFConUnaRutinaEspecificaDelDia(cliente);
+        gimnasio.CrearUnPDFConUnaRutina(cliente);
         try {
             gimnasio.enviarUnMail(cliente.geteMail(),"PRUEBA 123",true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         } catch (MailSinArrobaE e) {
             throw new RuntimeException(e);
-        }
+        }*/
+        gimnasio.crearPDFParaQR(cliente);
 
     }
 }

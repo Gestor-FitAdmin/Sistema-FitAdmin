@@ -6,9 +6,6 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import jdk.swing.interop.SwingInterOpUtils;
-import org.example.Enum.EDiasSemana;
-import org.example.Enum.EObjetivo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
@@ -24,22 +21,21 @@ import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.util.*;
 
-public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
-{
+public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     //atributos
     private String nombre;
     private String direccion;
-    private HashMap<Integer,Cliente> clientes;//INTEGER = GetIdSocio
+    private HashMap<Integer, Cliente> clientes;//INTEGER = GetIdSocio
     private String usuario;
     private String contrasenia;
     private ArrayList<Actividad> actividades;
     //constructores
 
-    public Gimnasio(){
-        nombre="Sin nombre";
-        direccion="Sin direccion";
-        usuario="Sin usuario";
-        contrasenia="Sin contrasenia";
+    public Gimnasio() {
+        nombre = "Sin nombre";
+        direccion = "Sin direccion";
+        usuario = "Sin usuario";
+        contrasenia = "Sin contrasenia";
         clientes = new HashMap<>();
         actividades = new ArrayList<>();
     }
@@ -59,7 +55,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
         return usuario;
     }
 
-    private String getContrasenia(){
+    private String getContrasenia() {
         return contrasenia;
     }
 
@@ -82,57 +78,57 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
 
     //metodos
 
-        public void CrearUnPDFConUnaRutinaEspecificaDelDia(Cliente cliente) {
+    public void CrearUnPDFConUnaRutina(Cliente cliente) {
 
         String dest = "fitAdmin/rutina.pdf";//ruta de donde se guarda el PDF
-            try {
+        try {
 
-                PdfWriter writer = new PdfWriter(dest);// Crear un escritor de PDF
-
-
-                PdfDocument pdf = new PdfDocument(writer);// Crear un documento PDF
+            PdfWriter writer = new PdfWriter(dest);// Crear un escritor de PDF
 
 
-                Document document = new Document(pdf);// Crear un documento de layout
+            PdfDocument pdf = new PdfDocument(writer);// Crear un documento PDF
 
 
-                for (Map.Entry<String, Rutina> entry : cliente.getRutinaSemanal().entrySet()) { // Iterar sobre las entradas del HashMap
-
-                    document.add(new Paragraph("Día: " + entry.getKey())); // Agregar el día de la rutina como encabezado
+            Document document = new Document(pdf);// Crear un documento de layout
 
 
-                    float[] columnWidths = {1, 1, 3};// Crear una tabla con 3 columnas (Ejercicio,Series, Repeticiones)
-                    Table table = new Table(columnWidths);
+            for (Map.Entry<String, Rutina> entry : cliente.getRutinaSemanal().entrySet()) { // Iterar sobre las entradas del HashMap
 
-                    // Agregar los encabezados de la tabla
-                    table.addHeaderCell(new Cell().add(new Paragraph("Ejercicio")));
-                    table.addHeaderCell(new Cell().add(new Paragraph("Series")));
-                    table.addHeaderCell(new Cell().add(new Paragraph("Repeticiones")));
-                    Rutina rutina1 = cliente.getRutinaSemanal().get(entry.getKey());
-                    // Agregar las filas de la rutina
-                    for (Ejercicio ejercicio : rutina1.getRutina()) {
-                        table.addCell(new Cell().add(new Paragraph(ejercicio.getNombreEjercicio())));
-                        table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getSeries()))));
-                        table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getRepeticiones()))));
-                    }
+                document.add(new Paragraph("Día: " + entry.getKey())); // Agregar el día de la rutina como encabezado
 
-                    document.add(table); // Agregar la tabla al documento
 
-                    document.add(new Paragraph("\n"));// Agregar un salto de línea entre días
+                float[] columnWidths = {1, 1, 3};// Crear una tabla con 3 columnas (Ejercicio,Series, Repeticiones)
+                Table table = new Table(columnWidths);
+
+                // Agregar los encabezados de la tabla
+                table.addHeaderCell(new Cell().add(new Paragraph("Ejercicio")));
+                table.addHeaderCell(new Cell().add(new Paragraph("Series")));
+                table.addHeaderCell(new Cell().add(new Paragraph("Repeticiones")));
+                Rutina rutina1 = cliente.getRutinaSemanal().get(entry.getKey());
+                // Agregar las filas de la rutina
+                for (Ejercicio ejercicio : rutina1.getRutina()) {
+                    table.addCell(new Cell().add(new Paragraph(ejercicio.getNombreEjercicio())));
+                    table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getSeries()))));
+                    table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getRepeticiones()))));
                 }
 
-                document.close();  // Cerrar el documento
+                document.add(table); // Agregar la tabla al documento
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                document.add(new Paragraph("\n"));// Agregar un salto de línea entre días
             }
+
+            document.close();  // Cerrar el documento
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
     }
-    /*public boolean crearUnPDFRutina(Rutina rutina)v1
-    {
+
+    public boolean crearPDFParaQR(Cliente cliente) {
         boolean rta = false;
-        String dest = "rutina.pdf";
+        String dest = "fitAdmin/QRaGenerar.pdf";
         try {
             // Crear un escritor de PDF
             PdfWriter writer = new PdfWriter(dest);
@@ -144,19 +140,20 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
             Document document = new Document(pdf);
 
             // Agregar un párrafo al documento
-            document.add(new Paragraph(rutina.toString()));
+            document.add(new Paragraph(cliente.formatearDatosCliente(cliente)));
 
             // Cerrar el documento
             document.close();
             rta = true;
-            System.out.println("PDF creado con éxito.");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
 
         return rta;
-    }*/
+    }
+
+
 
     public void enviarUnMail(String mailCliente, String mensaje, boolean adjuntarPDF) throws MessagingException, MailSinArrobaE {
         //VERIFICAR SI TIENE UN ARROBA UNICAMENTE

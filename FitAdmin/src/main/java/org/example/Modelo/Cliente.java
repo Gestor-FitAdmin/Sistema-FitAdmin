@@ -76,7 +76,26 @@ public class Cliente extends Persona{
         rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
     }
     //Esta funcion me va a servir para ordenar por dias y luego imprimir el PDF correctamente
+    public String formatearDatosCliente(Cliente cliente)
+    {
+        String msj = "";
+        if(cliente!= null)
+        {
+            msj +="Numero de socio: "+ cliente.getIdSocio()+"\n";
+            msj +="Nombre: "+ cliente.getNombre()+"\n";
+            msj +="Apellido: "+ cliente.getApellido()+"\n";
+            msj +="DNI: "+ cliente.getDNI()+"\n";
+            msj +="E-Mail: "+ cliente.geteMail()+"\n";
+            msj +="Sexo: "+ cliente.getSexo()+"\n";
+            msj +="Edad: "+ cliente.getEdad()+"\n";
+            msj +="Fecha de nacimiento: "+ cliente.getFechaDeNacimiento()+"\n";
+            msj +="Peso: "+ cliente.getPeso()+"\n";
+            msj +="Altura: "+ cliente.getAltura()+"\n";
+            msj +="Actividades en las que se encuentra inscripto: "+ cliente.getActividadesInscripto()+"\n";
+        }
 
+        return msj;
+    }
     @Override
     public String toString() {
         return "Cliente{" +
