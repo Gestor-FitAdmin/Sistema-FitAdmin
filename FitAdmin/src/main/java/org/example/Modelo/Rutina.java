@@ -26,6 +26,10 @@ public class Rutina
 
     //getters y setters
 
+    public LinkedHashSet<Ejercicio> getRutina() {
+        return rutina;
+    }
+
     public EObjetivo getObjetivo()
     {
         return objetivo;
