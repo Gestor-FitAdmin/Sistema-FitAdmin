@@ -50,6 +50,7 @@ public class Cliente extends Persona{
         return estado;
     }
 
+
     public HashMap<String, Rutina> getRutinaSemanal() {
         return rutinaSemanal;
     }
