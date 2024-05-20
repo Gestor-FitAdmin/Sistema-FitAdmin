@@ -6,6 +6,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.example.Enum.EDiasSemana;
 import org.example.Enum.EObjetivo;
 import org.example.Excepciones.MailSinArrobaE;
@@ -20,7 +21,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.print.DocFlavor;
 import java.io.*;
 import java.util.*;
 
@@ -81,48 +81,34 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
 
 
     //metodos
-        public void crearPDFRutinaSemanal(Cliente cliente)
-        {
-            Set<String> keys = cliente.getRutinaSemanal().keySet();//agarro todas las keys que serian los dias
-            Iterator iterator = keys.iterator();
-            while(iterator.hasNext())
-            {
-                String dia = (String) iterator.next();//agarro el dia
-                crearPDFConRutinaDeUnDia(cliente,dia);//pasa todas las claves que serian los dias para poder imprimir una tabla con todos los ejercicios
-            }
 
+        public void CrearUnPDFConUnaRutinaEspecificaDelDia(Cliente cliente) {
 
-        }
-        private boolean crearPDFConRutinaDeUnDia(Cliente cliente, String diaDeLaSemana) {
-        boolean rta = false;
-        String dest = "fitAdmin/rutina.pdf";
+        String dest = "fitAdmin/rutina.pdf";//ruta de donde se guarda el PDF
             try {
-                // Crear un escritor de PDF
-                PdfWriter writer = new PdfWriter(dest);
 
-                // Crear un documento PDF
-                PdfDocument pdf = new PdfDocument(writer);
+                PdfWriter writer = new PdfWriter(dest);// Crear un escritor de PDF
 
-                // Crear un documento de layout
-                Document document = new Document(pdf);
 
-                // Iterar sobre las entradas del HashMap
-                for (Map.Entry<String, Rutina> entry : cliente.getRutinaSemanal().entrySet()) {
-                    String dia = entry.getKey();
-                    Rutina rutina = entry.getValue();
+                PdfDocument pdf = new PdfDocument(writer);// Crear un documento PDF
 
-                    // Agregar el día de la rutina como encabezado
-                    document.add(new Paragraph("Día: " + diaDeLaSemana));
 
-                    // Crear una tabla con 3 columnas (Series, Repeticiones, Ejercicio)
-                    float[] columnWidths = {1, 1, 3};
+                Document document = new Document(pdf);// Crear un documento de layout
+
+
+                for (Map.Entry<String, Rutina> entry : cliente.getRutinaSemanal().entrySet()) { // Iterar sobre las entradas del HashMap
+
+                    document.add(new Paragraph("Día: " + entry.getKey())); // Agregar el día de la rutina como encabezado
+
+
+                    float[] columnWidths = {1, 1, 3};// Crear una tabla con 3 columnas (Ejercicio,Series, Repeticiones)
                     Table table = new Table(columnWidths);
 
                     // Agregar los encabezados de la tabla
                     table.addHeaderCell(new Cell().add(new Paragraph("Ejercicio")));
                     table.addHeaderCell(new Cell().add(new Paragraph("Series")));
                     table.addHeaderCell(new Cell().add(new Paragraph("Repeticiones")));
-                    Rutina rutina1 = cliente.getRutinaSemanal().get(diaDeLaSemana);
+                    Rutina rutina1 = cliente.getRutinaSemanal().get(entry.getKey());
                     // Agregar las filas de la rutina
                     for (Ejercicio ejercicio : rutina1.getRutina()) {
                         table.addCell(new Cell().add(new Paragraph(ejercicio.getNombreEjercicio())));
@@ -130,26 +116,20 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
                         table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getRepeticiones()))));
                     }
 
-                    // Agregar la tabla al documento
-                    document.add(table);
+                    document.add(table); // Agregar la tabla al documento
 
-                    // Agregar un salto de línea entre días
-                    document.add(new Paragraph("\n"));
+                    document.add(new Paragraph("\n"));// Agregar un salto de línea entre días
                 }
 
-                // Cerrar el documento
-                document.close();
-                rta = true;
-                System.out.println("PDF creado con éxito.");
+                document.close();  // Cerrar el documento
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
 
-            return rta;
-
     }
-    /*public boolean crearUnPDFRutina(Rutina rutina)
+    /*public boolean crearUnPDFRutina(Rutina rutina)v1
     {
         boolean rta = false;
         String dest = "rutina.pdf";
@@ -178,7 +158,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
         return rta;
     }*/
 
-    public void enviarUnMail(String mailCliente, String mensaje) throws MessagingException, MailSinArrobaE {
+    public void enviarUnMail(String mailCliente, String mensaje, boolean adjuntarPDF) throws MessagingException, MailSinArrobaE {
         //VERIFICAR SI TIENE UN ARROBA UNICAMENTE
 
         if (!mailCliente.contains("@")) //todo: agregar una excepcion
@@ -214,20 +194,32 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
                 message.setText(mensaje); //mensaje
 
                 // Adjuntar el archivo PDF
+                if(adjuntarPDF)//todo: si quiero enviar con un PDF le pongo true si no false y envio un mensaje unicamente!!
+                {
+
+
                 String rutaPDF = "fitAdmin/rutina.pdf";//direccion de la rutina general
+
                 Multipart multipart = new MimeMultipart();// Creamos un objeto MimeMultipart para manejar múltiples partes del mensaje
+
                 MimeBodyPart messageBodyPart = new MimeBodyPart();// Creamos una parte del cuerpo del mensaje y establecemos el texto del mensaje
+
                 messageBodyPart.setText(mensaje);
+
                 multipart.addBodyPart(messageBodyPart);// Agregamos la parte del cuerpo del mensaje al objeto MimeMultipart
 
                 MimeBodyPart attachmentPart = new MimeBodyPart();// Creamos otra parte del cuerpo del mensaje para el archivo adjunto
+
                 DataSource source = new FileDataSource(rutaPDF);// Creamos un DataSource utilizando la ruta del archivo PDF
+
                 attachmentPart.setDataHandler(new DataHandler(source));// Configuramos el manejador de datos de la parte del cuerpo del archivo adjunto
+
                 attachmentPart.setFileName(new File(rutaPDF).getName());// Establecemos el nombre del archivo adjunto utilizando el nombre del archivo PDF
+
                 multipart.addBodyPart(attachmentPart);// Agregamos la parte del cuerpo del archivo adjunto al objeto MimeMultipart
 
                 message.setContent(multipart);// Establecemos el contenido del mensaje como el objeto MimeMultipart que contiene tanto el cuerpo del mensaje como el archivo adjunto
-
+                }
 
                 Transport.send(message); // clase message finalizada y enviada por mail
             }catch (MessagingException me){
@@ -238,25 +230,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente>
 
 
     }
-    public Cliente crearClienteConRutina(EDiasSemana eDiasSemana)//metodo de prueba para su funcionalidad, luego borrar
-    {
-        Cliente cliente = new Cliente("Leo","Caimmi","46012540","masculino",75.5,182.5,"09/07/2004",1,"leonardocaimmi@gmail.com",true);
-        Rutina rutina = new Rutina(EObjetivo.GANAR_MUSCULO);
-        ArrayList<Ejercicio> ejercicios;
-        try
-        {
-            ejercicios = rutina.leerJSON("ejercicios.json");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        cliente.asignarUnaRutinaAUnDia(rutina,eDiasSemana);
-        rutina.agregarUnEjercicioARutina(ejercicios.get(0));
 
-        rutina.agregarUnEjercicioARutina(ejercicios.get(1));
-
-
-        return cliente;
-    }
 
     @Override
     public boolean agregar(Cliente nuevoCliente) {
