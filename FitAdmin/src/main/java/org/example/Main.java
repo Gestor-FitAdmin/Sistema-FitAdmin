@@ -18,14 +18,20 @@ public class Main {
         Cliente cliente = new Cliente("Leo","Caimmi","46012540","masculino",75.5,182.5,"09/07/2004",1,"facundoprocelli@gmail.com",true);
         Rutina rutina = new Rutina(EObjetivo.GANAR_MUSCULO);
 
-        DropBoxAPI dropBoxAPI= new DropBoxAPI();
-        QrAPI qrAPI= new QrAPI();
+        try {
+            DropBoxAPI dropBoxAPI= new DropBoxAPI();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        /*QrAPI qrAPI= new QrAPI();
 
         gimnasio.crearPDFParaQR(cliente);
 
         dropBoxAPI.subirPDF("pdfDatosCliente/QRaGenerar.pdf"); // subirlo a dropbox
         String url= dropBoxAPI.obtenerURL("QRaGenerar"); //recordar subir solo el nombre del archivo que esta en dropbox
-        qrAPI.generarQr(url);
+        qrAPI.generarQr(url);*/
+
+
 
     }
 }
