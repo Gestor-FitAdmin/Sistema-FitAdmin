@@ -128,7 +128,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
     public boolean crearPDFParaQR(Cliente cliente) {
         boolean rta = false;
-        String dest = "fitAdmin/QRaGenerar.pdf";
+        String dest = "pdfDatosCliente/QRaGenerar.pdf";
         try {
             // Crear un escritor de PDF
             PdfWriter writer = new PdfWriter(dest);
