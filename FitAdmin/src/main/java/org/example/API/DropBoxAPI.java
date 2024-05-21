@@ -34,42 +34,49 @@ public class DropBoxAPI {
 
        File pdf = new File(rutaArchivo);// obtiene el pdf de la carpeta
        InputStream inputStream; // crea una entrada del archivo PDF
-       try {
-           inputStream = new FileInputStream(pdf);
-       } catch (FileNotFoundException e) {
-           throw new RuntimeException(e);
-       }
-        String nombreArchivoMasBarrita="/";
+       String nombreArchivoMasBarrita="/";
        nombreArchivoMasBarrita= nombreArchivoMasBarrita.concat(pdf.getName());
        try {
+           inputStream = new FileInputStream(pdf);
+
            if (existeArchivoEnDropbox(nombreArchivoMasBarrita)){
                eliminarArchivoEnDropbox(nombreArchivoMasBarrita);
            }
-       } catch (GetMetadataErrorException e) {
-           throw new RuntimeException(e);
-       }
 
 
-       UploadBuilder uploadBuilder = client.files().uploadBuilder("/"+pdf.getName());//guardar el archivo en la carpeta DropBox
-        uploadBuilder.withClientModified(new Date(pdf.lastModified()));//carga la fecha de la ultima modificacion
-        uploadBuilder.withMode(WriteMode.ADD);// elige el modo de acceso en que se va a utilizar el archivo
-        uploadBuilder.withAutorename(false);// Si hay un archivo del mismo nombre, crea otro con un (x) por ejemplo PDF(1)
+           UploadBuilder uploadBuilder = client.files().uploadBuilder("/"+pdf.getName());//guardar el archivo en la carpeta DropBox
+           uploadBuilder.withClientModified(new Date(pdf.lastModified()));//carga la fecha de la ultima modificacion
+           uploadBuilder.withMode(WriteMode.ADD);// elige el modo de acceso en que se va a utilizar el archivo
+           uploadBuilder.withAutorename(false);// Si hay un archivo del mismo nombre, crea otro con un (x) por ejemplo PDF(1)
 
 
 
-       try {
+
+
            uploadBuilder.uploadAndFinish(inputStream); //se sube el archivo
-       } catch (DbxException e) {
-           throw new RuntimeException(e);
+
+
+           inputStream.close(); //cierro la entrada del archivo
+
+       } catch (FileNotFoundException e) {
+           //archivo no encontrado
+           e.getMessage();
+           e.printStackTrace();
+       } catch (GetMetadataErrorException e) {
+           //error con obtener info de un archivo dropbox
+           e.getMessage();
+           e.printStackTrace();
+       }
+       catch (DbxException e) {
+           //error con obtener info cuenta dropbox
+           e.getMessage();
+           e.printStackTrace();
        } catch (IOException e) {
-           throw new RuntimeException(e);
+           //error con el input/output (Archivo)
+           e.getMessage();
+           e.printStackTrace();
        }
 
-       try {
-           inputStream.close(); //cierro la entrada del archivo
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
    }
 
     public String obtenerURL(String nombreArchivoDeDropbox){
@@ -77,22 +84,26 @@ public class DropBoxAPI {
 
         //recordar subir solo el nombre del archivo que esta en dropbox
 
-        //hay que especificar el tipo de archivo que quiero. EJ: rutina.pdf
+        //hay que especificar el tipo de archivo que quiero. EJ: /rutina.pdf
         //se construye dentro de este metodo
-        String urlObtenida;
+        String urlObtenida = "";
         String s="/"; //agrego la barra para el directorio de dropbox
         s= s.concat(nombreArchivoDeDropbox); //le concateno el nombre del archivo; como se llama en dropbox
         s= s.concat(".pdf"); // le agrego el tipo de archivo
+
+
         try {
             urlObtenida= client.files().getTemporaryLink(s).getLink();
         } catch (DbxException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
+            e.printStackTrace();
         }
         return urlObtenida;
     }
 
-    private boolean existeArchivoEnDropbox(String nombreArchivo) throws GetMetadataErrorException {
+    private boolean existeArchivoEnDropbox(String nombreArchivo) throws DbxException {
        boolean flag=false;
+
        try {
             client.files().getMetadata(nombreArchivo); //obtengo la informacion del archivo y basicamente si la obtengo es porque existe
             flag=true;
@@ -101,22 +112,22 @@ public class DropBoxAPI {
                 //si me tira una excepcion significa que no existe por lo tanto retorno false
                 //flag=false;
             } else {
-                throw e; //sino tiro error
+                throw e; //sino tiro el error
             }
         } catch (Exception e) {
-           e.printStackTrace(); //si me tira otro tipo de excepcion, tambien retorno false ya que no existe
+           throw e; //si me tira otro tipo de excepcion, tambien retorno false ya que no existe
        }
        return flag;
     }
 
-    private void eliminarArchivoEnDropbox(String nombreArchivo){
+    private void eliminarArchivoEnDropbox(String nombreArchivo) throws DbxException {
         try {
             //si el archivo existe, lo elimino
             client.files().deleteV2(nombreArchivo).getMetadata();
         }catch (DbxException e)
         {
             // sino retorno una excepcion
-            e.printStackTrace();
+            throw e;
         }
     }
 
