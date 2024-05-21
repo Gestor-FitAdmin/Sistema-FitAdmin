@@ -71,7 +71,7 @@ public class Rutina
 //        return flag;
 //    }
 
-    public boolean agregarUnEjercicioARutinaXID(int idEjercicioAAgregar, int repeticiones, int series) throws IOException {
+    public boolean agregarUnEjercicioARutinaXID(int idEjercicioAAgregar, int repeticiones, int series){
         boolean flag = false;
             ArrayList<Ejercicio> ejercicios;
 
@@ -88,7 +88,8 @@ public class Rutina
                 }
             }
             catch (IOException e){
-                throw e;
+                e.getMessage();
+                e.printStackTrace();
             }
 
         return flag;

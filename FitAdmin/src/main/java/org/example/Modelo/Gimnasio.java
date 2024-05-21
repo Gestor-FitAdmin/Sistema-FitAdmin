@@ -120,6 +120,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             document.close();  // Cerrar el documento
 
         } catch (FileNotFoundException e) {
+            e.getMessage();
             e.printStackTrace();
         }
 
@@ -146,6 +147,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             document.close();
             rta = true;
         } catch (FileNotFoundException e) {
+            e.getMessage();
             e.printStackTrace();
         }
 
@@ -158,7 +160,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     public void enviarUnMail(String mailCliente, String mensaje, boolean adjuntarPDF) throws MessagingException, MailSinArrobaE {
         //VERIFICAR SI TIENE UN ARROBA UNICAMENTE
 
-        if (!mailCliente.contains("@")) //todo: agregar una excepcion
+        if (!mailCliente.contains("@"))
         {
             throw new MailSinArrobaE();
         }
@@ -219,8 +221,9 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                 }
 
                 Transport.send(message); // clase message finalizada y enviada por mail
-            }catch (MessagingException me){
-                throw me;
+            }catch (MessagingException e){
+
+                throw e;
             }
 
 
@@ -273,14 +276,15 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
     public void guardarClientesEnArchivo(String nombreDelArchivo)
     {
-//todo: ser porque es una serializacion de una coleccion (por convencion) sino usaria .bin
+        //todo: ser porque es una serializacion de una coleccion (por convencion) sino usaria .bin
         try (FileOutputStream fileOut = new FileOutputStream(nombreDelArchivo);//permite el flujo de salida de datos
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {//crea un flujo de salida de objetos a partir de los datos(bytes)
 
             out.writeObject(clientes);//todo: me permite escribir el archivo hacerlo gracias a la implementacion Serializable
 
-        } catch (IOException i) {
-            i.printStackTrace();
+        } catch (IOException e) {
+            e.getMessage();
+            e.printStackTrace();
         }
 
     }
