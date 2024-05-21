@@ -17,19 +17,17 @@ public class QrAPI {
     //constructor
 
     //metodos
-    public void generarQr(String url) {
-        String ruta="qrs-Generados/qrCliente.jpg";
-        BitMatrix matrix= null;
+    public void generarQr(String urlDeDropbox) {
+        String ruta="qrs-Generados/qrCliente.jpg"; //ruta donde voy a guardar el QR
+        BitMatrix matrix;
         try {
-            matrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE,500,500);
-            MatrixToImageWriter.writeToPath(matrix,"jpg", Paths.get(ruta));
+            matrix = new MultiFormatWriter().encode(urlDeDropbox, BarcodeFormat.QR_CODE,500,500); // le doy formato al QR: le paso el url, formato QR, y el tamanio
+            MatrixToImageWriter.writeToPath(matrix,"jpg", Paths.get(ruta)); // creo el archivo QR en formato jpg en la ruta especificada
         } catch (WriterException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
         System.out.println("QR generado correctamente");
 
     }
