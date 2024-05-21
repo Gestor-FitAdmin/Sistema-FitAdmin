@@ -21,14 +21,20 @@ public class QrAPI {
         String ruta="qrs-Generados/qrCliente.jpg"; //ruta donde voy a guardar el QR
         BitMatrix matrix;
         try {
+
             matrix = new MultiFormatWriter().encode(urlDeDropbox, BarcodeFormat.QR_CODE,500,500); // le doy formato al QR: le paso el url, formato QR, y el tamanio
             MatrixToImageWriter.writeToPath(matrix,"jpg", Paths.get(ruta)); // creo el archivo QR en formato jpg en la ruta especificada
+
         } catch (WriterException e) {
-            throw new RuntimeException(e);
+            //problemas con escribir QR
+            e.getMessage();
+            e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //error input/output
+            e.getMessage();
+            e.printStackTrace();
         }
-        System.out.println("QR generado correctamente");
+
 
     }
 
