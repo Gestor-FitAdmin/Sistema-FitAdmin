@@ -55,7 +55,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         return usuario;
     }
 
-    private String getContrasenia() {
+    public String getContrasenia() {
         return contrasenia;
     }
 
@@ -129,7 +129,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
     public boolean crearPDFParaQR(Cliente cliente) {
         boolean rta = false;
-        String dest = "pdfDatosCliente/QRaGenerar.pdf";
+        String dest = "QRaGenerar.pdf";
         try {
             // Crear un escritor de PDF
             PdfWriter writer = new PdfWriter(dest);
