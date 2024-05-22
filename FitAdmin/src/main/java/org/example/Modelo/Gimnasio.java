@@ -380,9 +380,9 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         {
             Cliente auxCliente= iterator.next().getValue();
 
-            for (Actividad auxActividad : auxCliente.getActividadesInscripto()) //recorro todas las actividades de ese cliente
+            for (String auxActividad : auxCliente.getActividadesInscripto()) //recorro todas las actividades de ese cliente
             {
-                if (auxActividad.obtenerNombreActividad().equalsIgnoreCase(actividad)) //si contiene la actividad buscada aumento el contador
+                if (auxActividad.equalsIgnoreCase(actividad)) //si contiene la actividad buscada aumento el contador
                 {
                     cont++;
                 }

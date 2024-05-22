@@ -12,7 +12,7 @@ public class Cliente extends Persona{
     private boolean cuotaPagada;
     private boolean estado;
     private LinkedHashMap<String, Rutina> rutinaSemanal;
-    private HashSet<Actividad> actividadesInscripto;
+    private HashSet<String> actividadesInscripto;
 
     //Constructor
 
@@ -51,12 +51,12 @@ public class Cliente extends Persona{
         return rutinaSemanal;
     }
 
-    public HashSet<Actividad> getActividadesInscripto() {
+    public HashSet<String> getActividadesInscripto() {
         return actividadesInscripto;
     }
 
-    public void setActividadesInscripto(HashSet<Actividad> actividadesInscripto) {
-        this.actividadesInscripto = actividadesInscripto;
+    public void setActividadesInscripto(String actividadesInscripto) {
+        this.actividadesInscripto.add(actividadesInscripto);
     }
 
     public void setEstado(boolean estado) {
@@ -69,6 +69,7 @@ public class Cliente extends Persona{
 
 
     //Metodos
+
 
     public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
         String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
@@ -105,7 +106,7 @@ public class Cliente extends Persona{
                 ", estado=" + estado +
                 ", rutinaSemanal=" + rutinaSemanal +
                 ", actividadesInscripto=" + actividadesInscripto +
-                '}';
+                '}' + super.toString();
     }
 }
 
