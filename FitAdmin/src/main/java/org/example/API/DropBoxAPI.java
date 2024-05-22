@@ -6,7 +6,13 @@ import java.util.Locale;
 
 import com.dropbox.core.*;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
 
+import com.dropbox.core.v2.files.*;
+
+
+import java.util.Date;
 
 /**
  DropBoxAPI dropBoxAPI= new DropBoxAPI();
@@ -27,35 +33,43 @@ public class DropBoxAPI {
     private static final String APP_KEY = "txclgtve4z6nla2";
     private static final String APP_SECRET = "4l7sllt3ezkyhuf";
     private static final String ACCESS_TOKEN_FILE = "access_token.txt";
+    private DbxRequestConfig config;
+    private DbxClientV2 cliente;
 
-    private DbxClientV2 client;
 
-    public DropBoxAPI() throws IOException {
-        String accessToken = loadAccessToken();
-        if (accessToken == null) {
-            accessToken = authenticate();
-            saveAccessToken(accessToken);
+    public DropBoxAPI()  {
+        config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
+
+        try {
+            String accessToken = leerTokenDeAcceso();
+
+            if (accessToken == null) {
+                accessToken = autenticarCliente();
+                guardarTokenEnArchivo(accessToken);
+            }
+            iniciarCliente(accessToken);
+
+        } catch (IOException e) {
+            e.getMessage();
+            e.printStackTrace();
         }
-        initializeClient(accessToken);
+
     }
 
-    private void initializeClient(String accessToken) {
+    private void iniciarCliente(String accessToken) {
+
         if (accessToken == null || accessToken.isEmpty()) {
-            throw new IllegalArgumentException("Access token cannot be null or empty.");
+            throw new IllegalArgumentException("Token de acceso no puede ser null o vacio");
         }
-        DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial")
-                .withUserLocale(Locale.getDefault().toString())
-                .build();
-        client = new DbxClientV2(config, accessToken);
+
+        cliente = new DbxClientV2(config, accessToken);
         System.out.println("Dropbox client initialized successfully.");
     }
 
-    private String authenticate() throws IOException {
-        DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/java-tutorial")
-                .withUserLocale(Locale.getDefault().toString())
-                .build();
+    private String autenticarCliente(){
+        String tokenDeAcceso=null;
 
-        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
+        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET); // app info me da la informacion de la app fitAdmin creada en dropbox
         DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
         String authorizeUrl = webAuth.start();
 
@@ -63,176 +77,155 @@ public class DropBoxAPI {
         System.out.println("2. Haz clic en \"Permitir\" (puede que necesites iniciar sesión primero)");
         System.out.println("3. Copia el código de autorización.");
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String code = br.readLine().trim();
+        DbxAuthFinish authFinish;
 
-        DbxAuthFinish authFinish = null;
         try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String code = br.readLine().trim();
+
             authFinish = webAuth.finish(code);
-        } catch (DbxException e) {
-            throw new RuntimeException(e);
+            tokenDeAcceso= authFinish.getAccessToken();
+
+        }catch (DbxException e) {
+            e.getMessage();
+            e.printStackTrace();
         }
-        return authFinish.getAccessToken();
+        catch (IOException e){
+            e.getMessage();
+            e.printStackTrace();
+        }
+        catch (Exception e){
+            e.getMessage();
+            e.printStackTrace();
+        }
+
+        return tokenDeAcceso;
     }
 
-    private void saveAccessToken(String accessToken) throws IOException {
+    private void guardarTokenEnArchivo(String accessToken) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCESS_TOKEN_FILE))) {
             writer.write(accessToken);
         }
     }
 
-    private String loadAccessToken() throws IOException {
+    private String leerTokenDeAcceso() throws IOException {
         File file = new File(ACCESS_TOKEN_FILE);
-        if (!file.exists()) {
-            return null;
-        }
+        String token=null;// si el archivo no existe retorno null
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            return reader.readLine().trim();
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                token= reader.readLine().trim(); //si el archivo no contiene nada devuelve string vacia
+
+            }
         }
+        return token;
     }
 
     public FullAccount getCurrentAccount() throws Exception
     {
-        if (client == null) {
+        if (cliente == null) {
             throw new IllegalStateException("Dropbox client is not initialized.");
         }
-        return client.users().getCurrentAccount();
+        return cliente.users().getCurrentAccount();
     }
-  /*  package org.example.API;
+
+    public void subirPDF(String rutaArchivo){
+
+        File pdf = new File(rutaArchivo);// obtiene el pdf de la carpeta
+        InputStream inputStream; // crea una entrada del archivo PDF
+        String nombreArchivoMasBarrita="/";
+        nombreArchivoMasBarrita= nombreArchivoMasBarrita.concat(pdf.getName());
 
 
-        import com.dropbox.core.DbxException;
-        import com.dropbox.core.DbxRequestConfig;
-        import com.dropbox.core.v2.DbxClientV2;
-        import com.dropbox.core.v2.files.*;
+        try {
+            inputStream = new FileInputStream(pdf);
 
-        import java.io.*;
-        import java.util.Date;
-
-
-    public class DropBoxAPI {
-        private String ACCESS_TOKEN = "sl.B1lXUD8Fm1QUv9tfZG0TIlSxruZSp2tkLY6puZqtu-wjPjLUkhyYsLAAu0dCev_kJGyMytIxyFgQr9dLQji7HWhEJTnaRLPrEmYXPL0NrLDEp3gvuqOrW8HmybliM7wnDYMNTnQju1Ur8Da3xD6e5BM";
-        private String CARPETA = "Aplicaciones/fitAdmin"; // Ruta de la carpeta en Dropbox
-        private DbxRequestConfig config = DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
-        private DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-
-        //todo: verificar si el TOKEN se vence
-
-        /**
-         DropBoxAPI dropBoxAPI= new DropBoxAPI();
-         QrAPI qrAPI= new QrAPI();
-
-         gimnasio.crearPDFParaQR(cliente);
-
-         dropBoxAPI.subirPDF("pdfDatosCliente/QRaGenerar.pdf"); // subirlo a dropbox
-         String url= dropBoxAPI.obtenerURL("QRaGenerar"); //recordar subir solo el nombre del archivo que esta en dropbox
-         qrAPI.generarQr(url);
-         */
-
-
-        /*public void subirPDF(String rutaArchivo){
-
-            File pdf = new File(rutaArchivo);// obtiene el pdf de la carpeta
-            InputStream inputStream; // crea una entrada del archivo PDF
-            String nombreArchivoMasBarrita="/";
-            nombreArchivoMasBarrita= nombreArchivoMasBarrita.concat(pdf.getName());
-            try {
-                inputStream = new FileInputStream(pdf);
-
-                if (existeArchivoEnDropbox(nombreArchivoMasBarrita)){
-                    eliminarArchivoEnDropbox(nombreArchivoMasBarrita);
-                }
-
-
-                UploadBuilder uploadBuilder = client.files().uploadBuilder("/"+pdf.getName());//guardar el archivo en la carpeta DropBox
-                uploadBuilder.withClientModified(new Date(pdf.lastModified()));//carga la fecha de la ultima modificacion
-                uploadBuilder.withMode(WriteMode.ADD);// elige el modo de acceso en que se va a utilizar el archivo
-                uploadBuilder.withAutorename(false);// Si hay un archivo del mismo nombre, crea otro con un (x) por ejemplo PDF(1)
-
-
-
-
-
-                uploadBuilder.uploadAndFinish(inputStream); //se sube el archivo
-
-
-                inputStream.close(); //cierro la entrada del archivo
-
-            } catch (FileNotFoundException e) {
-                //archivo no encontrado
-                e.getMessage();
-                e.printStackTrace();
-            } catch (GetMetadataErrorException e) {
-                //error con obtener info de un archivo dropbox
-                e.getMessage();
-                e.printStackTrace();
-            }
-            catch (DbxException e) {
-                //error con obtener info cuenta dropbox
-                e.getMessage();
-                e.printStackTrace();
-            } catch (IOException e) {
-                //error con el input/output (Archivo)
-                e.getMessage();
-                e.printStackTrace();
+            if (existeArchivoEnDropbox(nombreArchivoMasBarrita)){
+                eliminarArchivoEnDropbox(nombreArchivoMasBarrita);
             }
 
+            UploadBuilder uploadBuilder = cliente.files().uploadBuilder("/"+pdf.getName());//guardar el archivo en la carpeta DropBox
+            uploadBuilder.withClientModified(new Date(pdf.lastModified()));//carga la fecha de la ultima modificacion
+            uploadBuilder.withMode(WriteMode.ADD);// elige el modo de acceso en que se va a utilizar el archivo
+            uploadBuilder.withAutorename(false);// Si hay un archivo del mismo nombre, crea otro con un (x) por ejemplo PDF(1)
+
+            uploadBuilder.uploadAndFinish(inputStream); //se sube el archivo
+
+            inputStream.close(); //cierro la entrada del archivo
+
+        } catch (FileNotFoundException e) {
+            //archivo no encontrado
+            e.getMessage();
+            e.printStackTrace();
+        } catch (GetMetadataErrorException e) {
+            //error con obtener info de un archivo dropbox
+            e.getMessage();
+            e.printStackTrace();
+        }
+        catch (DbxException e) {
+            //error con obtener info cuenta dropbox
+            e.getMessage();
+            e.printStackTrace();
+        } catch (IOException e) {
+            //error con el input/output (Archivo)
+            e.getMessage();
+            e.printStackTrace();
         }
 
-        public String obtenerURL(String nombreArchivoDeDropbox){
-            //obtengo la url de Dropbox del archivo requerido
+    }
 
-            //recordar subir solo el nombre del archivo que esta en dropbox
+    public String obtenerURL(String nombreArchivoDeDropbox){
+        //obtengo la url de Dropbox del archivo requerido
 
-            //hay que especificar el tipo de archivo que quiero. EJ: /rutina.pdf
-            //se construye dentro de este metodo
-            String urlObtenida = "";
-            String s="/"; //agrego la barra para el directorio de dropbox
-            s= s.concat(nombreArchivoDeDropbox); //le concateno el nombre del archivo; como se llama en dropbox
-            s= s.concat(".pdf"); // le agrego el tipo de archivo
+        //recordar subir solo el nombre del archivo que esta en dropbox
+
+        //hay que especificar el tipo de archivo que quiero. EJ: /rutina.pdf
+        //se construye dentro de este metodo
+
+        String urlObtenida = "";
+        String s="/"; //agrego la barra para el directorio de dropbox
+        s= s.concat(nombreArchivoDeDropbox); //le concateno el nombre del archivo; como se llama en dropbox
+        s= s.concat(".pdf"); // le agrego el tipo de archivo
 
 
-            try {
-                urlObtenida= client.files().getTemporaryLink(s).getLink();
-            } catch (DbxException e) {
-                e.getMessage();
-                e.printStackTrace();
-            }
-            return urlObtenida;
+        try {
+            urlObtenida= cliente.files().getTemporaryLink(s).getLink();
+        } catch (DbxException e) {
+            e.getMessage();
+            e.printStackTrace();
         }
+        return urlObtenida;
+    }
 
-        private boolean existeArchivoEnDropbox(String nombreArchivo) throws DbxException {
-            boolean flag=false;
+    private boolean existeArchivoEnDropbox(String nombreArchivo) throws DbxException {
+        boolean flag=false;
 
-            try {
-                client.files().getMetadata(nombreArchivo); //obtengo la informacion del archivo y basicamente si la obtengo es porque existe
-                flag=true;
-            } catch (GetMetadataErrorException e) {
-                if (e.errorValue.isPath() && e.errorValue.getPathValue().isNotFound()) {
-                    //si me tira una excepcion significa que no existe por lo tanto retorno false
-                    //flag=false;
-                } else {
-                    throw e; //sino tiro el error
-                }
-            } catch (Exception e) {
-                throw e; //si me tira otro tipo de excepcion, tambien retorno false ya que no existe
+        try {
+            cliente.files().getMetadata(nombreArchivo); //obtengo la informacion del archivo y basicamente si la obtengo es porque existe
+            flag=true;
+        } catch (GetMetadataErrorException e) {
+            if (e.errorValue.isPath() && e.errorValue.getPathValue().isNotFound()) {
+                //si me tira una excepcion significa que no existe por lo tanto retorno false
+                //flag=false;
+            } else {
+                throw e; //sino tiro el error
             }
-            return flag;
+        } catch (Exception e) {
+            throw e; //si me tira otro tipo de excepcion, tambien retorno false ya que no existe
         }
+        return flag;
+    }
 
-        private void eliminarArchivoEnDropbox(String nombreArchivo) throws DbxException {
-            try {
-                //si el archivo existe, lo elimino
-                client.files().deleteV2(nombreArchivo).getMetadata();
-            }catch (DbxException e)
-            {
-                // sino retorno una excepcion
-                throw e;
-            }
+    private void eliminarArchivoEnDropbox(String nombreArchivo) throws DbxException {
+        try {
+            //si el archivo existe, lo elimino
+            cliente.files().deleteV2(nombreArchivo).getMetadata();
+        }catch (DbxException e)
+        {
+            // sino retorno una excepcion
+            throw e;
         }
-
-    }*/
+    }
 
 }
 

@@ -43,7 +43,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.12</version> <!-- Puedes ajustar la versión según la que desees utilizar -->
+            <version>1.4.12</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
