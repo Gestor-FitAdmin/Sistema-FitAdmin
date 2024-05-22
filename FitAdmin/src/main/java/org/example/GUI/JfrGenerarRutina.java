@@ -71,6 +71,8 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                         {null, null, null},
                         {null, null, null},
                         {null, null, null},
+                        {null, null, null},
+                        {null, null, null},
                         {null, null, null}
                 },
                 new String[]{
@@ -89,6 +91,8 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         TablaRutinaActual.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
+                        {null, null, null},
+                        {null, null, null},
                         {null, null, null},
                         {null, null, null},
                         {null, null, null},

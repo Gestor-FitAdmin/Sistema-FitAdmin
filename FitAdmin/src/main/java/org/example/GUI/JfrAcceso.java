@@ -46,6 +46,7 @@ public class JfrAcceso extends javax.swing.JFrame {
         TableSeleccionarClienteQR.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                         {null, null, null},
+                        {null, null, null},
                         {null, null, null}
                 },
                 new String [] {
