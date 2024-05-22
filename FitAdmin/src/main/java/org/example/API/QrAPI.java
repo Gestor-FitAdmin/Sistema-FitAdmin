@@ -18,7 +18,7 @@ public class QrAPI {
 
     //metodos
     public void generarQr(String urlDeDropbox) {
-        String ruta="qrs-Generados/qrCliente.jpg"; //ruta donde voy a guardar el QR
+        String ruta="qrCliente.jpg"; //ruta donde voy a guardar el QR
         BitMatrix matrix;
         try {
 
