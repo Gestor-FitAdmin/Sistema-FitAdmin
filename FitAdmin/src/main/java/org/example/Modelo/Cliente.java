@@ -69,7 +69,7 @@ public class Cliente extends Persona{
 
 
     //Metodos
-    
+
 
     public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
         String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
@@ -106,7 +106,7 @@ public class Cliente extends Persona{
                 ", estado=" + estado +
                 ", rutinaSemanal=" + rutinaSemanal +
                 ", actividadesInscripto=" + actividadesInscripto +
-                '}';
+                '}' + super.toString();
     }
 }
 

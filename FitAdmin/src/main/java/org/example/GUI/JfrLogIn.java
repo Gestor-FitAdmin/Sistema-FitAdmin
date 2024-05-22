@@ -186,7 +186,6 @@ public class JfrLogIn extends javax.swing.JFrame {
 
     private void BotonIngresoActionPerformed(java.awt.event.ActionEvent evt) {
 
-
         String usuario = TextAreaUsuario.getText();
          char[] contrasena = TextAreaContrasena.getPassword();
          String contraFinal = new String(contrasena);
@@ -204,7 +203,6 @@ public class JfrLogIn extends javax.swing.JFrame {
     }
 
     public boolean validacion(String usuario, String contrasena){
-
         boolean flag = false;
 
         if(gimnasio.getContrasenia().equals(contrasena) && gimnasio.getUsuario().equals(usuario)){
