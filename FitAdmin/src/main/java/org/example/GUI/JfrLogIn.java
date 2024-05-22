@@ -1,5 +1,7 @@
 package org.example.GUI;
 
+import org.example.Modelo.Gimnasio;
+
 public class JfrLogIn extends javax.swing.JFrame {
 
 
@@ -14,6 +16,8 @@ public class JfrLogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+
+    private Gimnasio gimnasio;
     // End of variables declaration
 
     /**
@@ -22,6 +26,7 @@ public class JfrLogIn extends javax.swing.JFrame {
     public JfrLogIn() {
         initComponents();
         setLocationRelativeTo(null);
+        gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "velez2do");
     }
 
 
@@ -175,14 +180,37 @@ public class JfrLogIn extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void TextAreaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
+
     }
 
     private void BotonIngresoActionPerformed(java.awt.event.ActionEvent evt) {
 
-        this.setVisible(false);
-        JfrMenuPrincipal menu = new JfrMenuPrincipal();
-        menu.setVisible(true);
+
+        String usuario = TextAreaUsuario.getText();
+         char[] contrasena = TextAreaContrasena.getPassword();
+         String contraFinal = new String(contrasena);
+
+         if(validacion(usuario, contraFinal)){
+
+             TextAreaUsuario.setText("");
+             TextAreaContrasena.setText("");
+
+             this.setVisible(false);
+             JfrMenuPrincipal menu = new JfrMenuPrincipal();
+             menu.setVisible(true);
+         }
+
+    }
+
+    public boolean validacion(String usuario, String contrasena){
+
+        boolean flag = false;
+
+        if(gimnasio.getContrasenia().equals(contrasena) && gimnasio.getUsuario().equals(usuario)){
+            flag = true;
+        }
+        return flag ;
     }
 
     private void TextAreaContrasenaActionPerformed(java.awt.event.ActionEvent evt) {
