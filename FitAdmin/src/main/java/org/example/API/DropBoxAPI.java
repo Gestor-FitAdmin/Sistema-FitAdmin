@@ -39,22 +39,30 @@ public class DropBoxAPI {
 
     public DropBoxAPI()  {
         config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
+        String accessToken = null;
 
         try {
-            String accessToken = leerTokenDeAcceso();
+             accessToken = leerTokenDeAcceso();
 
-            if (accessToken == null) {
+            if (accessToken == null )
+            {
                 accessToken = autenticarCliente();
                 guardarTokenEnArchivo(accessToken);
             }
             iniciarCliente(accessToken);
 
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
+
+            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+            guardarTokenEnArchivo(accessToken);
             e.getMessage();
             e.printStackTrace();
         }
 
     }
+
+
 
     private void iniciarCliente(String accessToken) {
 
@@ -63,7 +71,7 @@ public class DropBoxAPI {
         }
 
         cliente = new DbxClientV2(config, accessToken);
-        System.out.println("Dropbox client initialized successfully.");
+        //System.out.println("Dropbox client initialized successfully.");
     }
 
     private String autenticarCliente(){
@@ -102,9 +110,12 @@ public class DropBoxAPI {
         return tokenDeAcceso;
     }
 
-    private void guardarTokenEnArchivo(String accessToken) throws IOException {
+    private void guardarTokenEnArchivo(String accessToken) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCESS_TOKEN_FILE))) {
             writer.write(accessToken);
+        }catch (IOException e)
+        {
+            e.getMessage();
         }
     }
 
