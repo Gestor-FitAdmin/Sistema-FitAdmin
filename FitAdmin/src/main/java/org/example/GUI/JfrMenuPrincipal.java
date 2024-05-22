@@ -1,11 +1,6 @@
 package org.example.GUI;
 
 
-import javax.swing.table.DefaultTableModel;
-
-import javax.swing.JFrame;
-
-
 public class JfrMenuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration
@@ -41,8 +36,7 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
 
 
 
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated Code">
+
         private void initComponents() {
 
             jMenu3 = new javax.swing.JMenu();
@@ -182,28 +176,28 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
             );
 
             pack();
-        }// </editor-fold>
+        }
 
         private void BotonEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {
             // TODO add your handling code here:
         }
 
         private void BotonIngresosActionPerformed(java.awt.event.ActionEvent evt) {
-            /*
+
             this.setVisible(false);
-            JfrAccesos acce = new JfrAccesos();
+            JfrAcceso acce = new JfrAcceso();
             acce.setVisible(true);
 
-             */
+
         }
 
         private void BotonClientesActionPerformed(java.awt.event.ActionEvent evt) {
-            /*
+
             this.setVisible(false);
-            JfrClientes cliente = new JfrClientes();
+            JfrCliente cliente = new JfrCliente();
             cliente.setVisible(true);
 
-             */
+
         }
     }
 

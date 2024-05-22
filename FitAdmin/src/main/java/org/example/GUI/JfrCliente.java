@@ -275,12 +275,10 @@ public class JfrCliente extends javax.swing.JFrame {
     }
 
     private void BotonAsignarRutinaActionPerformed(java.awt.event.ActionEvent evt) {
-        /*
-        this.setVisible(false);
-        JfrGenerarRutinas rut = new JfrGenerarRutinas();
-        rut.setVisible(true);
 
-         */
+        this.setVisible(false);
+        JfrGenerarRutina rut = new JfrGenerarRutina();
+        rut.setVisible(true);
     }
 
     private void BuscarClienteMenuActionPerformed(java.awt.event.ActionEvent evt) {
@@ -292,12 +290,12 @@ public class JfrCliente extends javax.swing.JFrame {
     }
 
     private void BotonoCrearNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        /*
+
         this.setVisible(false);
         JfrAgregarNuevoCliente nuevo = new JfrAgregarNuevoCliente();
         nuevo.setVisible(true);
 
-         */
+
     }
 
     private void BotonRealizarBusquedaClienteActionPerformed(java.awt.event.ActionEvent evt) {
