@@ -27,8 +27,9 @@ public class Main {
 
         gimnasio.crearPDFParaQR(cliente);
 
-        //dropBoxAPI.subirPDF("pdfDatosCliente/QRaGenerar.pdf"); // subirlo a dropbox
-        String url = dropBoxAPI.obtenerURL("cv"); //recordar subir solo el nombre del archivo que esta en dropbox
+        dropBoxAPI.subirPDF("QRaGenerar.pdf"); // subirlo a dropbox
+        String url = dropBoxAPI.obtenerURL("QRaGenerar"); //recordar subir solo el nombre del archivo que esta en dropbox
+       System.out.println(url);
         qrAPI.generarQr(url);
 
 
