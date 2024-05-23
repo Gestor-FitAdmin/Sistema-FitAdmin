@@ -6,6 +6,9 @@ import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Rutina;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         rutina = new Rutina();
+        llenarTabla();
     }
 
 
@@ -275,6 +279,48 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         JfrCliente cliente = new JfrCliente();
         cliente.setVisible(true);
     }
+
+
+
+
+    private void llenarTabla() {
+
+        Rutina rutina = new Rutina();
+        ArrayList<Ejercicio> ejercicioArrayList = null;
+        try {
+            ejercicioArrayList = rutina.leerJSON("ejercicios.json");
+        } catch (IOException e) {
+            System.out.println("No se puede abrir el archivo");
+        }
+        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Nombre", "Complejidad", "Material"}, ejercicioArrayList.size());
+        TablaDeEjercicios.setModel(tableModel);
+
+        TableModel modeloDeDatos = TablaDeEjercicios.getModel();
+
+        int i = 0;
+        for (Ejercicio ejercicio : ejercicioArrayList){
+
+
+                Ejercicio ejercicioResumido = new Ejercicio(ejercicio.getNombreEjercicio(), ejercicio.getComplejidad(), ejercicio.getMaterialDeTrabajo());
+
+                modeloDeDatos.setValueAt(ejercicioResumido.getNombreEjercicio(), i, 0);
+                modeloDeDatos.setValueAt(ejercicioResumido.getComplejidad(), i, 1);
+                modeloDeDatos.setValueAt(ejercicioResumido.getMaterialDeTrabajo(), i, 2);
+
+            i++;
+        }
+    }
+
+    private void mostrartabla(){
+        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                
+            }
+        });
+    }
+
+
 
 
 }
