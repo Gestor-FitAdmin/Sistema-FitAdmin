@@ -65,6 +65,10 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
         return edad;
     }
 
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
     //Metodos
 
     private LocalDate formatearFechaALocalDate(String fecha)
