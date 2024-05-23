@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b49b3e3e-72dd-40aa-9d43-3a344562aace" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/GUIEnvoltorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/GUIEnvoltorio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" afterDir="false" />
-
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Gimnasio.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Gimnasio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Musculacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Musculacion.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,33 +53,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.GUI.executor": "Run",
-    "Application.JsonConsumer.executor": "Run",
-    "Application.JsonReader.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.GUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JsonConsumer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JsonReader.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
 
-    "git-widget-placeholder": "JfrCliente-funcionalidad",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "vue.rearranger.settings.migration": "true"
+    &quot;git-widget-placeholder&quot;: &quot;JfrCliente-funcionalidad&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
 
-    "git-widget-placeholder": "ComportamientoJrfAcceso",
-    "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+    &quot;git-widget-placeholder&quot;: &quot;ComportamientoJrfAcceso&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
 
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.example" />
@@ -121,8 +111,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
       </set>
     </attachedChunks>
   </component>
