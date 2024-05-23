@@ -1,6 +1,12 @@
 package org.example.GUI;
 
 
+import org.example.Modelo.Gimnasio;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+
 public class JfrCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify
@@ -28,6 +34,7 @@ public class JfrCliente extends javax.swing.JFrame {
     public JfrCliente() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
 
@@ -131,7 +138,7 @@ public class JfrCliente extends javax.swing.JFrame {
         });
         TablaClientes.setToolTipText("");
         TablaClientes.setColumnSelectionAllowed(true);
-        TablaClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        TablaClientes.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
         jScrollPane2.setViewportView(TablaClientes);
         TablaClientes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (TablaClientes.getColumnModel().getColumnCount() > 0) {
@@ -268,10 +275,23 @@ public class JfrCliente extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void BotonArchivarClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
+        int posFila =TablaClientes.getSelectedRow(); // posicion fila socio
+        int posColumna=0; // id del socio
 
 
+        DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel(); // datos de toda la fila
+        Integer idSocio=(Integer) modelo.getValueAt(posFila,posColumna);
 
+//        Cliente clienteElegido= gimnasio.buscar(idSocio);
+//        if(ClienteElegido.isEstado)
+//        {
+//            cliente.setEstado(false);
+//        }
+//          else{
+//              JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("El cliente ya esta inhabilitado");
+//              // o lo activo de vuelta como un prendido/apagado
+//        }
 
     }
 

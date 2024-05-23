@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b49b3e3e-72dd-40aa-9d43-3a344562aace" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +65,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "funcionalidad-tabla-JFRclientes",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -118,7 +120,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1716040783828</updated>
-      <workItem from="1716422407232" duration="5686000" />
+      <workItem from="1716422407232" duration="7780000" />
     </task>
     <servers />
   </component>
