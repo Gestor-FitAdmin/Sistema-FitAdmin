@@ -1,37 +1,39 @@
 package org.example.GUI;
 
 
+import org.example.Modelo.Actividad;
 import org.example.Modelo.Cliente;
-import org.example.Modelo.Gimnasio;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashSet;
 
-import static org.example.GUI.GUIEnvoltorio.gimnasio;
-
-public class JfrCliente extends javax.swing.JFrame {
+public class JfrCliente extends JFrame {
 
     // Variables declaration - do not modify
-    private javax.swing.JButton BotonArchivarCliente;
-    private javax.swing.JButton BotonAsignarRutina;
-    private javax.swing.JButton BotonIrAtras;
-    private javax.swing.JButton BotonRealizarBusquedaCliente;
-    private javax.swing.JButton BotonoCrearNuevoCliente;
-    private javax.swing.JComboBox<String> BuscarCliente;
-    private javax.swing.JComboBox<String> BuscarClienteMenu;
-    private javax.swing.JTable TablaClientes;
-    private javax.swing.JTextField TextBoxClienteBusqueda;
-    private java.awt.Choice choice1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private JButton BotonArchivarCliente;
+    private JButton BotonAsignarRutina;
+    private JButton BotonIrAtras;
+    private JButton BotonRealizarBusquedaCliente;
+    private JButton BotonoCrearNuevoCliente;
+    private JComboBox<String> BuscarCliente;
+    private JComboBox<String> BuscarClienteMenu;
+    private JTable TablaClientes;
+    private JTextField TextBoxClienteBusqueda;
+    private Choice choice1;
+    private JLabel jLabel1;
+    private JList<String> jList1;
+    private JMenu jMenu1;
+    private JPanel jPanel1;
+    private JProgressBar jProgressBar1;
+    private JScrollPane jScrollPane1;
+    private JScrollPane jScrollPane2;
 
     /**
      * Creates new form Clientes
@@ -46,27 +48,27 @@ public class JfrCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-        jMenu1 = new javax.swing.JMenu();
-        choice1 = new java.awt.Choice();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        BuscarCliente = new javax.swing.JComboBox<>();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        BotonoCrearNuevoCliente = new javax.swing.JButton();
-        BotonArchivarCliente = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TablaClientes = new javax.swing.JTable();
-        BotonAsignarRutina = new javax.swing.JButton();
-        BuscarClienteMenu = new javax.swing.JComboBox<>();
-        TextBoxClienteBusqueda = new javax.swing.JTextField();
-        BotonRealizarBusquedaCliente = new javax.swing.JButton();
-        BotonIrAtras = new javax.swing.JButton();
+        jMenu1 = new JMenu();
+        choice1 = new Choice();
+        jScrollPane1 = new JScrollPane();
+        jList1 = new JList<>();
+        BuscarCliente = new JComboBox<>();
+        jProgressBar1 = new JProgressBar();
+        jPanel1 = new JPanel();
+        jLabel1 = new JLabel();
+        BotonoCrearNuevoCliente = new JButton();
+        BotonArchivarCliente = new JButton();
+        jScrollPane2 = new JScrollPane();
+        TablaClientes = new JTable();
+        BotonAsignarRutina = new JButton();
+        BuscarClienteMenu = new JComboBox<>();
+        TextBoxClienteBusqueda = new JTextField();
+        BotonRealizarBusquedaCliente = new JButton();
+        BotonIrAtras = new JButton();
 
         jMenu1.setText("jMenu1");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jList1.setModel(new AbstractListModel<String>() {
             String[] strings = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
 
             public int getSize() {
@@ -79,42 +81,42 @@ public class JfrCliente extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        BuscarCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
-        BuscarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BuscarCliente.setModel(new DefaultComboBoxModel<>(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
+        BuscarCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BuscarClienteActionPerformed(evt);
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(63, 63, 63));
+        jPanel1.setBackground(new Color(63, 63, 63));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
+        jLabel1.setIcon(new ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
 
-        BotonoCrearNuevoCliente.setBackground(new java.awt.Color(130, 130, 130));
-        BotonoCrearNuevoCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BotonoCrearNuevoCliente.setForeground(new java.awt.Color(242, 242, 242));
+        BotonoCrearNuevoCliente.setBackground(new Color(130, 130, 130));
+        BotonoCrearNuevoCliente.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        BotonoCrearNuevoCliente.setForeground(new Color(242, 242, 242));
         BotonoCrearNuevoCliente.setText("Agregar Nuevo Cliente");
-        BotonoCrearNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BotonoCrearNuevoCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BotonoCrearNuevoClienteActionPerformed(evt);
             }
         });
 
-        BotonArchivarCliente.setBackground(new java.awt.Color(130, 130, 130));
-        BotonArchivarCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BotonArchivarCliente.setForeground(new java.awt.Color(242, 242, 242));
+        BotonArchivarCliente.setBackground(new Color(130, 130, 130));
+        BotonArchivarCliente.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        BotonArchivarCliente.setForeground(new Color(242, 242, 242));
         BotonArchivarCliente.setText("Archivar Cliente");
-        BotonArchivarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BotonArchivarCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BotonArchivarClienteActionPerformed(evt);
             }
         });
 
-        TablaClientes.setBackground(new java.awt.Color(242, 242, 242));
-        TablaClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(130, 130, 130), 1, true));
-        TablaClientes.setModel(new javax.swing.table.DefaultTableModel(
+        TablaClientes.setBackground(new Color(242, 242, 242));
+        TablaClientes.setBorder(new LineBorder(new Color(130, 130, 130), 1, true));
+        TablaClientes.setModel(new DefaultTableModel(
                 new Object[][]{
                         {null, null, null},
                         {null, null, null},
@@ -127,7 +129,7 @@ public class JfrCliente extends javax.swing.JFrame {
                 }
         ) {
             Class[] types = new Class[]{
-                    java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+                    Integer.class, String.class, Object.class
             };
             boolean[] canEdit = new boolean[]{
                     false, false, false
@@ -143,137 +145,137 @@ public class JfrCliente extends javax.swing.JFrame {
         });
         TablaClientes.setToolTipText("");
         TablaClientes.setColumnSelectionAllowed(true);
-        TablaClientes.setCursor(new java.awt.Cursor(Cursor.HAND_CURSOR));
+        TablaClientes.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jScrollPane2.setViewportView(TablaClientes);
-        TablaClientes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        TablaClientes.getColumnModel().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         if (TablaClientes.getColumnModel().getColumnCount() > 0) {
             TablaClientes.getColumnModel().getColumn(0).setResizable(false);
             TablaClientes.getColumnModel().getColumn(1).setResizable(false);
             TablaClientes.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        BotonAsignarRutina.setBackground(new java.awt.Color(130, 130, 130));
-        BotonAsignarRutina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BotonAsignarRutina.setForeground(new java.awt.Color(242, 242, 242));
+        BotonAsignarRutina.setBackground(new Color(130, 130, 130));
+        BotonAsignarRutina.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        BotonAsignarRutina.setForeground(new Color(242, 242, 242));
         BotonAsignarRutina.setText("Asignar Rutina");
-        BotonAsignarRutina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BotonAsignarRutina.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BotonAsignarRutinaActionPerformed(evt);
             }
         });
 
-        BuscarClienteMenu.setBackground(new java.awt.Color(130, 130, 130));
-        BuscarClienteMenu.setForeground(new java.awt.Color(242, 242, 242));
-        BuscarClienteMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Todos", "Por ID", "Por Nombre", "Por Apellido", "Por Actividad", "Por Sexo"}));
-        BuscarClienteMenu.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(242, 242, 242))); // NOI18N
-        BuscarClienteMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BuscarClienteMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BuscarClienteMenu.setBackground(new Color(130, 130, 130));
+        BuscarClienteMenu.setForeground(new Color(242, 242, 242));
+        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[]{"Todos", "Por ID", "Por Nombre", "Por Apellido", "Por Actividad", "Por Sexo"}));
+        BuscarClienteMenu.setBorder(BorderFactory.createTitledBorder(null, "Buscar Cliente", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI", 1, 14), new Color(242, 242, 242))); // NOI18N
+        BuscarClienteMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        BuscarClienteMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BuscarClienteMenuActionPerformed(evt);
             }
         });
 
-        TextBoxClienteBusqueda.setBackground(new java.awt.Color(130, 130, 130));
-        TextBoxClienteBusqueda.setForeground(new java.awt.Color(242, 242, 242));
+        TextBoxClienteBusqueda.setBackground(new Color(130, 130, 130));
+        TextBoxClienteBusqueda.setForeground(new Color(242, 242, 242));
         TextBoxClienteBusqueda.setToolTipText("");
-        TextBoxClienteBusqueda.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(242, 242, 242), 1, true));
-        TextBoxClienteBusqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        TextBoxClienteBusqueda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        TextBoxClienteBusqueda.setBorder(new LineBorder(new Color(242, 242, 242), 1, true));
+        TextBoxClienteBusqueda.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        TextBoxClienteBusqueda.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 TextBoxClienteBusquedaActionPerformed(evt);
             }
         });
 
-        BotonRealizarBusquedaCliente.setBackground(new java.awt.Color(130, 130, 130));
-        BotonRealizarBusquedaCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        BotonRealizarBusquedaCliente.setForeground(new java.awt.Color(242, 242, 242));
+        BotonRealizarBusquedaCliente.setBackground(new Color(130, 130, 130));
+        BotonRealizarBusquedaCliente.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        BotonRealizarBusquedaCliente.setForeground(new Color(242, 242, 242));
         BotonRealizarBusquedaCliente.setText("Buscar");
-        BotonRealizarBusquedaCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BotonRealizarBusquedaCliente.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BotonRealizarBusquedaClienteActionPerformed(evt);
             }
         });
 
-        BotonIrAtras.setBackground(new java.awt.Color(63, 63, 63));
-        BotonIrAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/return.png"))); // NOI18N
+        BotonIrAtras.setBackground(new Color(63, 63, 63));
+        BotonIrAtras.setIcon(new ImageIcon(getClass().getResource("/Images/return.png"))); // NOI18N
         BotonIrAtras.setBorder(null);
-        BotonIrAtras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BotonIrAtras.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 BotonIrAtrasActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(BotonoCrearNuevoCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(BotonoCrearNuevoCliente, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))
                                                 .addGap(47, 47, 47))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                                 .addContainerGap())
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(BuscarClienteMenu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(BuscarClienteMenu, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(TextBoxClienteBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(TextBoxClienteBusqueda, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
                                                 .addContainerGap())
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(13, 13, 13)
                                                 .addComponent(BotonIrAtras)
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(38, 38, 38)
-                                                .addComponent(BotonAsignarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(BotonAsignarRutina, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(29, 29, 29)
-                                                .addComponent(BotonArchivarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(BotonArchivarCliente, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(139, 139, 139)
-                                                .addComponent(BotonRealizarBusquedaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(BotonRealizarBusquedaCliente, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(BotonoCrearNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BotonoCrearNuevoCliente, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(BuscarClienteMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(BuscarClienteMenu, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
                                         .addComponent(TextBoxClienteBusqueda))
                                 .addGap(18, 18, 18)
-                                .addComponent(BotonRealizarBusquedaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BotonRealizarBusquedaCliente, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(95, 95, 95))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(BotonAsignarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(BotonArchivarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(BotonAsignarRutina, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(BotonArchivarCliente, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(BotonIrAtras)
                                 .addGap(14, 14, 14))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -281,18 +283,18 @@ public class JfrCliente extends javax.swing.JFrame {
 
     //botones
 
-    private void BotonArchivarClienteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonArchivarClienteActionPerformed(ActionEvent evt) {
 
         int posFila =TablaClientes.getSelectedRow(); // posicion fila socio
         int posColumna=0; // id del socio
-
+        Cliente clienteElegido = null;
         if (posFila != -1)
         {
 
             DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel(); // datos de toda la fila
             Integer idSocio=(Integer) modelo.getValueAt(posFila,posColumna);
 
-            Cliente clienteElegido= GUIEnvoltorio.getGimnasio().buscar(idSocio);
+            clienteElegido = GUIEnvoltorio.getGimnasio().buscar(idSocio);
 
             if (clienteElegido.isEstado()) {
                 //con el mismo boton
@@ -309,62 +311,165 @@ public class JfrCliente extends javax.swing.JFrame {
 
     }
 
-    private void BuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BuscarClienteActionPerformed(ActionEvent evt) {
     }
 
-    private void BotonAsignarRutinaActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonAsignarRutinaActionPerformed(ActionEvent evt) {
 
         this.setVisible(false);
         JfrGenerarRutina rut = new JfrGenerarRutina();
         rut.setVisible(true);
     }
 
-    private void BuscarClienteMenuActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BuscarClienteMenuActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        //obtengo la opcion del usuario y traigo todos los valores que quiere
-
-
-
-
     }
 
-    private void BotonRealizarBusquedaClienteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonRealizarBusquedaClienteActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
 
         //muestro lo obtenido de la busqueda en la tabla
+        int i=0, auxInt=0;
+        ArrayList<Cliente> arrayQueSeMostrara = new ArrayList<>();
+        ArrayList<Cliente> todosLosClientes= GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
 
-        String opcionElegida= (String) BuscarClienteMenu.getSelectedItem(); //obtengo el valor de la op q eligio el usuario
-
+        String opcionElegida = (String) BuscarClienteMenu.getSelectedItem(); //obtengo el valor de la op q eligio el usuario
         assert opcionElegida != null; // aseguro que la variable opcionElegida no va a ser null
-        opcionElegida= opcionElegida.toLowerCase();
+        opcionElegida = opcionElegida.toLowerCase();
 
-        switch (opcionElegida)
-        {
+        String busqueda=TextBoxClienteBusqueda.getText(); //obtengo el valor de la caja de texto que hay
+
+        busqueda= busqueda.replace(" ",""); //le saco todos los espacios
+
+        switch (opcionElegida) {
             case "todos":
-                GUIEnvoltorio.getGimnasio().getClientes();
+                arrayQueSeMostrara = todosLosClientes;
                 break;
             case "por id":
-                System.out.println("eligio por id");
+
+
+                if (!busqueda.isEmpty()) //si no contiene nada o si no hay espacios, tiene que haber un numero si o si
+                {
+                    //el parseo del string a Integer puede provocar errores si no se verifica
+                    if(GUIEnvoltorio.getGimnasio().verificarSiExisteClienteXId(Integer.parseInt(busqueda)))
+                    {
+
+                        arrayQueSeMostrara.add(GUIEnvoltorio.getGimnasio().buscar(Integer.parseInt(busqueda)));
+                    }
+                    else {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("El ID buscado no existe");
+                    }
+                }
+                else {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun ID");
+                }
+
                 break;
             case "por nombre":
+
+                if (!busqueda.isEmpty()){
+
+                    for (Cliente cliente: todosLosClientes)
+                    {
+                        if (cliente.getNombre().equalsIgnoreCase(busqueda))
+                        {
+                            arrayQueSeMostrara.add(cliente);
+                        }
+                    }
+                    if(arrayQueSeMostrara.isEmpty())
+                    {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se encontro el nombre buscado");
+                    }
+                }
+                else {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun nombre");
+                }
+
                 break;
             case "por apellido":
+                if (!busqueda.isEmpty()){
+
+                    for (Cliente cliente: todosLosClientes)
+                    {
+                        if (cliente.getApellido().equalsIgnoreCase(busqueda))
+                        {
+                            arrayQueSeMostrara.add(cliente);
+                        }
+                    }
+                    if(arrayQueSeMostrara.isEmpty())
+                    {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se encontro el apellido buscado");
+                    }
+                }
+                else {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun apellido");
+                }
                 break;
             case "por actividad":
+                if (!busqueda.isEmpty()){
+                    HashSet<String> actividadesDelCliente;
+
+                    for (Cliente cliente: todosLosClientes)
+                    {
+                        //validar como hacer para que ignore las mayusculas o minusculas
+                        actividadesDelCliente= cliente.getActividadesInscripto();
+                        if (actividadesDelCliente.contains(busqueda.toLowerCase()))
+                        {
+                            arrayQueSeMostrara.add(cliente);
+                        }
+
+                    }
+                    if(arrayQueSeMostrara.isEmpty())
+                    {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se encontro la actividad buscada");
+                    }
+                }
+                else {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ninguna actividad");
+                }
+
+
                 break;
             case "por sexo":
+
+                if (!busqueda.isEmpty()){
+
+                    for (Cliente cliente: todosLosClientes)
+                    {
+                        if (cliente.getSexo().equalsIgnoreCase(busqueda))
+                        {
+                            arrayQueSeMostrara.add(cliente);
+                        }
+                    }
+                    if(arrayQueSeMostrara.isEmpty())
+                    {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No hay ninguna persona del sexo elegido");
+                    }
+                }
+                else {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun sexo");
+                }
                 break;
             default:
+                arrayQueSeMostrara = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
                 break;
+        }
+        for (Cliente cliente: arrayQueSeMostrara) //id nombre apellido
+        {
+            TablaClientes.setValueAt(cliente.getIdSocio(),i,0);
+            TablaClientes.setValueAt(cliente.getNombre(),i,1);
+            TablaClientes.setValueAt(cliente.getApellido(),i,2);
+
+            i++;
+        }
 
 
     }
-
-    private void TextBoxClienteBusquedaActionPerformed(java.awt.event.ActionEvent evt) {
+    private void TextBoxClienteBusquedaActionPerformed(ActionEvent evt) {
 
     }
 
-    private void BotonoCrearNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonoCrearNuevoClienteActionPerformed(ActionEvent evt) {
 
         this.setVisible(false);
         JfrAgregarNuevoCliente nuevo = new JfrAgregarNuevoCliente();
@@ -373,7 +478,7 @@ public class JfrCliente extends javax.swing.JFrame {
 
     }
 
-    private void BotonIrAtrasActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonIrAtrasActionPerformed(ActionEvent evt) {
 
         this.setVisible(false);
         JfrMenuPrincipal menu = new JfrMenuPrincipal();
