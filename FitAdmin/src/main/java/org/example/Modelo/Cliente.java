@@ -55,7 +55,7 @@ public class Cliente extends Persona{
         return actividadesInscripto;
     }
 
-    public void setActividadesInscripto(String actividadesInscripto) {
+    public void agregarActividadACliente(String actividadesInscripto) {
         this.actividadesInscripto.add(actividadesInscripto);
     }
 
@@ -69,6 +69,7 @@ public class Cliente extends Persona{
 
 
     //Metodos
+
 
 
     public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
