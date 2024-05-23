@@ -1,5 +1,16 @@
 package org.example.GUI;
 
+import ch.qos.logback.core.model.Model;
+import org.example.Enum.EObjetivo;
+import org.example.Modelo.Ejercicio;
+import org.example.Modelo.Rutina;
+
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class JfrGenerarRutina extends javax.swing.JFrame {
 
     private javax.swing.JButton BotonAgregarEjercicioARutina;
@@ -18,10 +29,12 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
 
+    //atributos para agregar en el cliente
+    private Rutina rutina;//si esta vacia que saque un popUp que no se puede agregar rutina vacia
     public JfrGenerarRutina() {
         initComponents();
         setLocationRelativeTo(null);
-
+        rutina = new Rutina();
     }
 
 
@@ -55,8 +68,13 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         SelectorDeObjetivos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"PERDER_PESO", "GANAR_MUSCULO", "GANAR_FUERZA"}));
         SelectorDeObjetivos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+
                 SelectorDeObjetivosActionPerformed(evt);
+                String eObjetivo= (String) SelectorDeObjetivos.getSelectedItem();
+                System.out.println(eObjetivo);
+                rutina.setObjetivo(eObjetivo);
             }
         });
 
@@ -65,7 +83,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         jLabel3.setText("Día");
 
         SelectorDeObjetivos1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"}));
-
+        //falta el cliente para poder agregarle el dia
         TablaDeEjercicios.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
                         {null, null, null},
@@ -78,15 +96,21 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 new String[]{
                         "Nombre", "Complejidad", "Material"
                 }
+
+
         ) {
             boolean[] canEdit = new boolean[]{
                     false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
+
+
                 return canEdit[columnIndex];
             }
-        });
+
+
+    });
         jScrollPane1.setViewportView(TablaDeEjercicios);
 
         TablaRutinaActual.setModel(new javax.swing.table.DefaultTableModel(
@@ -119,7 +143,8 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         BotonAgregarEjercicioARutina.setForeground(new java.awt.Color(242, 242, 242));
         BotonAgregarEjercicioARutina.setText("Agregar Ejercicio a Rutina");
         BotonAgregarEjercicioARutina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 BotonAgregarEjercicioARutinaActionPerformed(evt);
             }
         });
