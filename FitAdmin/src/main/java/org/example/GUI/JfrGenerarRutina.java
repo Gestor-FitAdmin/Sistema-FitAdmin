@@ -6,6 +6,9 @@ import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Rutina;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.IOException;
@@ -36,6 +39,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         rutina = new Rutina();
+        llenarTabla();
     }
 
 
@@ -99,7 +103,9 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 }
 
 
-        ) {
+        )
+
+        {
             boolean[] canEdit = new boolean[]{
                     false, false, false
             };
@@ -112,6 +118,26 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
 
     });
+        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+
+            public void valueChanged(ListSelectionEvent e) {
+                if(!e.getValueIsAdjusting()){
+                    int selectedRow = TablaDeEjercicios.getSelectedRow();
+                    if(selectedRow != -1){
+                        String nombre = TablaDeEjercicios.getValueAt(selectedRow,0).toString();
+                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow,1).toString();
+                        String Materiales = TablaDeEjercicios.getValueAt(selectedRow,2).toString();
+
+                        System.out.println(nombre + " " + dificultad + " " + Materiales);
+
+                    }
+
+                }
+
+
+            }
+        });
         jScrollPane1.setViewportView(TablaDeEjercicios);
 
         TablaRutinaActual.setModel(new javax.swing.table.DefaultTableModel(
@@ -275,6 +301,41 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         JfrCliente cliente = new JfrCliente();
         cliente.setVisible(true);
     }
+
+
+
+
+    private void llenarTabla() {
+
+        Rutina rutina = new Rutina();
+        ArrayList<Ejercicio> ejercicioArrayList = null;
+        try {
+            ejercicioArrayList = rutina.leerJSON("ejercicios.json");
+        } catch (IOException e) {
+            System.out.println("No se puede abrir el archivo");
+        }
+        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Nombre", "Complejidad", "Material"}, ejercicioArrayList.size());
+        TablaDeEjercicios.setModel(tableModel);
+
+        TableModel modeloDeDatos = TablaDeEjercicios.getModel();
+
+        int i = 0;
+        for (Ejercicio ejercicio : ejercicioArrayList){
+
+
+                Ejercicio ejercicioResumido = new Ejercicio(ejercicio.getNombreEjercicio(), ejercicio.getComplejidad(), ejercicio.getMaterialDeTrabajo());
+
+                modeloDeDatos.setValueAt(ejercicioResumido.getNombreEjercicio(), i, 0);
+                modeloDeDatos.setValueAt(ejercicioResumido.getComplejidad(), i, 1);
+                modeloDeDatos.setValueAt(ejercicioResumido.getMaterialDeTrabajo(), i, 2);
+
+            i++;
+        }
+    }
+
+
+
+
 
 
 }

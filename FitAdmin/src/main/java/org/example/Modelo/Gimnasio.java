@@ -332,6 +332,90 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         return clientes.toString();
     }
 
+
+
+    public void leerArchivoCliente(String nombreDelArchivo)
+    {
+        ObjectInputStream in = null;
+        try
+        {
+            FileInputStream fileIn = new FileInputStream(nombreDelArchivo);//permite el flujo de entrada de datos
+            in = new ObjectInputStream(fileIn);//crea un flujo de entrada de objetos a partir de los datos(bytes)
+
+            while(true)//hasta que rompa el archivo
+            {
+                Cliente cliente = (Cliente) in.readObject();
+                clientes.put(cliente.getIdSocio(),cliente);
+            }
+        } catch (EOFException e)
+        {
+            //e.getMessage();
+            //e.printStackTrace();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.getMessage();
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.getMessage();
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.getMessage();
+        }
+        finally
+        {
+            try
+            {
+                in.close();//cierro el flujo de datos
+            } catch (IOException e) {
+                e.getMessage();
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void guardarClientesEnArchivo(String nombreDelArchivo)
+    {
+        ObjectOutputStream out = null;
+        try
+        {
+            int i = 0;
+            FileOutputStream fileOut = new FileOutputStream(nombreDelArchivo);//permite el flujo de salida de datos
+            out = new ObjectOutputStream(fileOut);//crea un flujo de salida de objetos a partir de los datos(bytes)
+
+            Iterator<Map.Entry<Integer, Cliente>> entryIterator = clientes.entrySet().iterator();//Itero todos los clientes
+            while(entryIterator.hasNext())
+            {
+                Map.Entry<Integer,Cliente> entry = entryIterator.next();//entrada del mapa para avanzar
+                out.writeObject(entry.getValue());//tengo todos los clientes
+            }
+
+        } catch (FileNotFoundException e)
+        {
+            e.getMessage();
+            e.printStackTrace();
+        }catch (IOException e)
+        {
+            e.getMessage();
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                out.close();//cierro el flujo de datos
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     @Override
     public int contarTotalClientes() {
         //retorno el total de clientes que es igual al tamanio del mapa
@@ -431,4 +515,5 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                 ", actividades=" + actividades +
                 '}';
     }
+
 }

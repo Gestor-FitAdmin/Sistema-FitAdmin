@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b49b3e3e-72dd-40aa-9d43-3a344562aace" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/GUIEnvoltorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/GUIEnvoltorio.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" afterDir="false" />
+
+      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Gimnasio.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Gimnasio.java" afterDir="false" />
@@ -69,6 +73,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+
     "git-widget-placeholder": "JfrCliente-funcionalidad",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -78,6 +83,11 @@
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
     "vue.rearranger.settings.migration": "true"
+
+    "git-widget-placeholder": "ComportamientoJrfAcceso",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+
   }
 }]]></component>
   <component name="RecentsManager">

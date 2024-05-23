@@ -2,6 +2,7 @@ package org.example.GUI;
 
 import org.example.Modelo.Actividad;
 import org.example.Modelo.Cliente;
+import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Musculacion;
 
 public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
@@ -317,22 +318,35 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 
+        String sexo = (String) selectorDeSexo.getSelectedItem();
+        String actividadInscripto = (String) SelectorDeActividades.getSelectedItem();
+        Double altura = Double.parseDouble(TextAreaAltura.getText());
+        Double peso = Double.parseDouble(TextAreaPeso.getText());
+        int idSocio = proximoIdSocio();
+
         Cliente cliente = new Cliente(TextAreaNombre.getText(),
                                       TextAreaApellido.getText(),
                                       TextAreaDNI.getText(),
-                                      selectorDeSexo.getActionCommand(),
-                                      100.0,
-                                      130.0,
+                                      sexo,
+                                      peso,
+                                      altura,
                                       TextAreaFechaDeNacimiento.getText(),
-                               12,
+                                      idSocio,
                                       TextAreaEmail.getText(),
                           true);
 
-        //cliente.setActividadesInscripto(SelectorDeActividades.getAction().toString());
+        cliente.setActividadesInscripto(actividadInscripto);
 
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
+        gym.agregar(cliente);
+
+        System.out.println(gym);
         System.out.println(cliente);
     }
 
+    public int proximoIdSocio(){
+        return 1;
+    }
 
     private void TextAreaNombreActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:

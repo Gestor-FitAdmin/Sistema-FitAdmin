@@ -40,6 +40,12 @@ public class Ejercicio {
         this.idEjercicio=idEjercicio; //todo: VER SI EL ID VIENE DESDE EL JSON O LO AUTOINCREMENTAMOS NOSOTROS
     }
 
+    public Ejercicio(String nombreEjercicio, String complejidad, String materialDeTrabajo) {
+        this.nombreEjercicio = nombreEjercicio;
+        this.complejidad = complejidad;
+        this.materialDeTrabajo = materialDeTrabajo;
+    }
+
 
 
     //get y set
