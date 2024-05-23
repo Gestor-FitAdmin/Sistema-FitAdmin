@@ -2,10 +2,11 @@ package org.example.GUI;
 
 import org.example.Modelo.Gimnasio;
 
+import java.util.Arrays;
+
 public class JfrLogIn extends javax.swing.JFrame {
 
-
-    // Variables declaration - do not modify
+    //atributos
     private javax.swing.JButton BotonIngreso;
     private javax.swing.JPasswordField TextAreaContrasena;
     private javax.swing.JTextField TextAreaUsuario;
@@ -18,11 +19,8 @@ public class JfrLogIn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
 
     private Gimnasio gimnasio;
-    // End of variables declaration
 
-    /**
-     * Creates new form jfrLogIn
-     */
+
     public JfrLogIn() {
         initComponents();
         setLocationRelativeTo(null);
@@ -187,10 +185,10 @@ public class JfrLogIn extends javax.swing.JFrame {
     private void BotonIngresoActionPerformed(java.awt.event.ActionEvent evt) {
 
         String usuario = TextAreaUsuario.getText();
-         char[] contrasena = TextAreaContrasena.getPassword();
-         String contraFinal = new String(contrasena);
+        char[] contrasenaRecibida = TextAreaContrasena.getPassword();
+        String contrasena = new String(contrasenaRecibida);
 
-         if(validacion(usuario, contraFinal)){
+         if(validacion(usuario, contrasena)){
 
              TextAreaUsuario.setText("");
              TextAreaContrasena.setText("");
@@ -198,6 +196,24 @@ public class JfrLogIn extends javax.swing.JFrame {
              this.setVisible(false);
              JfrMenuPrincipal menu = new JfrMenuPrincipal();
              menu.setVisible(true);
+         }
+         else
+         {
+             String mensaje=null;
+
+
+             if (!gimnasio.getUsuario().equals(usuario))
+             {
+                 mensaje= "Usuario incorrecto!";
+
+             }
+             else if (!gimnasio.getContrasenia().equals(contrasena))
+             {
+                 mensaje= "Contraseña incorrecta!";
+
+             }
+             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(mensaje);
+
          }
 
     }
