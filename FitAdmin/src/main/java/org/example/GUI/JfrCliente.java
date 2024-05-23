@@ -1,11 +1,16 @@
 package org.example.GUI;
 
 
+import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrCliente extends javax.swing.JFrame {
 
@@ -274,29 +279,37 @@ public class JfrCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    //botones
+
     private void BotonArchivarClienteActionPerformed(java.awt.event.ActionEvent evt) {
 
         int posFila =TablaClientes.getSelectedRow(); // posicion fila socio
         int posColumna=0; // id del socio
 
+        if (posFila != -1)
+        {
 
-        DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel(); // datos de toda la fila
-        Integer idSocio=(Integer) modelo.getValueAt(posFila,posColumna);
+            DefaultTableModel modelo = (DefaultTableModel) TablaClientes.getModel(); // datos de toda la fila
+            Integer idSocio=(Integer) modelo.getValueAt(posFila,posColumna);
 
-//        Cliente clienteElegido= gimnasio.buscar(idSocio);
-//        if(ClienteElegido.isEstado)
-//        {
-//            cliente.setEstado(false);
-//        }
-//          else{
-//              JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("El cliente ya esta inhabilitado");
-//              // o lo activo de vuelta como un prendido/apagado
-//        }
+            Cliente clienteElegido= GUIEnvoltorio.getGimnasio().buscar(idSocio);
+
+            if (clienteElegido.isEstado()) {
+                //con el mismo boton
+                clienteElegido.setEstado(false);
+            }
+            else{
+                clienteElegido.setEstado(true);
+            }
+        }
+        else
+        {
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No selecciono ningun cliente");
+        }
 
     }
 
     private void BuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void BotonAsignarRutinaActionPerformed(java.awt.event.ActionEvent evt) {
@@ -308,6 +321,43 @@ public class JfrCliente extends javax.swing.JFrame {
 
     private void BuscarClienteMenuActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        //obtengo la opcion del usuario y traigo todos los valores que quiere
+
+
+
+
+    }
+
+    private void BotonRealizarBusquedaClienteActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+
+        //muestro lo obtenido de la busqueda en la tabla
+
+        String opcionElegida= (String) BuscarClienteMenu.getSelectedItem(); //obtengo el valor de la op q eligio el usuario
+
+        assert opcionElegida != null; // aseguro que la variable opcionElegida no va a ser null
+        opcionElegida= opcionElegida.toLowerCase();
+
+        switch (opcionElegida)
+        {
+            case "todos":
+                GUIEnvoltorio.getGimnasio().getClientes();
+                break;
+            case "por id":
+                System.out.println("eligio por id");
+                break;
+            case "por nombre":
+                break;
+            case "por apellido":
+                break;
+            case "por actividad":
+                break;
+            case "por sexo":
+                break;
+            default:
+                break;
+
+
     }
 
     private void TextBoxClienteBusquedaActionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,10 +371,6 @@ public class JfrCliente extends javax.swing.JFrame {
         nuevo.setVisible(true);
 
 
-    }
-
-    private void BotonRealizarBusquedaClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
     }
 
     private void BotonIrAtrasActionPerformed(java.awt.event.ActionEvent evt) {
