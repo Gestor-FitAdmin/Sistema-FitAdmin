@@ -232,6 +232,65 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     }
 
 
+
+    public void guardarClientesEnArchivo(String nombreDelArchivo)
+    {
+        //todo: ser porque es una serializacion de una coleccion (por convencion) sino usaria .bin
+        try (FileOutputStream fileOut = new FileOutputStream(nombreDelArchivo);//permite el flujo de salida de datos
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {//crea un flujo de salida de objetos a partir de los datos(bytes)
+
+            out.writeObject(clientes);//todo: me permite escribir el archivo hacerlo gracias a la implementacion Serializable
+
+        } catch (IOException e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+
+    }
+
+    public void leerArchivoCliente(String nombreDelArchivo)
+    {
+        try (FileInputStream fileIn = new FileInputStream(nombreDelArchivo);//permite el flujo de entrada de datos
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {//crea un flujo de entrada de objetos a partir de los datos(bytes)
+
+            clientes = (HashMap<Integer, Cliente>) in.readObject();//lee en ese tipo de formato
+
+        } catch (IOException i) {
+            System.err.println("Error de entrada/salida: " + i.getMessage());
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            System.err.println("Clase Cliente no encontrada");
+            c.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Error inesperado: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+    public ArrayList<Cliente> retornarListaDeClientes()
+    {
+        ArrayList<Cliente> clienteArrayList= new ArrayList<>();
+        Cliente clienteAux;
+
+        for (Map.Entry<Integer, Cliente> integerClienteEntry : clientes.entrySet()) {
+
+            clienteAux = integerClienteEntry.getValue();
+            clienteArrayList.add(clienteAux);
+        }
+
+        return clienteArrayList;
+    }
+
+    public boolean verificarSiExisteClienteXId(int idBuscado){
+        boolean flag=false;
+        if (clientes.containsKey(idBuscado))
+        {
+            flag=true;
+        }
+        return flag;
+    }
+
+
     @Override
     public boolean agregar(Cliente nuevoCliente) {
         //agregamos un nuevo cliente con estado true
@@ -272,42 +331,6 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     public String listar() {
         return clientes.toString();
     }
-
-
-    public void guardarClientesEnArchivo(String nombreDelArchivo)
-    {
-        //todo: ser porque es una serializacion de una coleccion (por convencion) sino usaria .bin
-        try (FileOutputStream fileOut = new FileOutputStream(nombreDelArchivo);//permite el flujo de salida de datos
-             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {//crea un flujo de salida de objetos a partir de los datos(bytes)
-
-            out.writeObject(clientes);//todo: me permite escribir el archivo hacerlo gracias a la implementacion Serializable
-
-        } catch (IOException e) {
-            e.getMessage();
-            e.printStackTrace();
-        }
-
-    }
-    public void leerArchivoCliente(String nombreDelArchivo)
-    {
-        try (FileInputStream fileIn = new FileInputStream(nombreDelArchivo);//permite el flujo de entrada de datos
-             ObjectInputStream in = new ObjectInputStream(fileIn)) {//crea un flujo de entrada de objetos a partir de los datos(bytes)
-
-            clientes = (HashMap<Integer, Cliente>) in.readObject();//lee en ese tipo de formato
-
-        } catch (IOException i) {
-            System.err.println("Error de entrada/salida: " + i.getMessage());
-            i.printStackTrace();
-        } catch (ClassNotFoundException c) {
-            System.err.println("Clase Cliente no encontrada");
-            c.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("Error inesperado: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
-
 
     @Override
     public int contarTotalClientes() {
