@@ -1,4 +1,10 @@
 package org.example.GUI;
+
+import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
+import java.text.NumberFormat;
+
 public class JfrAcceso extends javax.swing.JFrame {
 
     private javax.swing.JButton BotonBuscarId;
@@ -95,7 +101,23 @@ public class JfrAcceso extends javax.swing.JFrame {
         ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
         ContadorIdUsuario.setMinimumSize(new java.awt.Dimension(70, 22));
         ContadorIdUsuario.setPreferredSize(new java.awt.Dimension(70, 22));
+        ContadorIdUsuario.setValue(1);//aparece con el ID 1 por defecto
+        //validacion del spinner
+        JComponent editor = ContadorIdUsuario.getEditor();
+        if (editor instanceof JSpinner.NumberEditor numberEditor)
+        {
+            //no permite ingresar letras
+            JFormattedTextField textField = numberEditor.getTextField();
+            DefaultFormatterFactory factory = (DefaultFormatterFactory) textField.getFormatterFactory();
+            NumberFormatter formatter = (NumberFormatter) factory.getDefaultFormatter();
 
+            //NumberFormatter para solo aceptar números enteros positivos
+            formatter.setAllowsInvalid(false); // No permitir valores inválidos
+            formatter.setCommitsOnValidEdit(true); // Confirmar el valor en cada edición válida
+            NumberFormat format = NumberFormat.getIntegerInstance();
+            formatter.setFormat(format);
+            formatter.setMinimum(1); // Establecer el valor mínimo en 1 //el 0 es administrador
+        }
         BotonBuscarId.setBackground(new java.awt.Color(130, 130, 130));
         BotonBuscarId.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         BotonBuscarId.setForeground(new java.awt.Color(242, 242, 242));
@@ -183,7 +205,10 @@ public class JfrAcceso extends javax.swing.JFrame {
 
         pack();
     }
-
+    private void verificarCaracteresEnSpinner(java.awt.event.ActionEvent evt)
+    {
+        ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
+    }
     private void BotonoGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
