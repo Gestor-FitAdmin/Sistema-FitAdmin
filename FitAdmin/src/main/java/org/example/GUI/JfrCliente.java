@@ -269,6 +269,10 @@ public class JfrCliente extends javax.swing.JFrame {
 
     private void BotonArchivarClienteActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+
+
+
+
     }
 
     private void BuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {

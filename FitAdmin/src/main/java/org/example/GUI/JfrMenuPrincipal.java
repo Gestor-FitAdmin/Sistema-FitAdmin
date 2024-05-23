@@ -19,7 +19,7 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         public JfrMenuPrincipal() {
             initComponents();
             setLocationRelativeTo(null);
-
+            setResizable(false);
         }
         /*
         public void agregarClientesATabla(){

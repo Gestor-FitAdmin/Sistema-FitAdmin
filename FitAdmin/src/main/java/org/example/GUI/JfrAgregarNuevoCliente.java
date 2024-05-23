@@ -34,6 +34,7 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
     public JfrAgregarNuevoCliente() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
 

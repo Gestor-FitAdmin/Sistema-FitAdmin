@@ -19,6 +19,7 @@ public class JfrAcceso extends javax.swing.JFrame {
     public JfrAcceso() {
         initComponents();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
 

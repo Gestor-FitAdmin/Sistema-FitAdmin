@@ -25,6 +25,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "velez2do");
+        setResizable(false);
     }
 
 
@@ -196,6 +197,7 @@ public class JfrLogIn extends javax.swing.JFrame {
              this.setVisible(false);
              JfrMenuPrincipal menu = new JfrMenuPrincipal();
              menu.setVisible(true);
+
          }
          else
          {

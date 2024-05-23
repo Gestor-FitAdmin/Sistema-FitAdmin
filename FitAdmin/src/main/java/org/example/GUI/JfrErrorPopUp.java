@@ -18,6 +18,7 @@ public class JfrErrorPopUp extends javax.swing.JFrame{
         setLocationRelativeTo(null);
         this.mensajeError=mensajeError;
         this.setVisible(true);
+        setResizable(false);
     }
 
     //setter

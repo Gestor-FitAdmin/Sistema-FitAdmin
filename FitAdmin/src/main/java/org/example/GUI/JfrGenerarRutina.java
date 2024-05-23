@@ -21,7 +21,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
     public JfrGenerarRutina() {
         initComponents();
         setLocationRelativeTo(null);
-
+        setResizable(false);
     }
 
 
