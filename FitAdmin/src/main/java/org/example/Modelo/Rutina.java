@@ -23,6 +23,10 @@ public class Rutina
         this.objetivo = objetivo;
         rutina = new LinkedHashSet<>();
     }
+    public Rutina() {
+        this.objetivo = null;
+        rutina = new LinkedHashSet<>();
+    }
 
     //getters y setters
 
@@ -35,9 +39,10 @@ public class Rutina
         return objetivo;
     }
 
-    public void setObjetivo(EObjetivo objetivo)
+    public void setObjetivo(String objetivo)
     {
-        this.objetivo = objetivo;
+        EObjetivo objetivoEnum = EObjetivo.valueOf(objetivo);//no necesita validarse ya que viene de un boton del GUI
+        this.objetivo = objetivoEnum;
     }
 
     //metodos
