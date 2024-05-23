@@ -18,7 +18,7 @@ public class GUIEnvoltorio
     public GUIEnvoltorio(Gimnasio gimnasio)
     {
         this.gimnasio = gimnasio;
-        logIn = new JfrLogIn();
+        logIn = new JfrLogIn(gimnasio);
     }
     //metodos
     public void iniciarPrograma()

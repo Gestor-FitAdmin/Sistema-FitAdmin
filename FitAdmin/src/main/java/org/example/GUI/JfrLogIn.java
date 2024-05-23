@@ -21,10 +21,10 @@ public class JfrLogIn extends javax.swing.JFrame {
     private Gimnasio gimnasio;
 
 
-    public JfrLogIn() {
+    public JfrLogIn(Gimnasio gimnasio1) {
         initComponents();
         setLocationRelativeTo(null);
-        gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "velez2do");
+        gimnasio = gimnasio1;
         setResizable(false);
     }
 
