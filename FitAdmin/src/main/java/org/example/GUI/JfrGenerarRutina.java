@@ -103,7 +103,9 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 }
 
 
-        ) {
+        )
+
+        {
             boolean[] canEdit = new boolean[]{
                     false, false, false
             };
@@ -116,6 +118,26 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
 
     });
+        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+
+            public void valueChanged(ListSelectionEvent e) {
+                if(!e.getValueIsAdjusting()){
+                    int selectedRow = TablaDeEjercicios.getSelectedRow();
+                    if(selectedRow != -1){
+                        String nombre = TablaDeEjercicios.getValueAt(selectedRow,0).toString();
+                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow,1).toString();
+                        String Materiales = TablaDeEjercicios.getValueAt(selectedRow,2).toString();
+
+                        System.out.println(nombre + " " + dificultad + " " + Materiales);
+
+                    }
+
+                }
+
+
+            }
+        });
         jScrollPane1.setViewportView(TablaDeEjercicios);
 
         TablaRutinaActual.setModel(new javax.swing.table.DefaultTableModel(
@@ -311,14 +333,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         }
     }
 
-    private void mostrartabla(){
-        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                
-            }
-        });
-    }
+
 
 
 
