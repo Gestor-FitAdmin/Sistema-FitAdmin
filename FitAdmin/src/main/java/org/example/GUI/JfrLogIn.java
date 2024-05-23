@@ -1,8 +1,11 @@
 package org.example.GUI;
 
+import org.example.Main;
 import org.example.Modelo.Gimnasio;
 
 import java.util.Arrays;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrLogIn extends javax.swing.JFrame {
 
@@ -18,13 +21,11 @@ public class JfrLogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
 
-    private Gimnasio gimnasio;
 
 
-    public JfrLogIn(Gimnasio gimnasio1) {
+    public JfrLogIn() {
         initComponents();
         setLocationRelativeTo(null);
-        gimnasio = gimnasio1;
         setResizable(false);
     }
 
@@ -204,7 +205,7 @@ public class JfrLogIn extends javax.swing.JFrame {
              String mensaje=null;
 
 
-             if (!gimnasio.getUsuario().equals(usuario))
+             if (gimnasio.getUsuario().equals(usuario))
              {
                  mensaje= "Usuario incorrecto!";
 
@@ -223,7 +224,7 @@ public class JfrLogIn extends javax.swing.JFrame {
     public boolean validacion(String usuario, String contrasena){
         boolean flag = false;
 
-        if(gimnasio.getContrasenia().equals(contrasena) && gimnasio.getUsuario().equals(usuario)){
+        if(GUIEnvoltorio.getGimnasio().getContrasenia().equals(contrasena) && Main.gimnasio.getUsuario().equals(usuario)){
             flag = true;
         }
         return flag ;

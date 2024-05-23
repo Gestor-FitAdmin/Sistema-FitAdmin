@@ -5,7 +5,7 @@ import org.example.Modelo.Gimnasio;
 public class GUIEnvoltorio
 {
     //atributos
-    private Gimnasio gimnasio;
+    public static Gimnasio gimnasio;
     private JfrLogIn logIn;
     private JfrMenuPrincipal menuPrincipal;
     private JfrCliente cliente;
@@ -15,10 +15,9 @@ public class GUIEnvoltorio
 
     //constructor
 
-    public GUIEnvoltorio(Gimnasio gimnasio)
+    public GUIEnvoltorio()
     {
-        this.gimnasio = gimnasio;
-        logIn = new JfrLogIn(gimnasio);
+        logIn = new JfrLogIn();
     }
     //metodos
     public void iniciarPrograma()
@@ -26,4 +25,12 @@ public class GUIEnvoltorio
         logIn.setVisible(true);
     }
 
+    public static Gimnasio getGimnasio() {
+        if (gimnasio == null)
+        {
+            gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "1234");
+
+        }
+        return gimnasio;
+    }
 }
