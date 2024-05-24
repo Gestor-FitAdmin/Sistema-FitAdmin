@@ -235,7 +235,15 @@ public class JfrAcceso extends javax.swing.JFrame {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();
         Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
 
-        DropBoxAPI api = new DropBoxAPI();
+        DropBoxAPI api = null;
+        try
+        {
+            api = new DropBoxAPI();
+        } catch (Exception e)
+        {
+            String accessToken = api.autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+            api.guardarTokenEnArchivo(accessToken);
+        }
         gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
         api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
 

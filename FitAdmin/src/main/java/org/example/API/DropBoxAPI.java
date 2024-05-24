@@ -39,7 +39,7 @@ public class DropBoxAPI {
     private DbxClientV2 cliente;
 
 
-    public DropBoxAPI()  {
+    public DropBoxAPI() throws Exception {
         config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
         String accessToken = null;
 
@@ -53,16 +53,18 @@ public class DropBoxAPI {
             }
             iniciarCliente(accessToken);
 
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
-            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
-            guardarTokenEnArchivo(accessToken);
-            e.getMessage();
-            e.printStackTrace();
+//            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+//            guardarTokenEnArchivo(accessToken);
+            throw new IOException();
+           // e.printStackTrace();
         }catch (Exception e)
         {
-            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
-            guardarTokenEnArchivo(accessToken);
+            throw new Exception();
+//            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+//            guardarTokenEnArchivo(accessToken);
         }
 
     }
@@ -79,7 +81,7 @@ public class DropBoxAPI {
         //System.out.println("Dropbox client initialized successfully.");
     }
 
-    private String autenticarCliente(){
+    public String autenticarCliente(){
         String tokenDeAcceso=null;
 
         DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET); // app info me da la informacion de la app fitAdmin creada en dropbox
@@ -115,7 +117,7 @@ public class DropBoxAPI {
         return tokenDeAcceso;
     }
 
-    private void guardarTokenEnArchivo(String accessToken) {
+    public void guardarTokenEnArchivo(String accessToken) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCESS_TOKEN_FILE))) {
             writer.write(accessToken);
         }catch (IOException e)
