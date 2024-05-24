@@ -1,9 +1,12 @@
 package org.example.GUI;
 
+
+import org.example.Modelo.Cliente;
 import org.example.API.DropBoxAPI;
 import org.example.API.QrAPI;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
+
 
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
@@ -227,7 +230,31 @@ public class JfrAcceso extends javax.swing.JFrame {
     }
 
     private void BotonBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        // busco el id que esta seleccionado en el contador y lo muestro en la tabla
+
+        Integer idSocioLeido=(Integer) ContadorIdUsuario.getValue();
+
+        idSocioLeido++;
+
+        for (int i=0; i < TableSeleccionarClienteQR.getColumnCount(); i++)
+        {
+            Cliente cliente= GUIEnvoltorio.getGimnasio().buscar(idSocioLeido);
+
+            //limpio la tabla
+            TableSeleccionarClienteQR.setValueAt(null,i,0);
+            TableSeleccionarClienteQR.setValueAt(null,i,1);
+            TableSeleccionarClienteQR.setValueAt(null,i,2);
+
+            if (cliente != null)
+            {
+                TableSeleccionarClienteQR.setValueAt(cliente.getIdCliente(),i,0);
+                TableSeleccionarClienteQR.setValueAt(cliente.getNombre(),i,1);
+                TableSeleccionarClienteQR.setValueAt(cliente.getApellido(),i,2);
+            }
+            idSocioLeido--;
+        }
+
+
     }
 
 
