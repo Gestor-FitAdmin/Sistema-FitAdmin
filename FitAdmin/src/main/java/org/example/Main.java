@@ -5,6 +5,8 @@ import org.example.API.DropBoxAPI;
 import org.example.API.QrAPI;
 import org.example.Enum.EObjetivo;
 import org.example.GUI.GUIEnvoltorio;
+import org.example.GUI.JfrGenerarRutina;
+import org.example.GUI.JfrLogIn;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Rutina;
@@ -37,8 +39,9 @@ public class Main {
 
          */
 
-       GUIEnvoltorio gui = new  GUIEnvoltorio();
-       gui.iniciarPrograma();
+
+        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
+        guiEnvoltorio.iniciarPrograma();
 
 
     }
