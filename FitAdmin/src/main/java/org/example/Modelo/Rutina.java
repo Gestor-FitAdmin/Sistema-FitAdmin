@@ -3,8 +3,10 @@ package org.example.Modelo;
 
 
 import org.example.Enum.EObjetivo;
-
-
+import org.example.JavaUtiles.JsonUtiles;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 import java.io.IOException;
