@@ -46,11 +46,6 @@ public class DropBoxAPI {
         try {
              accessToken = leerTokenDeAcceso();
 
-           if (accessToken == null )
-            {
-                accessToken = autenticarCliente();
-                guardarTokenEnArchivo(accessToken);
-            }
             iniciarCliente(accessToken);
 
         }
