@@ -46,14 +46,21 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "E:/Escritorio/Sistema-FitAdmin/java-json.jar",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "validacion-agregar-ejercicios-rutina",
+    "last_opened_file_path": "E:/Escritorio/Sistema-FitAdmin/FitAdmin/java-json.jar",
     "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Escritorio\Sistema-FitAdmin\FitAdmin" />
+      <recent name="E:\Escritorio\Sistema-FitAdmin" />
+    </key>
+  </component>
   <component name="TaskManager">
     <servers />
   </component>
