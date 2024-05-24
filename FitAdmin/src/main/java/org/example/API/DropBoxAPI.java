@@ -12,6 +12,7 @@ import com.dropbox.core.v2.files.*;
 
 
 import java.util.Date;
+import java.util.logging.FileHandler;
 
 /**
  DropBoxAPI dropBoxAPI= new DropBoxAPI();
@@ -29,6 +30,8 @@ import com.dropbox.core.v2.users.FullAccount;
 import org.example.JavaUtiles.JsonUtiles;
 import org.example.Modelo.Cliente;
 
+
+
 public class DropBoxAPI {
 
     private static final String APP_KEY = "txclgtve4z6nla2";
@@ -44,10 +47,24 @@ public class DropBoxAPI {
 
         try {
             accessToken = leerTokenDeAcceso();
+            if(accessToken!= null)
+            {
+                iniciarCliente(accessToken);
+            }
+            else
+            {
+                File file = new File(ACCESS_TOKEN_FILE);
 
-            iniciarCliente(accessToken);
+                // Utilizamos try-with-resources para asegurarnos de que el BufferedWriter se cierra adecuadamente
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                    writer.write("Sin token no tenes QR...");
+                    writer.flush();
 
-            guardarTokenEnArchivo(accessToken);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
         catch (IOException e)
         {
@@ -69,11 +86,10 @@ public class DropBoxAPI {
     private void iniciarCliente(String accessToken) throws DbxException, IOException {
 
         if (accessToken == null || accessToken.isEmpty()) {
-
-
-
+        throw new IllegalArgumentException();
         }
-        else{
+        else
+        {
             cliente = new DbxClientV2(config, accessToken);
         }
 
