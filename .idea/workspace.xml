@@ -4,64 +4,83 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a222452a-9070-4874-9b78-0629c168b337" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/CDL.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/Cookie.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/CookieList.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/HTTP.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/HTTPTokener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONArray.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONML.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONString.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONStringer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONTokener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONWriter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/XML.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-json/org/json/XMLTokener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/CDL.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/Cookie.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/CookieList.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/HTTP.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/HTTPTokener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONArray.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONML.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONString.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONStringer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONTokener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/JSONWriter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/XML.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/org/json/XMLTokener.java" beforeDir="false" />
-    </list>
+    <list default="true" id="ae97a1cc-6b72-437d-955f-0951bfcca64f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2gdwV2BCMMzKOBShWMzTYzOSnVf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "validacion-agregar-ejercicios-rutina",
-    "last_opened_file_path": "E:/Escritorio/Sistema-FitAdmin/FitAdmin/java-json.jar",
-    "node.js.selected.package.tslint": "(autodetect)",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Gc/Desktop/programacion/tpFinal3erCuatri/FitAdmin/java-json.jar",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.example" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\Escritorio\Sistema-FitAdmin\FitAdmin" />
-      <recent name="E:\Escritorio\Sistema-FitAdmin" />
+      <recent name="D:\3erCuatrimestre\PrograYLabo\Sistema-FitAdmin\FitAdmin" />
+      <recent name="D:\3erCuatrimestre\PrograYLabo\Sistema-FitAdmin\FitAdmin\src\main\java\org\example" />
+      <recent name="C:\Users\Gc\Desktop\programacion\tpFinal3erCuatri\FitAdmin\src\main\resources" />
     </key>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b49b3e3e-72dd-40aa-9d43-3a344562aace" name="Changes" comment="" />
+      <created>1716040783828</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1716040783828</updated>
+    </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.nio.file.NoSuchFileException" package="java.nio.file" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
