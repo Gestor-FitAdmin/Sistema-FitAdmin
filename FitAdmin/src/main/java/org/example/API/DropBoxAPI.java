@@ -2,7 +2,6 @@ package org.example.API;
 
 
 import java.io.*;
-import java.util.Locale;
 
 import com.dropbox.core.*;
 import com.dropbox.core.v2.DbxClientV2;
@@ -27,8 +26,8 @@ import java.util.Date;
 //todo: verificar si el TOKEN se vence
 
 import com.dropbox.core.v2.users.FullAccount;
-
-import javax.swing.*;
+import org.example.JavaUtiles.JsonUtiles;
+import org.example.Modelo.Cliente;
 
 public class DropBoxAPI {
 
@@ -39,21 +38,22 @@ public class DropBoxAPI {
     private DbxClientV2 cliente;
 
 
-    public DropBoxAPI() throws Exception {
+    public DropBoxAPI() throws IOException,Exception {
         config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
-        String accessToken = null;
+        String accessToken;
 
         try {
-             accessToken = leerTokenDeAcceso();
+            accessToken = leerTokenDeAcceso();
 
             iniciarCliente(accessToken);
 
+            guardarTokenEnArchivo(accessToken);
         }
         catch (IOException e)
         {
 //            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
-//            guardarTokenEnArchivo(accessToken);
-            throw new IOException();
+            guardarTokenEnArchivo(ACCESS_TOKEN_FILE);
+            throw e;
            // e.printStackTrace();
         }catch (Exception e)
         {
@@ -66,16 +66,20 @@ public class DropBoxAPI {
 
 
 
-    private void iniciarCliente(String accessToken) {
+    private void iniciarCliente(String accessToken) throws DbxException, IOException {
 
         if (accessToken == null || accessToken.isEmpty()) {
-            throw new IllegalArgumentException("Token de acceso no puede ser null o vacio");
+
+
+
+        }
+        else{
+            cliente = new DbxClientV2(config, accessToken);
         }
 
-        cliente = new DbxClientV2(config, accessToken);
-        //System.out.println("Dropbox client initialized successfully.");
     }
-    public String autenticarTokenNuevo()//me sirve para el popUp
+
+    public String autenticarTokenNuevoURL()//me sirve para el popUp
     {
         DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
         DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
@@ -112,16 +116,20 @@ public class DropBoxAPI {
             e.printStackTrace();
         }
 
+
         return tokenDeAcceso;
     }
 
     public void guardarTokenEnArchivo(String accessToken) {
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCESS_TOKEN_FILE))) {
             writer.write(accessToken);
         }catch (IOException e)
         {
+
             e.getMessage();
         }
+
     }
 
     private String leerTokenDeAcceso() throws IOException {
@@ -131,9 +139,10 @@ public class DropBoxAPI {
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 token= reader.readLine().trim(); //si el archivo no contiene nada devuelve string vacia
-
             }
         }
+
+
         return token;
     }
 

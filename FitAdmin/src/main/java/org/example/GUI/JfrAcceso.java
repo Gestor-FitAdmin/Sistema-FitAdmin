@@ -274,7 +274,6 @@ public class JfrAcceso extends javax.swing.JFrame {
             gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
             api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
 
-
             QrAPI qrAPI = new QrAPI();
             String url = api.obtenerURL("QRaGenerar");
             qrAPI.generarQr(url);
@@ -288,22 +287,14 @@ public class JfrAcceso extends javax.swing.JFrame {
             MostrarImagenQR.setIcon(icono);
         }catch (DbxException e)//si el token es invalido
         {
-            String accessToken = null;//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+            JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp();
 
-            try {
-                //POPUP
-                accessToken = api.autenticarCliente("codigo");
-                api.guardarTokenEnArchivo(accessToken);
-
-            } catch (DbxException ex) {
-                throw new RuntimeException(ex);
-            }
         }catch (IOException ex)
         {
-            ex.getMessage();
+            JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp();
         }catch (Exception exception)
         {
-            exception.getMessage();
+            JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp();
         }
     }
 
