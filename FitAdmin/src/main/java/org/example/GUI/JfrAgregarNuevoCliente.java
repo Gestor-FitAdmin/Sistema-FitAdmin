@@ -1,9 +1,7 @@
 package org.example.GUI;
 
-import org.example.Modelo.Actividad;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
-import org.example.Modelo.Musculacion;
 
 public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
@@ -308,8 +306,10 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void TextAreaApellidoActionPerformed(java.awt.event.ActionEvent evt) {
+    private void TextAreaApellidoActionPerformed(java.awt.event.ActionEvent evt)
+    {
         // TODO add your handling code here:
+
     }
 
     private void SelectorDeActividadesActionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,39 +317,73 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        boolean flag = true;  // Inicializa como true
 
         String sexo = (String) selectorDeSexo.getSelectedItem();
         String actividadInscripto = (String) SelectorDeActividades.getSelectedItem();
+
+
         Double altura = Double.parseDouble(TextAreaAltura.getText());
         Double peso = Double.parseDouble(TextAreaPeso.getText());
         int idSocio = proximoIdSocio();
 
-        Cliente cliente = new Cliente(TextAreaNombre.getText(),
-                                      TextAreaApellido.getText(),
-                                      TextAreaDNI.getText(),
-                                      sexo,
-                                      peso,
-                                      altura,
-                                      TextAreaFechaDeNacimiento.getText(),
-                                      idSocio,
-                                      TextAreaEmail.getText(),
-                          true);
+        // Validar nombre
+        if (verificarSiContieneNumero(TextAreaNombre.getText())) {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("No puede ingresar digitos en el nombre");
+            TextAreaNombre.setText(null);
+            flag = false;
+        }
 
-        cliente.setActividadesInscripto(actividadInscripto);
+        // Validar apellido
+        if (verificarSiContieneNumero(TextAreaApellido.getText())) {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("No puede ingresar digitos en el apellido");
+            TextAreaApellido.setText(null);
+            flag = false;
+        }
 
-        Gimnasio gym = GUIEnvoltorio.getGimnasio();
-        gym.agregar(cliente);
+        // Validar email
+        if (verificarArroba(TextAreaEmail.getText())) {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Olvido poner su @ en el e-Mail");
+            TextAreaEmail.setText(null);
+            flag = false;
+        }
 
-        System.out.println(gym);
-        System.out.println(cliente);
+        // Validar DNI //todo VERIFICAR ESTO PORQUE NO FUNCIONA
+//        if (!verificarTamDNI(TextAreaDNI.getText())) {
+//            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Dni invalido");
+//            TextAreaDNI.setText(null);
+//            flag = false;
+//        }
+
+        if (flag) {  // Solo si flag sigue siendo true
+            Cliente cliente = new Cliente(
+                    TextAreaNombre.getText(),
+                    TextAreaApellido.getText(),
+                    TextAreaDNI.getText(),
+                    sexo,
+                    peso,
+                    altura,
+                    TextAreaFechaDeNacimiento.getText(),
+                    idSocio,
+                    TextAreaEmail.getText(),
+                    true
+            );
+
+            cliente.agregarActividadACliente(actividadInscripto);
+            Gimnasio gym = GUIEnvoltorio.getGimnasio();
+            gym.agregar(cliente);
+            System.out.println(gym);
+            System.out.println(cliente);
+        }
     }
 
     public int proximoIdSocio(){
         return 1;
     }
 
-    private void TextAreaNombreActionPerformed(java.awt.event.ActionEvent evt) {
+    public void TextAreaNombreActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+
     }
 
     private void TextAreaDNIActionPerformed(java.awt.event.ActionEvent evt) {
@@ -381,6 +415,38 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
         JfrCliente cliente = new JfrCliente();
         cliente.setVisible(true);
     }
+    private boolean verificarSiContieneNumero(String aComparar)
+    {
+        boolean rta = false;
+        for (int i = 0; i < aComparar.length(); i++)
+        {
+            if (Character.isDigit(aComparar.charAt(i)))
+            {
+                rta = true;
+            }
+        }
+        return rta;
+    }
+    private boolean verificarArroba(String aComparar)
+    {
+        boolean rta = false;
+
+           if(!aComparar.contains("@"))
+           {
+            rta = true;
+           }
+        return rta;
+    }
+    private boolean verificarTamDNI(String aComparar)
+    {
+        boolean rta = false;
+        if(aComparar.length() <7 || aComparar.length()>8)// si es menor a 7 y mayor a 8 quiere decir que no es un Dni argentino
+        {
+            rta = true;
+        }
+        return rta;
+    }
+   
 
 
 }
