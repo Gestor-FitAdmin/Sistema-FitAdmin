@@ -1,17 +1,14 @@
 package org.example.Modelo;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.Enum.EObjetivo;
-import org.example.JavaUtiles.JsonUtiles;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.File;
+import org.example.Enum.EObjetivo;
+
+
+
+
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.*;
 
 

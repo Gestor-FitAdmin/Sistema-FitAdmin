@@ -255,16 +255,35 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         return flag;
     }
 
+    private int buscarUltimoID()
+    {
+        //recorro el mapa y busco el ultimo id
+        int ultimoId=1, auxInt=0;
+
+        Iterator<Map.Entry<Integer,Cliente>> mapIterator= clientes.entrySet().iterator();
+        while (mapIterator.hasNext())
+        {
+            auxInt= mapIterator.next().getKey(); //obtengo la key ya que es el ID del cliente
+            if (auxInt> ultimoId)
+            {
+                ultimoId= auxInt;
+            }
+        }
+
+        //si no hay ningun id, retornaria 1
+
+        return ultimoId;
+    }
 
     @Override
     public boolean agregar(Cliente nuevoCliente) {
         //agregamos un nuevo cliente con estado true
-        boolean flag=false;
-        if (!clientes.containsKey(nuevoCliente.getIdSocio())) //si el nuevo cliente no tiene el mismo ID que los ya registrados, se agrega
-        {
-            clientes.put(nuevoCliente.getIdSocio(),nuevoCliente);
-            flag=true;
-        }
+        boolean flag=true;
+
+        nuevoCliente.setIdCliente(buscarUltimoID()+1); // aumento en 1 el ultimo id
+
+        clientes.put(nuevoCliente.getIdCliente(),nuevoCliente);
+
         return flag;
     }
 
@@ -272,7 +291,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     public boolean archivar(Cliente clienteAArchivar) {
         //modificamos el estado del cliente false
         boolean flag=false;
-        if (clienteAArchivar.isEstado() || clientes.containsKey(clienteAArchivar.getIdSocio())) //si el estado es true y el id cliente existe, entonces se puede archivar
+        if (clienteAArchivar.isEstado() && clientes.containsKey(clienteAArchivar.getIdCliente())) //si el estado es true y el id cliente existe, entonces se puede archivar
         {
             clienteAArchivar.setEstado(false);
             flag=true;
@@ -308,7 +327,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             while(true)//hasta que rompa el archivo
             {
                 Cliente cliente = (Cliente) in.readObject();
-                clientes.put(cliente.getIdSocio(),cliente);
+                clientes.put(cliente.getIdCliente(),cliente);
             }
         } catch (EOFException e)
         {

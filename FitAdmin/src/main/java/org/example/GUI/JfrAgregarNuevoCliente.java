@@ -364,7 +364,6 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
                     peso,
                     altura,
                     TextAreaFechaDeNacimiento.getText(),
-                    idSocio,
                     TextAreaEmail.getText(),
                     true
             );

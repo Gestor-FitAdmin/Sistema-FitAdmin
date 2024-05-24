@@ -1,7 +1,6 @@
 package org.example;
 
 import com.dropbox.core.DbxException;
-import org.example.API.DropBoxAPI;
 import org.example.API.QrAPI;
 import org.example.Enum.EObjetivo;
 import org.example.GUI.GUIEnvoltorio;
@@ -19,8 +18,20 @@ public class Main {
     public static void main(String[] args) {
          gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "1234");
 
+
+        Cliente cliente = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
+        Cliente cliente1 = new Cliente("asd", "awerger", "34534", "femenino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
+        Cliente cliente2 = new Cliente("Leasdaso", "aerh", "754457", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
+
+        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
+
+        GUIEnvoltorio.getGimnasio().agregar(cliente);
+        GUIEnvoltorio.getGimnasio().agregar(cliente1);
+        GUIEnvoltorio.getGimnasio().agregar(cliente2);
+
+        System.out.println(GUIEnvoltorio.getGimnasio().getClientes());
+
         /*
-        Cliente cliente = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", 1, "facundoprocelli@gmail.com", true);
         Rutina rutina = new Rutina(EObjetivo.GANAR_MUSCULO);
 
         DropBoxAPI dropBoxAPI;
@@ -40,8 +51,7 @@ public class Main {
          */
 
 
-        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
-        guiEnvoltorio.iniciarPrograma();
+        //guiEnvoltorio.iniciarPrograma();
 
 
     }
