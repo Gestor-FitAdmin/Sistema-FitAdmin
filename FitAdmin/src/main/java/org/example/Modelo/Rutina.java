@@ -4,6 +4,10 @@ package org.example.Modelo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.Enum.EObjetivo;
+import org.example.JavaUtiles.JsonUtiles;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,12 +80,13 @@ public class Rutina
 //        return flag;
 //    }
 
+
     public boolean agregarUnEjercicioARutinaXID(int idEjercicioAAgregar, int repeticiones, int series){
         boolean flag = false;
             ArrayList<Ejercicio> ejercicios;
 
             try {
-                ejercicios = leerJSON("ejercicios.json");
+                ejercicios = leerJSONEjercicio();
 
                 for (Ejercicio ejercicio : ejercicios) {
                     if (ejercicio.getIdEjercicio() == idEjercicioAAgregar) {
@@ -123,8 +128,25 @@ public class Rutina
 
 
     //funcion para leer el JSON de un ejerciciod
-    public ArrayList<Ejercicio> leerJSON(String archivo) throws IOException {
+    public ArrayList<Ejercicio> leerJSONEjercicio() throws IOException {
 
+        ArrayList<Ejercicio> ejercicioArrayList = new ArrayList<>();
+
+        String contenido = JsonUtiles.leer("ejercicios");
+        System.out.println(contenido);
+        try {
+            JSONArray ja = new JSONArray(contenido);
+            for (int i = 0; i < ja.length(); i++) {
+                JSONObject jo = ja.getJSONObject(i);
+                Ejercicio ejercicio = new Ejercicio(jo.getString("tipoDeEjercicio"),  jo.getString("nombreEjercicio"), jo.getString("complejidad"));
+                ejercicioArrayList.add(ejercicio);
+            }
+        }catch(JSONException e){
+            System.out.println("Archivo no encontrado o datos invalidos");
+        }
+
+
+        /*
         ObjectMapper objectMapper = new ObjectMapper(); // Clase para serializar y deserializar datos de JSON
         ArrayList<Ejercicio> ejercicioArrayList;
 
@@ -140,7 +162,7 @@ public class Rutina
         } catch (IOException e){
             throw e;
         }
-
+*/
         return  ejercicioArrayList;
     }
 

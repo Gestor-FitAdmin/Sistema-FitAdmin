@@ -310,7 +310,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         Rutina rutina = new Rutina();
         ArrayList<Ejercicio> ejercicioArrayList = null;
         try {
-            ejercicioArrayList = rutina.leerJSON("ejercicios.json");
+            ejercicioArrayList = rutina.leerJSONEjercicio();
         } catch (IOException e) {
             System.out.println("No se puede abrir el archivo");
         }
