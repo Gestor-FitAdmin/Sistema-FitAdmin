@@ -81,7 +81,7 @@ public class JfrAcceso extends javax.swing.JFrame {
         BotonoGenerarQR.setText("Generar QR");
         BotonoGenerarQR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonoGenerarQRActionPerformed(evt);
+                BotonGenerarQRActionPerformed(evt);
             }
         });
 
@@ -209,7 +209,8 @@ public class JfrAcceso extends javax.swing.JFrame {
     {
         ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
     }
-    private void BotonoGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
+        MostrarImagenQRActionPerformed(evt);
         // TODO add your handling code here:
     }
 
@@ -225,7 +226,14 @@ public class JfrAcceso extends javax.swing.JFrame {
 
 
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
+        // Ruta relativa a la imagen en la carpeta del proyecto
+        String rutaImagen = "qrCliente.jpg";
 
+        // Cargar la imagen desde la ruta especificada
+        ImageIcon icono = new ImageIcon(rutaImagen);
+
+        // Establecer el icono en el JLabel
+        MostrarImagenQR.setIcon(icono);
     }
 
     private void TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt) {
