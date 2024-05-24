@@ -1,7 +1,6 @@
 package org.example.GUI;
 
 
-import org.example.Modelo.Actividad;
 import org.example.Modelo.Cliente;
 
 import javax.swing.*;
@@ -456,7 +455,7 @@ public class JfrCliente extends JFrame {
         }
         for (Cliente cliente: arrayQueSeMostrara) //id nombre apellido
         {
-            TablaClientes.setValueAt(cliente.getIdSocio(),i,0);
+            TablaClientes.setValueAt(cliente.getIdCliente(),i,0);
             TablaClientes.setValueAt(cliente.getNombre(),i,1);
             TablaClientes.setValueAt(cliente.getApellido(),i,2);
 

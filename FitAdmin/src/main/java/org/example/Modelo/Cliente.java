@@ -7,7 +7,7 @@ import java.util.*;
 public class Cliente extends Persona{
 
     //Metodos
-    private int idSocio;
+    private int idCliente;
     private String eMail;
     private boolean cuotaPagada;
     private boolean estado;
@@ -16,9 +16,11 @@ public class Cliente extends Persona{
 
     //Constructor
 
-    public Cliente(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, String fechaDeNacimiento, int idSocio, String eMail, boolean cuotaPagada) {
+
+    //cliente con id
+    public Cliente(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, String fechaDeNacimiento, String eMail, boolean cuotaPagada) {
         super(nombre, apellido, DNI, sexo, peso, altura, fechaDeNacimiento);
-        this.idSocio = idSocio;
+        this.idCliente = 0;
         this.eMail = eMail;
         this.cuotaPagada = cuotaPagada;
         this.estado = true; //cuando se crea el cliente el estado siempre es true
@@ -27,11 +29,14 @@ public class Cliente extends Persona{
         actividadesInscripto = new HashSet<>();
     }
 
-
     //Getters y Setters
 
-    public int getIdSocio() {
-        return idSocio;
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String geteMail() {
@@ -83,7 +88,7 @@ public class Cliente extends Persona{
         String msj = "";
         if(cliente!= null)
         {
-            msj +="Numero de socio: "+ cliente.getIdSocio()+"\n";
+            msj +="Numero de socio: "+ cliente.getIdCliente()+"\n";
             msj +="Nombre: "+ cliente.getNombre()+"\n";
             msj +="Apellido: "+ cliente.getApellido()+"\n";
             msj +="DNI: "+ cliente.getDNI()+"\n";
@@ -101,7 +106,7 @@ public class Cliente extends Persona{
     @Override
     public String toString() {
         return "Cliente{" +
-                "idSocio=" + idSocio +
+                "idSocio=" + idCliente +
                 ", eMail='" + eMail + '\'' +
                 ", cuotaPagada=" + cuotaPagada +
                 ", estado=" + estado +
