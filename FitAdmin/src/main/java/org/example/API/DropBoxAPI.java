@@ -28,6 +28,8 @@ import java.util.Date;
 
 import com.dropbox.core.v2.users.FullAccount;
 
+import javax.swing.*;
+
 public class DropBoxAPI {
 
     private static final String APP_KEY = "txclgtve4z6nla2";
@@ -44,7 +46,7 @@ public class DropBoxAPI {
         try {
              accessToken = leerTokenDeAcceso();
 
-            if (accessToken == null )
+           if (accessToken == null )
             {
                 accessToken = autenticarCliente();
                 guardarTokenEnArchivo(accessToken);
@@ -53,11 +55,14 @@ public class DropBoxAPI {
 
         } catch (IOException e)
         {
-
             accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
             guardarTokenEnArchivo(accessToken);
             e.getMessage();
             e.printStackTrace();
+        }catch (Exception e)
+        {
+            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+            guardarTokenEnArchivo(accessToken);
         }
 
     }

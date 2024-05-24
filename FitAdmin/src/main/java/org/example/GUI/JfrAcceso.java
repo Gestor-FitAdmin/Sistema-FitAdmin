@@ -1,9 +1,15 @@
 package org.example.GUI;
 
+import org.example.API.DropBoxAPI;
+import org.example.API.QrAPI;
+import org.example.Modelo.Cliente;
+import org.example.Modelo.Gimnasio;
+
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import java.text.NumberFormat;
+import java.util.HashMap;
 
 public class JfrAcceso extends javax.swing.JFrame {
 
@@ -226,7 +232,18 @@ public class JfrAcceso extends javax.swing.JFrame {
 
 
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
-        // Ruta relativa a la imagen en la carpeta del proyecto
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
+        Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
+
+        DropBoxAPI api = new DropBoxAPI();
+        gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
+        api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
+
+
+        QrAPI qrAPI = new QrAPI();
+        String url = api.obtenerURL("QRaGenerar");
+        qrAPI.generarQr(url);
+        // Ruta relativa a la imagen en la carpeta del proyecto*/
         String rutaImagen = "qrCliente.jpg";
 
         // Cargar la imagen desde la ruta especificada

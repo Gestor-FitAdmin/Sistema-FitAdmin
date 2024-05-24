@@ -22,7 +22,7 @@ public class QrAPI {
         BitMatrix matrix;
         try {
 
-            matrix = new MultiFormatWriter().encode(urlDeDropbox, BarcodeFormat.QR_CODE,500,500); // le doy formato al QR: le paso el url, formato QR, y el tamanio
+            matrix = new MultiFormatWriter().encode(urlDeDropbox, BarcodeFormat.QR_CODE,230,230); // le doy formato al QR: le paso el url, formato QR, y el tamanio
             MatrixToImageWriter.writeToPath(matrix,"jpg", Paths.get(ruta)); // creo el archivo QR en formato jpg en la ruta especificada
 
         } catch (WriterException e) {
