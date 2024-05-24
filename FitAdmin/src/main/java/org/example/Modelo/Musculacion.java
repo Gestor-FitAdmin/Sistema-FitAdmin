@@ -15,7 +15,7 @@ public class Musculacion  extends Actividad{
 
     @Override
     public String obtenerNombreActividad() {
-        return "Musculacion";
+        return "musculacion";
     }
 
 }
