@@ -258,17 +258,22 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     private int buscarUltimoID()
     {
         //recorro el mapa y busco el ultimo id
-        int ultimoId=1, auxInt=0;
+        int ultimoId=0, auxInt=0;
 
-        Iterator<Map.Entry<Integer,Cliente>> mapIterator= clientes.entrySet().iterator();
-        while (mapIterator.hasNext())
+        if (!clientes.isEmpty())
         {
-            auxInt= mapIterator.next().getKey(); //obtengo la key ya que es el ID del cliente
-            if (auxInt> ultimoId)
+
+            Iterator<Map.Entry<Integer,Cliente>> mapIterator= clientes.entrySet().iterator();
+            while(mapIterator.hasNext())
             {
-                ultimoId= auxInt;
+                auxInt= mapIterator.next().getKey(); //obtengo la key ya que es el ID del cliente
+                if (auxInt> ultimoId)
+                {
+                    ultimoId= auxInt;
+                }
             }
         }
+
 
         //si no hay ningun id, retornaria 1
 
@@ -304,6 +309,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     {
         //bussco y retorno un cliente en el hashmap si no existe retorno null
         Cliente clienteBuscado=null;
+        
         if (clientes.containsKey(idSocioBuscar))
         {
             clienteBuscado = clientes.get(idSocioBuscar);
