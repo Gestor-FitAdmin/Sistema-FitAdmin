@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae97a1cc-6b72-437d-955f-0951bfcca64f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +39,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "JrfAccesoQRAddd",
+    "git-widget-placeholder": "LeoRama",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Gc/Desktop/programacion/tpFinal3erCuatri/FitAdmin/java-json.jar",
     "project.structure.last.edited": "Libraries",
@@ -67,7 +67,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b49b3e3e-72dd-40aa-9d43-3a344562aace" name="Changes" comment="" />
+      <changelist id="ae97a1cc-6b72-437d-955f-0951bfcca64f" name="Changes" comment="" />
       <created>1716040783828</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

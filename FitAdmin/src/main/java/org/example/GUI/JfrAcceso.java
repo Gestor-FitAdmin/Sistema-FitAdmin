@@ -1,6 +1,8 @@
 package org.example.GUI;
 
 
+import com.dropbox.core.DbxException;
+import com.dropbox.core.InvalidAccessTokenException;
 import org.example.Modelo.Cliente;
 import org.example.API.DropBoxAPI;
 import org.example.API.QrAPI;
@@ -11,6 +13,7 @@ import org.example.Modelo.Gimnasio;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
@@ -263,29 +266,45 @@ public class JfrAcceso extends javax.swing.JFrame {
         Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
         //todo luego cambiar cliente prueba por el cliente del selector de la tabla del GUI
         DropBoxAPI api = null;
+
+
         try
         {
             api = new DropBoxAPI();
-        } catch (Exception e)
+            gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
+            api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
+
+
+            QrAPI qrAPI = new QrAPI();
+            String url = api.obtenerURL("QRaGenerar");
+            qrAPI.generarQr(url);
+            // Ruta relativa a la imagen en la carpeta del proyecto*/
+            String rutaImagen = "qrCliente.jpg";
+
+            // Cargar la imagen desde la ruta especificada
+            ImageIcon icono = new ImageIcon(rutaImagen);
+
+            // Establecer el icono en el JLabel
+            MostrarImagenQR.setIcon(icono);
+        }catch (DbxException e)//si el token es invalido
         {
-            String accessToken = api.autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
-            api.guardarTokenEnArchivo(accessToken);
+            String accessToken = null;//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+
+            try {
+                //POPUP
+                accessToken = api.autenticarCliente("codigo");
+                api.guardarTokenEnArchivo(accessToken);
+
+            } catch (DbxException ex) {
+                throw new RuntimeException(ex);
+            }
+        }catch (IOException ex)
+        {
+            ex.getMessage();
+        }catch (Exception exception)
+        {
+            exception.getMessage();
         }
-        gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-        api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
-
-
-        QrAPI qrAPI = new QrAPI();
-        String url = api.obtenerURL("QRaGenerar");
-        qrAPI.generarQr(url);
-        // Ruta relativa a la imagen en la carpeta del proyecto*/
-        String rutaImagen = "qrCliente.jpg";
-
-        // Cargar la imagen desde la ruta especificada
-        ImageIcon icono = new ImageIcon(rutaImagen);
-
-        // Establecer el icono en el JLabel
-        MostrarImagenQR.setIcon(icono);
     }
 
     private void TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt) {

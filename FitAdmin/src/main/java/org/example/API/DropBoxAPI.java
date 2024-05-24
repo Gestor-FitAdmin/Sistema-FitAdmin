@@ -46,11 +46,6 @@ public class DropBoxAPI {
         try {
              accessToken = leerTokenDeAcceso();
 
-           if (accessToken == null )
-            {
-                accessToken = autenticarCliente();
-                guardarTokenEnArchivo(accessToken);
-            }
             iniciarCliente(accessToken);
 
         }
@@ -80,36 +75,39 @@ public class DropBoxAPI {
         cliente = new DbxClientV2(config, accessToken);
         //System.out.println("Dropbox client initialized successfully.");
     }
+    public String autenticarTokenNuevo()//me sirve para el popUp
+    {
+        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
+        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+        String authorizeUrl = webAuth.start();
 
-    public String autenticarCliente(){
+        return authorizeUrl;
+    }
+
+
+    public String autenticarCliente(String codigoDeAcceso)throws DbxException{
         String tokenDeAcceso=null;
 
         DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET); // app info me da la informacion de la app fitAdmin creada en dropbox
         DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
         String authorizeUrl = webAuth.start();
 
-        System.out.println("1. Ve a: " + authorizeUrl);
+       /** System.out.println("1. Ve a: " + authorizeUrl);
         System.out.println("2. Haz clic en \"Permitir\" (puede que necesites iniciar sesión primero)");
-        System.out.println("3. Copia el código de autorización.");
+        System.out.println("3. Copia el código de autorización."); ESTO ME SIRVE PARA LA CONSOLA. NO PARA LA GUI*/
 
         DbxAuthFinish authFinish;
 
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            String code = br.readLine().trim();
+           /** BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String code = br.readLine().trim();*/
 
-            authFinish = webAuth.finish(code);
+            authFinish = webAuth.finish(codigoDeAcceso);
             tokenDeAcceso= authFinish.getAccessToken();
 
         }catch (DbxException e) {
-            e.getMessage();
-            e.printStackTrace();
-        }
-        catch (IOException e){
-            e.getMessage();
-            e.printStackTrace();
-        }
-        catch (Exception e){
+           throw new DbxException("Token expirado");
+        } catch (Exception e){
             e.getMessage();
             e.printStackTrace();
         }
@@ -147,7 +145,7 @@ public class DropBoxAPI {
         return cliente.users().getCurrentAccount();
     }
 
-    public void subirPDF(String rutaArchivo){
+    public void subirPDF(String rutaArchivo)throws FileNotFoundException,GetMetadataErrorException,DbxException{
 
         File pdf = new File(rutaArchivo);// obtiene el pdf de la carpeta
         InputStream inputStream; // crea una entrada del archivo PDF
@@ -173,17 +171,14 @@ public class DropBoxAPI {
 
         } catch (FileNotFoundException e) {
             //archivo no encontrado
-            e.getMessage();
-            e.printStackTrace();
+            throw new FileNotFoundException("No se encontro el archivo");
         } catch (GetMetadataErrorException e) {
             //error con obtener info de un archivo dropbox
             e.getMessage();
-            e.printStackTrace();
         }
         catch (DbxException e) {
             //error con obtener info cuenta dropbox
-            e.getMessage();
-            e.printStackTrace();
+          throw new DbxException("Error con db");
         } catch (IOException e) {
             //error con el input/output (Archivo)
             e.getMessage();
@@ -192,7 +187,7 @@ public class DropBoxAPI {
 
     }
 
-    public String obtenerURL(String nombreArchivoDeDropbox){
+    public String obtenerURL(String nombreArchivoDeDropbox)throws DbxException{
         //obtengo la url de Dropbox del archivo requerido
 
         //recordar subir solo el nombre del archivo que esta en dropbox
@@ -209,8 +204,7 @@ public class DropBoxAPI {
         try {
             urlObtenida= cliente.files().getTemporaryLink(s).getLink();
         } catch (DbxException e) {
-            e.getMessage();
-            e.printStackTrace();
+            throw new DbxException("Error en DB");
         }
         return urlObtenida;
     }
