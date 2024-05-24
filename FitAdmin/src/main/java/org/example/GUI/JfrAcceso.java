@@ -1,9 +1,15 @@
 package org.example.GUI;
 
+import org.example.API.DropBoxAPI;
+import org.example.API.QrAPI;
+import org.example.Modelo.Cliente;
+import org.example.Modelo.Gimnasio;
+
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import java.text.NumberFormat;
+import java.util.HashMap;
 
 public class JfrAcceso extends javax.swing.JFrame {
 
@@ -81,7 +87,7 @@ public class JfrAcceso extends javax.swing.JFrame {
         BotonoGenerarQR.setText("Generar QR");
         BotonoGenerarQR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonoGenerarQRActionPerformed(evt);
+                BotonGenerarQRActionPerformed(evt);
             }
         });
 
@@ -209,7 +215,8 @@ public class JfrAcceso extends javax.swing.JFrame {
     {
         ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
     }
-    private void BotonoGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
+        MostrarImagenQRActionPerformed(evt);
         // TODO add your handling code here:
     }
 
@@ -225,7 +232,33 @@ public class JfrAcceso extends javax.swing.JFrame {
 
 
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
+        Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
+        //todo luego cambiar cliente prueba por el cliente del selector de la tabla del GUI
+        DropBoxAPI api = null;
+        try
+        {
+            api = new DropBoxAPI();
+        } catch (Exception e)
+        {
+            String accessToken = api.autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
+            api.guardarTokenEnArchivo(accessToken);
+        }
+        gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
+        api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
 
+
+        QrAPI qrAPI = new QrAPI();
+        String url = api.obtenerURL("QRaGenerar");
+        qrAPI.generarQr(url);
+        // Ruta relativa a la imagen en la carpeta del proyecto*/
+        String rutaImagen = "qrCliente.jpg";
+
+        // Cargar la imagen desde la ruta especificada
+        ImageIcon icono = new ImageIcon(rutaImagen);
+
+        // Establecer el icono en el JLabel
+        MostrarImagenQR.setIcon(icono);
     }
 
     private void TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt) {
