@@ -4,16 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b49b3e3e-72dd-40aa-9d43-3a344562aace" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/JavaUtiles/JsonUtiles.java" afterDir="false" />
+    <list default="true" id="ae97a1cc-6b72-437d-955f-0951bfcca64f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-
-
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAgregarNuevoCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAgregarNuevoCliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" afterDir="false" />
-
-
+      <change beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/CDL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/Cookie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/CookieList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/HTTP.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/HTTPTokener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONArray.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONString.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONStringer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONTokener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/JSONWriter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/XML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-json/org/json/XMLTokener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/CDL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/Cookie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/CookieList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/HTTP.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/HTTPTokener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONArray.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONString.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONStringer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONTokener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/JSONWriter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/XML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/org/json/XMLTokener.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +52,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -46,35 +65,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-
-
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.GUI.executor&quot;: &quot;Run&quot;,
-    &quot;Application.JsonConsumer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.JsonReader.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-
-    &quot;git-widget-placeholder&quot;: &quot;JfrCliente-funcionalidad&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-
-    &quot;git-widget-placeholder&quot;: &quot;ComportamientoJrfAcceso&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
-
-
-
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "MetodosEstadisticasGym",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Gc/Desktop/programacion/tpFinal3erCuatri/java-json.jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
   <component name="RecentsManager">
