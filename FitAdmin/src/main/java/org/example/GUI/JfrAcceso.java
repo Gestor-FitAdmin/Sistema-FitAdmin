@@ -234,7 +234,7 @@ public class JfrAcceso extends javax.swing.JFrame {
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();
         Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
-
+        //todo luego cambiar cliente prueba por el cliente del selector de la tabla del GUI
         DropBoxAPI api = null;
         try
         {
