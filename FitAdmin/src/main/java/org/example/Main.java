@@ -23,7 +23,7 @@ public class Main {
         Cliente cliente1 = new Cliente("asd", "awerger", "34534", "femenino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
         Cliente cliente2 = new Cliente("Leasdaso", "aerh", "754457", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
 
-        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
+        //GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
 
         GUIEnvoltorio.getGimnasio().agregar(cliente);
         GUIEnvoltorio.getGimnasio().agregar(cliente1);
