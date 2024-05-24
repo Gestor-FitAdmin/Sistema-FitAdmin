@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
     //atributos para agregar en el cliente
     private Rutina rutina;//si esta vacia que saque un popUp que no se puede agregar rutina vacia
+
     public JfrGenerarRutina() {
         initComponents();
         setLocationRelativeTo(null);
@@ -73,11 +75,10 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         SelectorDeObjetivos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"PERDER_PESO", "GANAR_MUSCULO", "GANAR_FUERZA"}));
         SelectorDeObjetivos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
 
                 SelectorDeObjetivosActionPerformed(evt);
-                String eObjetivo= (String) SelectorDeObjetivos.getSelectedItem();
+                String eObjetivo = (String) SelectorDeObjetivos.getSelectedItem();
                 System.out.println(eObjetivo);
                 rutina.setObjetivo(eObjetivo);
             }
@@ -103,9 +104,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 }
 
 
-        )
-
-        {
+        ) {
             boolean[] canEdit = new boolean[]{
                     false, false, false
             };
@@ -117,19 +116,17 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             }
 
 
-    });
+        });
         TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 
             public void valueChanged(ListSelectionEvent e) {
-                if(!e.getValueIsAdjusting()){
+                if (!e.getValueIsAdjusting()) {
                     int selectedRow = TablaDeEjercicios.getSelectedRow();
-                    if(selectedRow != -1){
-                        String nombre = TablaDeEjercicios.getValueAt(selectedRow,0).toString();
-                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow,1).toString();
-                        String Materiales = TablaDeEjercicios.getValueAt(selectedRow,2).toString();
-
-                        System.out.println(nombre + " " + dificultad + " " + Materiales);
+                    if (selectedRow != -1) {
+                        String nombre = TablaDeEjercicios.getValueAt(selectedRow, 0).toString();
+                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow, 1).toString();
+                        String materiales = TablaDeEjercicios.getValueAt(selectedRow, 2).toString();
 
                     }
 
@@ -150,7 +147,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                         {null, null, null}
                 },
                 new String[]{
-                        "Nombre", " Complejidad", "Ejercicio"
+                        "Nombre", " Complejidad", "Material"
                 }
         ));
         jScrollPane2.setViewportView(TablaRutinaActual);
@@ -170,9 +167,36 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         BotonAgregarEjercicioARutina.setForeground(new java.awt.Color(242, 242, 242));
         BotonAgregarEjercicioARutina.setText("Agregar Ejercicio a Rutina");
         BotonAgregarEjercicioARutina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                BotonAgregarEjercicioARutinaActionPerformed(evt);
+
+            //Funcionalidad para pasar los ejerciiso de seleccioandos a la lista de la nueva rutina
+            public void actionPerformed(ActionEvent evt) {
+
+                //DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Nombre", "Complejidad", "Material"}, TablaRutinaActual.getRowCount());
+               // TablaDeEjercicios.setModel(tableModel);
+                int filaSeleccionada = TablaDeEjercicios.getSelectedRow();
+                Ejercicio ejercicio = new Ejercicio();
+                if (filaSeleccionada != -1) {
+                    ejercicio.setNombreEjercicio(TablaDeEjercicios.getValueAt(filaSeleccionada, 0).toString());
+                    ejercicio.setComplejidad(TablaDeEjercicios.getValueAt(filaSeleccionada, 1).toString());
+                    ejercicio.setMaterialDeTrabajo(TablaDeEjercicios.getValueAt(filaSeleccionada, 2).toString());
+                }
+
+                 TableModel modeloDatos = TablaRutinaActual.getModel();
+
+                int i = 0;
+                while (modeloDatos.getValueAt(i, 0) != null) {
+                    i++;
+                }
+
+//                if(modeloDatos.getValueAt(i,0 )== null) {
+//                    tableModel.addRow(new String[]{"", "", ""});
+//                }
+
+
+                modeloDatos.setValueAt(ejercicio.getNombreEjercicio(),i,0);
+                modeloDatos.setValueAt(ejercicio.getComplejidad(),i,1);
+                modeloDatos.setValueAt(ejercicio.getMaterialDeTrabajo(),i,2);
+
             }
         });
 
@@ -289,7 +313,8 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
     }
 
     private void BotonAgregarEjercicioARutinaActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
+
     }
 
     private void SelectorDeObjetivosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,8 +326,6 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         JfrCliente cliente = new JfrCliente();
         cliente.setVisible(true);
     }
-
-
 
 
     private void llenarTabla() {
@@ -320,22 +343,18 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         TableModel modeloDeDatos = TablaDeEjercicios.getModel();
 
         int i = 0;
-        for (Ejercicio ejercicio : ejercicioArrayList){
+        for (Ejercicio ejercicio : ejercicioArrayList) {
 
 
-                Ejercicio ejercicioResumido = new Ejercicio(ejercicio.getNombreEjercicio(), ejercicio.getComplejidad(), ejercicio.getMaterialDeTrabajo());
+            Ejercicio ejercicioResumido = new Ejercicio(ejercicio.getNombreEjercicio(), ejercicio.getComplejidad(), ejercicio.getMaterialDeTrabajo());
 
-                modeloDeDatos.setValueAt(ejercicioResumido.getNombreEjercicio(), i, 0);
-                modeloDeDatos.setValueAt(ejercicioResumido.getComplejidad(), i, 1);
-                modeloDeDatos.setValueAt(ejercicioResumido.getMaterialDeTrabajo(), i, 2);
+            modeloDeDatos.setValueAt(ejercicioResumido.getNombreEjercicio(), i, 0);
+            modeloDeDatos.setValueAt(ejercicioResumido.getComplejidad(), i, 1);
+            modeloDeDatos.setValueAt(ejercicioResumido.getMaterialDeTrabajo(), i, 2);
 
             i++;
         }
     }
-
-
-
-
 
 
 }

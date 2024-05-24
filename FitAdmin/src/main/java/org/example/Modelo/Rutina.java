@@ -137,7 +137,7 @@ public class Rutina
             JSONArray ja = new JSONArray(contenido);
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject jo = ja.getJSONObject(i);
-                Ejercicio ejercicio = new Ejercicio(jo.getString("tipoDeEjercicio"),  jo.getString("nombreEjercicio"), jo.getString("complejidad"));
+                Ejercicio ejercicio = new Ejercicio(jo.getString("nombreEjercicio"),  jo.getString("complejidad"), jo.getString("materialDeTrabajo"));
                 ejercicioArrayList.add(ejercicio);
             }
         }catch(JSONException e){
