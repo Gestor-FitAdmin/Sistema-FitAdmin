@@ -10,9 +10,12 @@ import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -222,15 +225,20 @@ public class JfrAcceso extends javax.swing.JFrame {
     {
         ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
     }
+
+
+    private void BotonIrParaAtrasActionPerformed(java.awt.event.ActionEvent evt) {
+        this.setVisible(false);
+        JfrMenuPrincipal prin = new JfrMenuPrincipal();
+        prin.setVisible(true);
+    }
     private void BotonGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
 
-        Gimnasio gym = GUIEnvoltorio.getGimnasio();
-        QrAPI qrAPI = new QrAPI();
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();//agarro el gimnasio entero
+        QrAPI qrAPI = new QrAPI();//preparo un QR para usarlo despues
         Integer idSocioSeleccionado;
         Integer filaSeleccionada = TableSeleccionarClienteQR.getSelectedRow();//agarro la fila que seleccionaron con el mouse
-
-
-
+        String rutaQRaGenerar = "QRaGenerar";
 
 
         if(filaSeleccionada != -1 ) //si no selecciono nada retorna -1
@@ -241,28 +249,32 @@ public class JfrAcceso extends javax.swing.JFrame {
             if (clienteAux != null || idSocioSeleccionado != null)
             {
 
-
-
                 try {
                     //intento entrar al api
                     dropBoxAPI=new DropBoxAPI();
 
-
                     gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-                    dropBoxAPI.subirPDF("QRaGenerar");//nombre del archivo de donde se genero el PDF del cliente
+                    dropBoxAPI.subirPDF(rutaQRaGenerar);//nombre del archivo de donde se genero el PDF del cliente
 
-                    String url = dropBoxAPI.obtenerURL("QRaGenerar");
+                    String url = dropBoxAPI.obtenerURL(rutaQRaGenerar);
                     qrAPI.generarQr(url);
                     // Ruta relativa a la imagen en la carpeta del proyecto
                     String rutaImagen = "qrCliente.jpg";
 
                     // Cargar la imagen desde la ruta especificada
-                    ImageIcon icono = new ImageIcon(rutaImagen);
 
+                    // Eliminar cualquier posible caché de la imagen al recargarla
+                    BufferedImage bufferedImage = ImageIO.read(new File(rutaImagen));
+                    ImageIcon icono = new ImageIcon(bufferedImage);
                     // Establecer el icono en el JLabel
-                    MostrarImagenQR.setIcon(icono);
+                    MostrarImagenQR.setIcon(null); // Limpiar el icono anterior
+                    MostrarImagenQR.setIcon(icono); // Establecer el nuevo icono
+                    MostrarImagenQR.revalidate(); // Actualizar el JLabel
+                    MostrarImagenQR.repaint(); // Repintar el JLabel
+
                 }
-                catch (DbxException e) {
+                catch (DbxException e)
+                {
                     //url invalida
                     e.printStackTrace();
                 }
@@ -276,8 +288,6 @@ public class JfrAcceso extends javax.swing.JFrame {
                 } catch (IOException e) {
                     System.out.println("Archivo roto");
                 }
-
-
             }
             else
             {
@@ -291,13 +301,6 @@ public class JfrAcceso extends javax.swing.JFrame {
 
 
     }
-
-    private void BotonIrParaAtrasActionPerformed(java.awt.event.ActionEvent evt) {
-        this.setVisible(false);
-        JfrMenuPrincipal prin = new JfrMenuPrincipal();
-        prin.setVisible(true);
-    }
-
     private void BotonBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {
         // busco el id que esta seleccionado en el contador y lo muestro en la tabla
 

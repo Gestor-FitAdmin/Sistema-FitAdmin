@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae97a1cc-6b72-437d-955f-0951bfcca64f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/API/DropBoxAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/API/DropBoxAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAutenticacionPopUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAutenticacionPopUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/access_token.txt" beforeDir="false" afterPath="$PROJECT_DIR$/access_token.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,18 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Fabri-dev"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Fabri-dev&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/leocaimmi/Sistema-FitAdmin.git",
-    "accountId": "0ab5c1ec-d784-4877-b65d-426ae9a972bd"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/leocaimmi/Sistema-FitAdmin.git&quot;,
+    &quot;accountId&quot;: &quot;0ab5c1ec-d784-4877-b65d-426ae9a972bd&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -55,7 +52,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "test-QR",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Gc/Desktop/programacion/tpFinal3erCuatri/FitAdmin/java-json.jar",
     "node.js.detected.package.eslint": "true",
@@ -102,8 +99,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
       </set>
     </attachedChunks>
   </component>
