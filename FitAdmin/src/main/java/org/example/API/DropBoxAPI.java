@@ -8,6 +8,7 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 
+import com.dropbox.core.v2.check.DbxUserCheckRequests;
 import com.dropbox.core.v2.files.*;
 
 
@@ -26,7 +27,9 @@ import java.util.logging.FileHandler;
  */
 //todo: verificar si el TOKEN se vence
 
+import com.dropbox.core.v2.users.DbxUserUsersRequests;
 import com.dropbox.core.v2.users.FullAccount;
+import org.example.GUI.JfrAutenticacionPopUp;
 import org.example.JavaUtiles.JsonUtiles;
 import org.example.Modelo.Cliente;
 
@@ -39,61 +42,79 @@ public class DropBoxAPI {
     private static final String ACCESS_TOKEN_FILE = "access_token.txt";
     private DbxRequestConfig config;
     private DbxClientV2 cliente;
+    private String accessToken;
 
-
-    public DropBoxAPI() throws IOException,Exception {
+    public DropBoxAPI() throws IOException {
         config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
-        String accessToken;
 
-        try {
-            accessToken = leerTokenDeAcceso();
-            if(accessToken!= null)
-            {
-                iniciarCliente(accessToken);
-            }
-            else
-            {
-                File file = new File(ACCESS_TOKEN_FILE);
+        accessToken = leerTokenDeAcceso();
 
-                // Utilizamos try-with-resources para asegurarnos de que el BufferedWriter se cierra adecuadamente
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                    writer.write("Sin token no tenes QR...");
-                    writer.flush();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        catch (IOException e)
+        if(accessToken != null)
         {
-//            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
-            guardarTokenEnArchivo(ACCESS_TOKEN_FILE);
-            throw e;
-           // e.printStackTrace();
-        }catch (Exception e)
-        {
-            throw new Exception();
-//            accessToken = autenticarCliente();//si se genera una exception lo que hago es pedirle al usuario que refresque el token
-//            guardarTokenEnArchivo(accessToken);
-        }
-
-    }
-
-
-
-    private void iniciarCliente(String accessToken) throws DbxException, IOException {
-
-        if (accessToken == null || accessToken.isEmpty()) {
-        throw new IllegalArgumentException();
+            iniciarCliente(accessToken);
         }
         else
         {
-            cliente = new DbxClientV2(config, accessToken);
+            // esto es por si el archivo esta corrupto
+            File file = new File(ACCESS_TOKEN_FILE);
+
+            // Utilizamos try-with-resources para asegurarnos de que el BufferedWriter se cierra adecuadamente
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                writer.write("Sin token no tenes QR...");
+                writer.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+    }
+
+
+
+    private void iniciarCliente(String accessToken){
+
+
+        if (accessToken == null || accessToken.isEmpty()) //si el access token es null o esta vacio
+        {
+            throw new IllegalArgumentException();
+        }
+        else // si no esta vacio creo el cliente
+        {
+
+            try {
+                if (verificarSiElTokenEsValido(accessToken))
+                {
+                    cliente = new DbxClientV2(config, accessToken);
+                }
+            }catch (DbxException e)
+            {
+                JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this);
+            }
+
+
+
+
         }
 
     }
+
+    private boolean verificarSiElTokenEsValido(String token) throws DbxException {
+        DbxClientV2 clientePrueba= new DbxClientV2(config,token);
+        boolean flag=false;
+        try {
+            FullAccount currentAccount = clientePrueba.users().getCurrentAccount();
+            flag=true;
+        } catch (DbxException e) {
+            throw new DbxException("Error token invalido");
+        }
+
+        return flag;
+    }
+
 
     public String autenticarTokenNuevoURL()//me sirve para el popUp
     {
@@ -142,7 +163,6 @@ public class DropBoxAPI {
             writer.write(accessToken);
         }catch (IOException e)
         {
-
             e.getMessage();
         }
 
@@ -154,7 +174,10 @@ public class DropBoxAPI {
 
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                token= reader.readLine().trim(); //si el archivo no contiene nada devuelve string vacia
+                if (reader.ready()) // .ready verifica si hay espacios en blanco
+                {
+                    token= reader.readLine().trim(); //si el archivo no contiene nada devuelve string vacia
+                }
             }
         }
 
@@ -170,22 +193,25 @@ public class DropBoxAPI {
         return cliente.users().getCurrentAccount();
     }
 
-    public void subirPDF(String rutaArchivo)throws FileNotFoundException,GetMetadataErrorException,DbxException{
+    public void subirPDF(String nombreArchivo)throws FileNotFoundException,GetMetadataErrorException,DbxException{
 
+        String rutaArchivo= nombreArchivo.concat(".pdf");
         File pdf = new File(rutaArchivo);// obtiene el pdf de la carpeta
         InputStream inputStream; // crea una entrada del archivo PDF
-        String nombreArchivoMasBarrita="/";
-        nombreArchivoMasBarrita= nombreArchivoMasBarrita.concat(pdf.getName());
 
+
+
+        String nombreDeArchivoCompleto="/";
+        nombreDeArchivoCompleto= nombreDeArchivoCompleto.concat(rutaArchivo);
 
         try {
             inputStream = new FileInputStream(pdf);
 
-            if (existeArchivoEnDropbox(nombreArchivoMasBarrita)){
-                eliminarArchivoEnDropbox(nombreArchivoMasBarrita);
+            if (existeArchivoEnDropbox(nombreDeArchivoCompleto)){
+                eliminarArchivoEnDropbox(nombreDeArchivoCompleto);
             }
 
-            UploadBuilder uploadBuilder = cliente.files().uploadBuilder("/"+pdf.getName());//guardar el archivo en la carpeta DropBox
+            UploadBuilder uploadBuilder = cliente.files().uploadBuilder(nombreDeArchivoCompleto);//guardar el archivo en la carpeta DropBox
             uploadBuilder.withClientModified(new Date(pdf.lastModified()));//carga la fecha de la ultima modificacion
             uploadBuilder.withMode(WriteMode.ADD);// elige el modo de acceso en que se va a utilizar el archivo
             uploadBuilder.withAutorename(false);// Si hay un archivo del mismo nombre, crea otro con un (x) por ejemplo PDF(1)
@@ -207,7 +233,6 @@ public class DropBoxAPI {
         } catch (IOException e) {
             //error con el input/output (Archivo)
             e.getMessage();
-            e.printStackTrace();
         }
 
     }
@@ -220,7 +245,7 @@ public class DropBoxAPI {
         //hay que especificar el tipo de archivo que quiero. EJ: /rutina.pdf
         //se construye dentro de este metodo
 
-        String urlObtenida = "";
+        String urlObtenida;
         String s="/"; //agrego la barra para el directorio de dropbox
         s= s.concat(nombreArchivoDeDropbox); //le concateno el nombre del archivo; como se llama en dropbox
         s= s.concat(".pdf"); // le agrego el tipo de archivo
