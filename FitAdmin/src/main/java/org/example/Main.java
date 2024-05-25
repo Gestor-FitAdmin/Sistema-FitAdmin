@@ -17,15 +17,15 @@ public class Main {
          gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "1234");
 
 
-//        Cliente cliente = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
-//        Cliente cliente1 = new Cliente("asd", "awerger", "34534", "femenino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
-//        Cliente cliente2 = new Cliente("Leasdaso", "aerh", "754457", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
+        Cliente cliente = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
+        Cliente cliente1 = new Cliente("asd", "awerger", "34534", "femenino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
+        Cliente cliente2 = new Cliente("Leasdaso", "aerh", "754457", "masculino", 75.5, 182.5, "09/07/2004", "facundoprocelli@gmail.com", true);
 //
-//        //GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
-//
-//        GUIEnvoltorio.getGimnasio().agregar(cliente);
-//        GUIEnvoltorio.getGimnasio().agregar(cliente1);
-//        GUIEnvoltorio.getGimnasio().agregar(cliente2);
+        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
+
+        GUIEnvoltorio.getGimnasio().agregar(cliente);
+        GUIEnvoltorio.getGimnasio().agregar(cliente1);
+        GUIEnvoltorio.getGimnasio().agregar(cliente2);
 //
 //        System.out.println(GUIEnvoltorio.getGimnasio().getClientes());
 

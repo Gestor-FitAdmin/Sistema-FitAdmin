@@ -263,43 +263,64 @@ public class JfrAcceso extends javax.swing.JFrame {
 
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();
-        Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
+       // Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
         //todo luego cambiar cliente prueba por el cliente del selector de la tabla del GUI
         DropBoxAPI api = null;
 
-
-        try
+        int selectedRow = TableSeleccionarClienteQR.getSelectedRow();//agarro la fila que seleccionaron con el mouse
+        Object value = TableSeleccionarClienteQR.getValueAt(selectedRow, 0);
+        //verifico si lo seleccionado tiene datos
+        Cliente clienteAux = null;
+        if (value != null)
         {
-            api = new DropBoxAPI();
-            gym.crearPDFParaQR(clientePrueba);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-            api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
+            int idAbuscar = (int) TableSeleccionarClienteQR.getValueAt(selectedRow,0);//agarro el id del seleccionado
+            clienteAux = TableSeleccionarClienteQRActionPerformed(evt,gym);//me devuelve el cliente
+        }
 
-            QrAPI qrAPI = new QrAPI();
-            String url = api.obtenerURL("QRaGenerar");
-            qrAPI.generarQr(url);
-            // Ruta relativa a la imagen en la carpeta del proyecto*/
-            String rutaImagen = "qrCliente.jpg";
-
-            // Cargar la imagen desde la ruta especificada
-            ImageIcon icono = new ImageIcon(rutaImagen);
-
-            // Establecer el icono en el JLabel
-            MostrarImagenQR.setIcon(icono);
-        }catch (DbxException e)//si el token es invalido
+        if(clienteAux!= null)
         {
-            JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp();
+            try {
+                api = new DropBoxAPI();
+                gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
+                api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
 
-        }catch (IOException ex)
+                QrAPI qrAPI = new QrAPI();
+                String url = api.obtenerURL("QRaGenerar");
+                qrAPI.generarQr(url);
+                // Ruta relativa a la imagen en la carpeta del proyecto
+                String rutaImagen = "qrCliente.jpg";
+
+                // Cargar la imagen desde la ruta especificada
+                ImageIcon icono = new ImageIcon(rutaImagen);
+
+                // Establecer el icono en el JLabel
+                MostrarImagenQR.setIcon(icono);
+            } catch (DbxException e)//si el token es invalido
+            {
+                JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp();
+
+            } catch (IOException ex) {
+                JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp();
+            } catch (Exception exception) {
+                JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp();
+            }
+
+        }
+        else
         {
-            JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp();
-        }catch (Exception exception)
-        {
-            JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp();
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Acceso invalido. Pague su cuota o consulta con el instructor");
         }
     }
 
-    private void TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt) {
+    private Cliente TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt,Gimnasio gym)
+    {
+        int selectedRow = TableSeleccionarClienteQR.getSelectedRow();//agarro la fila que seleccionaron con el mouse
 
+        int idAbuscar = (int) TableSeleccionarClienteQR.getValueAt(selectedRow, 0);//agarro el id del seleccionado
+        Cliente clienteAux;
+        clienteAux = gym.buscar(idAbuscar);//me devuelve el cliente
+
+        return clienteAux;
     }
 
 

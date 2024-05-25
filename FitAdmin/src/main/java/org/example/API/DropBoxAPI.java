@@ -253,7 +253,7 @@ public class DropBoxAPI {
         return flag;
     }
 
-    private void eliminarArchivoEnDropbox(String nombreArchivo) throws DbxException {
+    public void eliminarArchivoEnDropbox(String nombreArchivo) throws DbxException {
         try {
             //si el archivo existe, lo elimino
             cliente.files().deleteV2(nombreArchivo).getMetadata();
