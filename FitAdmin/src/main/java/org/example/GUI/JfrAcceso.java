@@ -13,6 +13,7 @@ import org.example.Modelo.Gimnasio;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class JfrAcceso extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-
+    private DropBoxAPI dropBoxAPI;
 
 
 
@@ -222,8 +223,73 @@ public class JfrAcceso extends javax.swing.JFrame {
         ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
     }
     private void BotonGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
-        MostrarImagenQRActionPerformed(evt);
-        // TODO add your handling code here:
+
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
+        QrAPI qrAPI = new QrAPI();
+        Integer idSocioSeleccionado;
+        Integer filaSeleccionada = TableSeleccionarClienteQR.getSelectedRow();//agarro la fila que seleccionaron con el mouse
+
+
+
+
+
+        if(filaSeleccionada != -1 ) //si no selecciono nada retorna -1
+        {
+
+            idSocioSeleccionado= (Integer) TableSeleccionarClienteQR.getValueAt(filaSeleccionada, 0); //obtengo el id en la columna 0
+            Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar(idSocioSeleccionado); // busco el cliente
+            if (clienteAux != null || idSocioSeleccionado != null)
+            {
+
+
+
+                try {
+                    //intento entrar al api
+                    dropBoxAPI=new DropBoxAPI();
+
+
+                    gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
+                    dropBoxAPI.subirPDF("QRaGenerar");//nombre del archivo de donde se genero el PDF del cliente
+
+                    String url = dropBoxAPI.obtenerURL("QRaGenerar");
+                    qrAPI.generarQr(url);
+                    // Ruta relativa a la imagen en la carpeta del proyecto
+                    String rutaImagen = "qrCliente.jpg";
+
+                    // Cargar la imagen desde la ruta especificada
+                    ImageIcon icono = new ImageIcon(rutaImagen);
+
+                    // Establecer el icono en el JLabel
+                    MostrarImagenQR.setIcon(icono);
+                }
+                catch (DbxException e) {
+                    //url invalida
+                    e.printStackTrace();
+                }
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (NullPointerException e)
+                {
+                    System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
+                } catch (IOException e) {
+                    System.out.println("Archivo roto");
+                }
+
+
+            }
+            else
+            {
+                JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Busque un cliente para generar el QR");
+            }
+        }
+        else
+        {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Seleccione un cliente para generar el QR");
+        }
+
+
     }
 
     private void BotonIrParaAtrasActionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,54 +328,9 @@ public class JfrAcceso extends javax.swing.JFrame {
 
 
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
-        Gimnasio gym = GUIEnvoltorio.getGimnasio();
        // Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
-        //todo luego cambiar cliente prueba por el cliente del selector de la tabla del GUI
-        DropBoxAPI api = null;
 
-        int selectedRow = TableSeleccionarClienteQR.getSelectedRow();//agarro la fila que seleccionaron con el mouse
-        Object value = TableSeleccionarClienteQR.getValueAt(selectedRow, 0);
-        //verifico si lo seleccionado tiene datos
-        Cliente clienteAux = null;
-        if (value != null)
-        {
-            int idAbuscar = (int) TableSeleccionarClienteQR.getValueAt(selectedRow,0);//agarro el id del seleccionado
-            clienteAux = TableSeleccionarClienteQRActionPerformed(evt,gym);//me devuelve el cliente
-        }
 
-        if(clienteAux!= null)
-        {
-            try {
-                api = new DropBoxAPI();
-                gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-                api.subirPDF("QRaGenerar.pdf");//Ruta de donde se genero el PDF del cliente
-
-                QrAPI qrAPI = new QrAPI();
-                String url = api.obtenerURL("QRaGenerar");
-                qrAPI.generarQr(url);
-                // Ruta relativa a la imagen en la carpeta del proyecto
-                String rutaImagen = "qrCliente.jpg";
-
-                // Cargar la imagen desde la ruta especificada
-                ImageIcon icono = new ImageIcon(rutaImagen);
-
-                // Establecer el icono en el JLabel
-                MostrarImagenQR.setIcon(icono);
-            } catch (DbxException e)//si el token es invalido
-            {
-                JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp();
-
-            } catch (IOException ex) {
-                JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp();
-            } catch (Exception exception) {
-                JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp();
-            }
-
-        }
-        else
-        {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Acceso invalido. Pague su cuota o consulta con el instructor");
-        }
     }
 
     private Cliente TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt,Gimnasio gym)
