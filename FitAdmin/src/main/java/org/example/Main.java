@@ -26,6 +26,7 @@ public class Main {
         GUIEnvoltorio.getGimnasio().agregar(cliente);
         GUIEnvoltorio.getGimnasio().agregar(cliente1);
         GUIEnvoltorio.getGimnasio().agregar(cliente2);
+        //logro github...
 //
 //        System.out.println(GUIEnvoltorio.getGimnasio().getClientes());
 
