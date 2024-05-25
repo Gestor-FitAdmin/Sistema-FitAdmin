@@ -23,21 +23,16 @@ public class JfrAutenticacionPopUp extends javax.swing.JFrame{
     private javax.swing.JLabel urlAAsignar;
     private DropBoxAPI dropBoxAPI;
 
-    public JfrAutenticacionPopUp() {
+    public JfrAutenticacionPopUp(DropBoxAPI dropBoxAPI) {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-        try {
-            this.dropBoxAPI= new DropBoxAPI();
-            urlAAsignar.setText(dropBoxAPI.autenticarTokenNuevoURL());
-        } catch (DbxException e) {
-            e.getMessage();
 
-        }
-        catch (Exception e) {
-            e.getMessage();
-        }
+        this.dropBoxAPI=dropBoxAPI;
+        urlAAsignar.setText(dropBoxAPI.autenticarTokenNuevoURL());
+
+
     }
 
     private void initComponents() {
