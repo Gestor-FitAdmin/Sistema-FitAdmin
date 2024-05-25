@@ -92,7 +92,7 @@ public class DropBoxAPI {
                 }
             }catch (DbxException e)
             {
-                JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this);
+                //JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this);
             }
 
 
