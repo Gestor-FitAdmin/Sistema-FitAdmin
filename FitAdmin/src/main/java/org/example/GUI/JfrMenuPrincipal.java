@@ -71,20 +71,7 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null}
-                },
+                new Object[GUIEnvoltorio.getGimnasio().getClientes().size()][],
                 new String[]{
                         "N° Socio", "Nombre", "Apellido", "Actividad", "Email", "DNI", "Peso", "Altura", "Sexo", "Cuota"
                 }
@@ -242,7 +229,10 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
 
             for (int j=0; j < 10;j++)
             {
-                //el metodo getWidth me da el numero de columnas que hay
+
+
+
+
 
                 if (clienteAux.isEstado())
                 {
