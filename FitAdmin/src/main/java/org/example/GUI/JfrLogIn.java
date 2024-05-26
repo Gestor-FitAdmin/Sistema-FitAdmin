@@ -205,7 +205,7 @@ public class JfrLogIn extends javax.swing.JFrame {
              String mensaje=null;
 
 
-             if (gimnasio.getUsuario().equals(usuario))
+             if (!gimnasio.getUsuario().equals(usuario))
              {
                  mensaje= "Usuario incorrecto!";
 
