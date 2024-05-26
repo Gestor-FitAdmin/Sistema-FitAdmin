@@ -1,6 +1,14 @@
 package org.example.GUI;
 
 
+import org.example.Modelo.Actividad;
+import org.example.Modelo.Cliente;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
 public class JfrMenuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration
@@ -16,11 +24,12 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
     // End of variables declaration
 
 
-        public JfrMenuPrincipal() {
-            initComponents();
-            setLocationRelativeTo(null);
-            setResizable(false);
-        }
+    public JfrMenuPrincipal() {
+        initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        cargarTablaDeDatos();
+    }
         /*
         public void agregarClientesATabla(){
             dtm.addRow(new Object [] {
@@ -32,9 +41,6 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
             }
         }
         */
-
-
-
 
 
     private void initComponents() {
@@ -49,9 +55,12 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         BotonEstadisticas = new javax.swing.JButton();
         BotonIngresos = new javax.swing.JButton();
 
-        jMenu3.setText("jMenu3");
 
+        jMenu3.setText("jMenu3");
         jLabel2.setText("jLabel2");
+
+
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,7 +71,7 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
+                new Object[][]{
                         {null, null, null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null, null, null},
@@ -76,38 +85,40 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
                         {null, null, null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null, null, null}
                 },
-                new String [] {
+                new String[]{
                         "N° Socio", "Nombre", "Apellido", "Actividad", "Email", "DNI", "Peso", "Altura", "Sexo", "Cuota"
                 }
         ) {
-            Class[] types = new Class [] {
+            Class[] types = new Class[]{
                     java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
-            boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false, false, false, false, false
+            boolean[] canEdit = new boolean[]{
+                    true, true, true, true, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblDatos);
         if (tblDatos.getColumnModel().getColumnCount() > 0) {
-            tblDatos.getColumnModel().getColumn(0).setResizable(false);
-            tblDatos.getColumnModel().getColumn(1).setResizable(false);
-            tblDatos.getColumnModel().getColumn(2).setResizable(false);
-            tblDatos.getColumnModel().getColumn(3).setResizable(false);
-            tblDatos.getColumnModel().getColumn(4).setResizable(false);
-            tblDatos.getColumnModel().getColumn(5).setResizable(false);
-            tblDatos.getColumnModel().getColumn(6).setResizable(false);
-            tblDatos.getColumnModel().getColumn(7).setResizable(false);
-            tblDatos.getColumnModel().getColumn(8).setResizable(false);
-            tblDatos.getColumnModel().getColumn(9).setResizable(false);
+            tblDatos.getColumnModel().getColumn(0).setResizable(true);
+            tblDatos.getColumnModel().getColumn(1).setResizable(true);
+            tblDatos.getColumnModel().getColumn(2).setResizable(true);
+            tblDatos.getColumnModel().getColumn(3).setResizable(true);
+            tblDatos.getColumnModel().getColumn(4).setResizable(true);
+            tblDatos.getColumnModel().getColumn(5).setResizable(true);
+            tblDatos.getColumnModel().getColumn(6).setResizable(true);
+            tblDatos.getColumnModel().getColumn(7).setResizable(true);
+            tblDatos.getColumnModel().getColumn(8).setResizable(true);
+            tblDatos.getColumnModel().getColumn(9).setResizable(true);
         }
+
+
 
         BotonClientes.setBackground(new java.awt.Color(130, 130, 130));
         BotonClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -188,30 +199,85 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+
+
         pack();
     }// </editor-fold>
 
-        private void BotonEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {
-            // TODO add your handling code here:
-        }
-
-        private void BotonIngresosActionPerformed(java.awt.event.ActionEvent evt) {
-
-            this.setVisible(false);
-            JfrAcceso acce = new JfrAcceso();
-            acce.setVisible(true);
-
-
-        }
-
-        private void BotonClientesActionPerformed(java.awt.event.ActionEvent evt) {
-
-            this.setVisible(false);
-            JfrCliente cliente = new JfrCliente();
-            cliente.setVisible(true);
-
-
-        }
+    private void BotonEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
     }
+
+    private void BotonIngresosActionPerformed(java.awt.event.ActionEvent evt) {
+
+        this.setVisible(false);
+        JfrAcceso acce = new JfrAcceso();
+        acce.setVisible(true);
+
+
+    }
+
+    private void BotonClientesActionPerformed(java.awt.event.ActionEvent evt) {
+
+        this.setVisible(false);
+        JfrCliente cliente = new JfrCliente();
+        cliente.setVisible(true);
+
+
+    }
+
+    private void cargarTablaDeDatos()
+    {
+        HashMap<Integer,Cliente> hashMapCliente = GUIEnvoltorio.getGimnasio().getClientes();
+        Cliente clienteAux=null;
+        int i=0;
+        String actividesString="";
+
+
+
+
+        for (Map.Entry<Integer,Cliente> entryCliente: hashMapCliente.entrySet())
+        {
+            clienteAux= entryCliente.getValue();
+
+            for (int j=0; j < 10;j++)
+            {
+                //el metodo getWidth me da el numero de columnas que hay
+
+                if (clienteAux.isEstado())
+                {
+                    actividesString= clienteAux.getActividadesInscripto().toString();
+                    actividesString = actividesString.replace("[]","");
+
+                    tblDatos.setValueAt(clienteAux.getIdCliente(),i,0);
+                    tblDatos.setValueAt(clienteAux.getNombre(),i,1);
+                    tblDatos.setValueAt(clienteAux.getApellido(),i,2);
+                    tblDatos.setValueAt(actividesString,i,3);
+                    tblDatos.setValueAt(clienteAux.geteMail(),i,4);
+                    tblDatos.setValueAt(clienteAux.getDNI(),i,5);
+                    tblDatos.setValueAt(clienteAux.getPeso(),i,6);
+                    tblDatos.setValueAt(clienteAux.getAltura(),i,7);
+                    tblDatos.setValueAt(clienteAux.getSexo(),i,8);
+                    tblDatos.setValueAt(clienteAux.isCuotaPagada(),i,9);
+
+
+
+                }
+
+            }
+
+            i++;
+        }
+
+
+
+
+
+
+
+    }
+
+
+}
 
 
