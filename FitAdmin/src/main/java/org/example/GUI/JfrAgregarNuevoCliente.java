@@ -2,6 +2,11 @@ package org.example.GUI;
 
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
+import org.example.Modelo.Persona;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
@@ -318,7 +323,7 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         boolean flag = true;  // Inicializa como true
-
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
         String sexo = (String) selectorDeSexo.getSelectedItem();
         String actividadInscripto = (String) SelectorDeActividades.getSelectedItem();
 
@@ -348,14 +353,18 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
             flag = false;
         }
 
-        // Validar DNI //todo VERIFICAR ESTO PORQUE NO FUNCIONA
-//        if (!verificarTamDNI(TextAreaDNI.getText())) {
-//            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Dni invalido");
-//            TextAreaDNI.setText(null);
-//            flag = false;
-//        }
 
-        if (flag) {  // Solo si flag sigue siendo true
+        if (verificarDNIExistente()||verificarTamDNI())//si ya existe el DNI en el sistema o si no cumple con los requisitos
+        {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("DNI ya existente o es invalido");
+            TextAreaDNI.setText(null);
+            flag = false;
+        }
+
+        if(flag)//si pasa las validaciones
+        {
+
+            // Solo si flag sigue siendo true
             Cliente cliente = new Cliente(
                     TextAreaNombre.getText(),
                     TextAreaApellido.getText(),
@@ -369,11 +378,13 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
             );
 
             cliente.agregarActividadACliente(actividadInscripto);
-            Gimnasio gym = GUIEnvoltorio.getGimnasio();
             gym.agregar(cliente);
             System.out.println(gym);
             System.out.println(cliente);
         }
+
+
+
     }
 
     public int proximoIdSocio(){
@@ -436,17 +447,32 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
            }
         return rta;
     }
-    private boolean verificarTamDNI(String aComparar)
+    private boolean verificarDNIExistente()
     {
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
         boolean rta = false;
-        if(aComparar.length() <7 || aComparar.length()>8)// si es menor a 7 y mayor a 8 quiere decir que no es un Dni argentino
-        {
-            rta = true;
+        HashMap<Integer, Cliente> clientes = gym.getClientes();
+        for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
+            Persona siExiste =(Cliente) entry.getValue();
+            if(siExiste.getDNI().equals(TextAreaDNI.getText()))
+            {
+                rta = true;//es true si ya existe el DNI
+            }
         }
         return rta;
     }
-   
+    private boolean verificarTamDNI()
+    {
+        boolean rta = false;
+        String aVerificar = TextAreaDNI.getText();
+        if(aVerificar.length()<7 ||aVerificar.length()>8)
+        {
+            rta = true;
+        }
 
+
+        return rta;
+    }
 
 }
 
