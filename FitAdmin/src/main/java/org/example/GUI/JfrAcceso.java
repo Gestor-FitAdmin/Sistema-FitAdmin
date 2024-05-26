@@ -249,7 +249,8 @@ public class JfrAcceso extends javax.swing.JFrame {
             if (clienteAux != null || idSocioSeleccionado != null)
             {
 
-                try {
+                try
+                {
                     //intento entrar al api
                     dropBoxAPI=new DropBoxAPI();
 
@@ -284,9 +285,11 @@ public class JfrAcceso extends javax.swing.JFrame {
                 }
                 catch (NullPointerException e)
                 {
-                    System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
+                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(dropBoxAPI);
+                   // System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
                 } catch (IOException e) {
-                    System.out.println("Archivo roto");
+                    //System.out.println("Archivo roto");
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Error con el archivo");
                 }
             }
             else
