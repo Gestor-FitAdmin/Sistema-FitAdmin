@@ -91,7 +91,7 @@ public class Rutina
                     if (ejercicio.getIdEjercicio() == idEjercicioAAgregar) {
                         ejercicio.setSeries(series);
                         ejercicio.setRepeticiones(repeticiones);
-                        rutina.add(ejercicio);
+                        rutina.addLast(ejercicio);
                         flag = true;
                     }
                 }
@@ -132,12 +132,12 @@ public class Rutina
         ArrayList<Ejercicio> ejercicioArrayList = new ArrayList<>();
 
         String contenido = JsonUtiles.leer("ejercicios");
-        System.out.println(contenido);
+
         try {
             JSONArray ja = new JSONArray(contenido);
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject jo = ja.getJSONObject(i);
-                Ejercicio ejercicio = new Ejercicio(jo.getString("nombreEjercicio"),  jo.getString("complejidad"), jo.getString("materialDeTrabajo"));
+                Ejercicio ejercicio = new Ejercicio(jo.getString("tipoDeEjercicio"),jo.getString("nombreEjercicio"),jo.getString("grupoMuscular"),jo.getString("complejidad"),jo.getString("materialDeTrabajo"),jo.getInt("idEjercicio"));
                 ejercicioArrayList.add(ejercicio);
             }
         }catch(JSONException e){
