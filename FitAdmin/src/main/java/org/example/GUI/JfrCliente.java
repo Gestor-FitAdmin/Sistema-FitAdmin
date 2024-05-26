@@ -300,6 +300,7 @@ public class JfrCliente extends JFrame {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();//llamo a todo el gimnasio
         Integer idSocioAux;
         Integer filaSeleccionada = TablaClientes.getSelectedRow();
+
          if (filaSeleccionada != -1)//si  selecciono una fila correctamente
         {
 
@@ -308,19 +309,26 @@ public class JfrCliente extends JFrame {
             {
                 Cliente cliente = gym.buscar(idSocioAux);//agarro el cliente
 
-
-
-                gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
-                try
+                if(!cliente.getRutinaSemanal().isEmpty())//si la rutina contiene ejercicios
                 {
-                    gym.enviarUnMail(cliente.geteMail(),"Rutina semanal",true);//le envio la rutina de los dias que tenga grabados
-                } catch (MessagingException e)
-                {
-                    e.getMessage();
-                } catch (MailSinArrobaE e)
-                {
-                    e.getMessage();
+                    gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
+                    try
+                    {
+                        gym.enviarUnMail(cliente.geteMail(),"Rutina semanal",true);//le envio la rutina de los dias que tenga grabados
+                    } catch (MessagingException e)
+                    {
+                        e.getMessage();
+                    } catch (MailSinArrobaE e)
+                    {
+                        e.getMessage();
+                    }
                 }
+                else
+                {
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp("No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
+                }
+
+
             }
             else
             {
