@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Objects;
 
 public abstract class Persona implements Serializable {//todo : implemet Serializable para poder luego hacer un archivo de las clases que hereden de serializable
 
@@ -85,6 +86,29 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
 
          return Period.between(fechaDeNacimiento, fechaActual).getYears();
      }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean rta = false;
+        if(o != null)
+        {
+            if(o instanceof Persona aComparar)
+            {
+                if(this.DNI.equals(aComparar.getDNI()))
+                {
+                    rta = true;
+                }
+
+            }
+
+        }
+        return rta;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
 
     @Override
     public String toString() {

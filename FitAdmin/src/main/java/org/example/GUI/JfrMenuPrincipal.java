@@ -236,8 +236,8 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
 
                 if (clienteAux.isEstado())
                 {
-                    actividesString= clienteAux.getActividadesInscripto().toString();
-                    actividesString = actividesString.replace("[]","");
+                    actividesString= clienteAux.listarActidades();
+                   // actividesString = actividesString.replace(" ","");
 
                     tblDatos.setValueAt(clienteAux.getIdCliente(),i,0);
                     tblDatos.setValueAt(clienteAux.getNombre(),i,1);

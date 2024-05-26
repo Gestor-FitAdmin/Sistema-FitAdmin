@@ -76,6 +76,33 @@ public class Cliente extends Persona{
     //Metodos
 
 
+    @Override
+    public boolean equals(Object o) {
+        boolean rta = false;
+        if(!super.equals(o))
+        {
+            if(o != null)
+            {
+                if(o instanceof Cliente aComparar)
+                {
+                    if(this.getDNI().equals(aComparar.getDNI()))
+                    {
+                        rta = true;
+                    }
+
+                }
+
+            }
+
+        }
+
+       return rta;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
 
     public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
         String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
@@ -113,6 +140,17 @@ public class Cliente extends Persona{
                 ", rutinaSemanal=" + rutinaSemanal +
                 ", actividadesInscripto=" + actividadesInscripto +
                 '}' + super.toString();
+    }
+    public String listarActidades()//metodo para que no tener corchetes en la GUI
+    {
+        String msj ="";
+            Iterator iterator = actividadesInscripto.iterator();
+            while(iterator.hasNext())
+            {
+                msj+= iterator.next();
+            }
+
+        return msj;
     }
 }
 
