@@ -39,6 +39,16 @@ public class Ejercicio {
         this.series = series;
         this.idEjercicio=idEjercicio; //todo: VER SI EL ID VIENE DESDE EL JSON O LO AUTOINCREMENTAMOS NOSOTROS
     }
+    public Ejercicio(String tipoDeEjercicio, String nombreEjercicio, String grupoMuscular, String complejidad, String materialDeTrabajo,int idEjercicio) {//ESTE CONSTRUCTOR ME SIRVE PARA CONSUMIR EL JSON
+        this.tipoDeEjercicio = tipoDeEjercicio;
+        this.nombreEjercicio = nombreEjercicio;
+        this.grupoMuscular = grupoMuscular;
+        this.complejidad = complejidad;
+        this.materialDeTrabajo = materialDeTrabajo;
+        this.repeticiones = 0;
+        this.series = 0;
+        this.idEjercicio=idEjercicio; //todo: VER SI EL ID VIENE DESDE EL JSON O LO AUTOINCREMENTAMOS NOSOTROS
+    }
 
     public Ejercicio(String nombreEjercicio, String complejidad, String materialDeTrabajo) {
         this.nombreEjercicio = nombreEjercicio;

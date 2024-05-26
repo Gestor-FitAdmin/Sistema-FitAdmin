@@ -78,9 +78,9 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
     //metodos
 
-    public void CrearUnPDFConUnaRutina(Cliente cliente) {
+    public void crearUnPDFConUnaRutina(Cliente cliente) {
 
-        String dest = "fitAdmin/rutina.pdf";//ruta de donde se guarda el PDF
+        String dest = "rutina.pdf";//ruta de donde se guarda el PDF
         try {
 
             PdfWriter writer = new PdfWriter(dest);// Crear un escritor de PDF
@@ -197,7 +197,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                 {
 
 
-                String rutaPDF = "fitAdmin/rutina.pdf";//direccion de la rutina general
+                String rutaPDF = "rutina.pdf";//direccion de la rutina general
 
                 Multipart multipart = new MimeMultipart();// Creamos un objeto MimeMultipart para manejar múltiples partes del mensaje
 
