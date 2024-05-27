@@ -107,6 +107,50 @@ public class Rutina
         return flag;
     }
 
+    public Ejercicio buscarUnEjercicioXId(int idEjercicioAbuscar)
+    {
+        Ejercicio ejercicioAuxBuscado=null;
+        ArrayList<Ejercicio> ejercicios;
+
+        try {
+            ejercicios = leerJSONEjercicio();
+
+            for (Ejercicio ejercicio : ejercicios) {
+                if (ejercicio.getIdEjercicio() == idEjercicioAbuscar) {
+                    ejercicioAuxBuscado= ejercicio;
+                }
+            }
+        }
+        catch (IOException e){
+            e.getMessage();
+            e.printStackTrace();
+        }
+
+        return ejercicioAuxBuscado;
+    }
+
+    public Ejercicio buscarUnEjercicioXNombre(String nombreEjercicioBuscar)
+    {
+        Ejercicio ejercicioAuxBuscado=null;
+        ArrayList<Ejercicio> ejercicios;
+
+        try {
+            ejercicios = leerJSONEjercicio();
+
+            for (Ejercicio ejercicio : ejercicios) {
+                if (ejercicio.getNombreEjercicio().equals(nombreEjercicioBuscar)) {
+                    ejercicioAuxBuscado= ejercicio;
+                }
+            }
+        }
+        catch (IOException e){
+            e.getMessage();
+            e.printStackTrace();
+        }
+
+        return ejercicioAuxBuscado;
+    }
+
     public boolean sacarUnEjercicioDeRutinaXId(int idEjercicioAEliminar)
     {
         boolean flag=false;

@@ -1,13 +1,9 @@
 package org.example.GUI;
 
 
-import org.example.Enum.EDiasSemana;
-import org.example.Enum.EObjetivo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Modelo.Cliente;
-import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Gimnasio;
-import org.example.Modelo.Rutina;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
@@ -17,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -29,7 +24,6 @@ public class JfrCliente extends JFrame {
     private JButton BotonIrAtras;
     private JButton BotonRealizarBusquedaCliente;
     private JButton BotonoCrearNuevoCliente;
-    private JComboBox<String> BuscarCliente;
     private JComboBox<String> BuscarClienteMenu;
     private JTable TablaClientes;
     private JTextField TextBoxClienteBusqueda;
@@ -59,7 +53,7 @@ public class JfrCliente extends JFrame {
         choice1 = new Choice();
         jScrollPane1 = new JScrollPane();
         jList1 = new JList<>();
-        BuscarCliente = new JComboBox<>();
+        BuscarClienteMenu = new JComboBox<>();
         jProgressBar1 = new JProgressBar();
         jPanel1 = new JPanel();
         jLabel1 = new JLabel();
@@ -71,6 +65,9 @@ public class JfrCliente extends JFrame {
         BuscarClienteMenu = new JComboBox<>();
         BotonRealizarBusquedaCliente = new JButton();
         BotonIrAtras = new JButton();
+        TextBoxClienteBusqueda= new JTextField();
+
+
        JButton BotonEnviarRutina = new JButton();
        JTextField TextAreaBusqueda = new JTextField();
 
@@ -83,8 +80,8 @@ public class JfrCliente extends JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        BuscarCliente.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        BuscarCliente.addActionListener(new ActionListener() {
+        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        BuscarClienteMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 BuscarClienteActionPerformed(evt);
             }
@@ -356,9 +353,25 @@ public class JfrCliente extends JFrame {
 
     private void BotonAsignarRutinaActionPerformed(ActionEvent evt) {
 
-        this.setVisible(false);
-        JfrGenerarRutina rut = new JfrGenerarRutina();
-        rut.setVisible(true);
+
+        int filaSeleccionada= TablaClientes.getSelectedRow();
+
+
+        if (filaSeleccionada != -1 && TablaClientes.getValueAt(filaSeleccionada,0) != null)
+        {
+            Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(filaSeleccionada,0));
+
+            this.setVisible(false);
+            JfrGenerarRutina rut = new JfrGenerarRutina(clienteAux);
+            rut.setVisible(true);
+
+        }
+        else
+        {
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Elija un cliente primero para asignarle una rutina");
+        }
+
+
     }
 
     private void BuscarClienteMenuActionPerformed(ActionEvent evt) {
@@ -382,10 +395,10 @@ public class JfrCliente extends JFrame {
         busqueda= busqueda.replace(" ",""); //le saco todos los espacios
 
         switch (opcionElegida) {
-            case "todos":
+            case "Todos":
                 arrayQueSeMostrara = todosLosClientes;
                 break;
-            case "por id":
+            case "Por ID":
 
 
                 if (!busqueda.isEmpty()) //si no contiene nada o si no hay espacios, tiene que haber un numero si o si

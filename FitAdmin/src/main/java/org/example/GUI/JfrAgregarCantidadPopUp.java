@@ -5,7 +5,7 @@ import org.example.Modelo.Ejercicio;
 import javax.swing.*;
 import java.awt.*;
 
-public class JfrAgregarCantidadPopUp extends javax.swing.JFrame {
+public class JfrAgregarCantidadPopUp extends JDialog {
 
     //atributos
     private javax.swing.JButton botonGuardar;
@@ -25,6 +25,9 @@ public class JfrAgregarCantidadPopUp extends javax.swing.JFrame {
         this.ejercicioAux=ejercicioAux;
     }
 
+    public Ejercicio getEjercicioAux() {
+        return ejercicioAux;
+    }
 
     private void initComponents() {
 
@@ -35,7 +38,7 @@ public class JfrAgregarCantidadPopUp extends javax.swing.JFrame {
         nroRepeticiones = new javax.swing.JLabel();
         spinnerRepeticiones = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(32, 32, 32));
 
@@ -134,6 +137,8 @@ public class JfrAgregarCantidadPopUp extends javax.swing.JFrame {
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {
         ejercicioAux.setSeries((Integer) spinnerSeries.getValue());
         ejercicioAux.setRepeticiones((Integer) spinnerRepeticiones.getValue());
+        this.setVisible(false);
     }
+
 
 }
