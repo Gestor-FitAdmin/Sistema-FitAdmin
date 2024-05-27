@@ -2,6 +2,7 @@ package org.example.Modelo;
 
 
 
+import org.example.Enum.EDiasSemana;
 import org.example.Enum.EObjetivo;
 import org.example.JavaUtiles.JsonUtiles;
 import org.json.JSONArray;
@@ -19,16 +20,18 @@ public class Rutina
     //atributos
     private LinkedHashSet<Ejercicio> rutina;//nos importa el orden de realizacion de ejercicios
     private EObjetivo objetivo; //Perder peso|Ganar fuerza|Ganar musculo
-    //dias de entrenamiento
+    private EDiasSemana diaAsignado;
     //constructores
 
-    public Rutina(EObjetivo objetivo) {
+    public Rutina(EObjetivo objetivo,EDiasSemana diaAsignado) {
         this.objetivo = objetivo;
         rutina = new LinkedHashSet<>();
+        this.diaAsignado= diaAsignado;
     }
     public Rutina() {
         this.objetivo = null;
         rutina = new LinkedHashSet<>();
+        diaAsignado= null;
     }
 
     //getters y setters
