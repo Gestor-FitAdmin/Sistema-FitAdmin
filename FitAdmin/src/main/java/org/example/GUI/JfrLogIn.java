@@ -3,6 +3,9 @@ package org.example.GUI;
 import org.example.Main;
 import org.example.Modelo.Gimnasio;
 
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Arrays;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
@@ -27,6 +30,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+
     }
 
 
@@ -92,7 +96,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         BotonIngreso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(242, 242, 242), 2, true));
         BotonIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonIngresoActionPerformed(evt);
+                    BotonIngresoActionPerformed();
             }
         });
 
@@ -175,16 +179,49 @@ public class JfrLogIn extends javax.swing.JFrame {
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
+        escuchadorParaLasTeclas(TextAreaUsuario);
+        escuchadorParaLasTeclas(TextAreaContrasena);
         pack();
     }// </editor-fold>
+
+    private void escuchadorParaLasTeclas(JTextField jTextField)
+    {
+        jTextField.setFocusable(true);
+        jTextField.requestFocusInWindow();
+
+        jTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    BotonIngresoActionPerformed();
+                }
+
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    BotonIngresoActionPerformed();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                //nada
+            }
+        });
+    }
+
+
 
     private void TextAreaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {
 
 
     }
 
-    private void BotonIngresoActionPerformed(java.awt.event.ActionEvent evt) {
+    private void BotonIngresoActionPerformed() {
 
         String usuario = TextAreaUsuario.getText();
         char[] contrasenaRecibida = TextAreaContrasena.getPassword();
@@ -233,7 +270,6 @@ public class JfrLogIn extends javax.swing.JFrame {
     private void TextAreaContrasenaActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
 
 }
 
