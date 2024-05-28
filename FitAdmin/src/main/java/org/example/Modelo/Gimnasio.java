@@ -404,6 +404,97 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         }
 
     }
+    //modificar un cliente
+    public boolean modificarDNIxIDSocio(Integer id,String nuevoDNI)//recibo el ID,recibo el DNI por la GUI
+    {
+        boolean rta = false;
+        if(clientes.containsKey(id))
+        {
+            Persona clienteAModificar =(Cliente) clientes.get(id);//metodo de sustitucion para poder settear el DNI
+            if(!clienteAModificar.getDNI().equals(nuevoDNI))//si el DNI no es el mismo que ya esta
+            {
+                clienteAModificar.setDNI(nuevoDNI);
+                rta = true;//fue correcta la modificacion
+            }
+        }
+
+        return rta;
+    }
+    public boolean modificarNombrexIDSocio(Integer id,String nuevoNombre)//recibo el ID,recibo el Nombre por la GUI
+    {
+        boolean rta = false;
+        if(clientes.containsKey(id))//si contengo ese ID
+        {
+            Persona clienteAModificar =(Cliente) clientes.get(id);//metodo de sustitucion para poder settear el nombre
+            if(!clienteAModificar.getNombre().equals(nuevoNombre))//si el nombre no es el mismo que ya esta
+            {
+                clienteAModificar.setNombre(nuevoNombre);
+                rta = true;//fue correcta la modificacion
+            }
+        }
+        return rta;
+    }
+    public boolean modificarApellidoxIDSocio(Integer id,String nuevoApellido)//recibo el ID,recibo el apellido por la GUI
+    {
+        boolean rta = false;
+        if(clientes.containsKey(id))//si contengo ese ID
+        {
+            Persona clienteAModificar =(Cliente) clientes.get(id);//metodo de sustitucion para poder settear el apellido
+            if(!clienteAModificar.getApellido().equals(nuevoApellido))//si el apellido no es el mismo que ya esta
+            {
+                clienteAModificar.setApellido(nuevoApellido);
+                rta = true;//fue correcta la modificacion
+            }
+        }
+        return rta;
+    }
+    public boolean modificarEmailxIDSocio(Integer id,String nuevoEmail)//recibo el ID,recibo el apellido por la GUI
+    {
+        boolean rta = false;
+        if(clientes.containsKey(id))//si contengo ese ID
+        {
+            Cliente clienteAModificar =(Cliente) clientes.get(id);
+            if(!clienteAModificar.geteMail().equals(nuevoEmail))//si el Email no es el mismo que ya esta
+            {
+                clienteAModificar.seteMail(nuevoEmail);
+                rta = true;//fue correcta la modificacion
+            }
+        }
+        return rta;
+    }
+    public boolean modificarAlturaxIDSocio(Integer id, Double nuevaAltura)//recibo el ID y la nueva altura
+    {
+        boolean rta = false;
+        if(clientes.containsKey(id))
+        {
+            Persona clienteAModificar =(Cliente) clientes.get(id);//sustitucion para tener la altura de la Persona
+            if(!clienteAModificar.getAltura().equals(nuevaAltura))//si la altura no es la misma que ya esta
+            {
+                clienteAModificar.setAltura(nuevaAltura);
+                rta = true;
+            }
+        }
+
+        return rta;
+    }
+    public boolean modificarPesoxIDSocio(Integer id, Double nuevoPeso)//recibo el ID y el nuevo peso
+    {
+        boolean rta = false;
+        if(clientes.containsKey(id))
+        {
+            Persona clienteAModificar =(Cliente) clientes.get(id);//sustitucion para tener la altura de la Persona
+            if(!clienteAModificar.getPeso().equals(nuevoPeso))//si el peso no es la misma que ya esta
+            {
+                clienteAModificar.setPeso(nuevoPeso);
+                rta = true;
+            }
+        }
+
+        return rta;
+    }
+
+
+
 
     @Override
     public int contarTotalClientes() {
