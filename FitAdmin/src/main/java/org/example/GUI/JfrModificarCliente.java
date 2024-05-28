@@ -20,6 +20,7 @@ public class JfrModificarCliente extends javax.swing.JFrame {
     public JfrModificarCliente() {
         setResizable(false);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     private void initComponents() {
