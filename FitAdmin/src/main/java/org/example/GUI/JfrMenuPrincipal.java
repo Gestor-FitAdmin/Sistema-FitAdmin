@@ -192,7 +192,9 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void BotonEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        this.setVisible(false);
+        JfrEstadisticas estadisticas = new JfrEstadisticas();
+        estadisticas.setVisible(true);
     }
 
     private void BotonIngresosActionPerformed(java.awt.event.ActionEvent evt) {
