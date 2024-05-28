@@ -74,8 +74,6 @@ public class Cliente extends Persona{
 
 
     //Metodos
-
-
     @Override
     public boolean equals(Object o) {
         boolean rta = false;
