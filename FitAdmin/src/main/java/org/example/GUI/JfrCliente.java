@@ -66,6 +66,7 @@ public class JfrCliente extends JFrame {
         BotonRealizarBusquedaCliente = new JButton();
         BotonIrAtras = new JButton();
         TextBoxClienteBusqueda= new JTextField();
+        JButton BotonActualizarCliente = new JButton();
 
 
        JButton BotonEnviarRutina = new JButton();
@@ -216,68 +217,81 @@ public class JfrCliente extends JFrame {
             }
         });
 
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+        BotonActualizarCliente.setBackground(new java.awt.Color(130, 130, 130));
+        BotonActualizarCliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BotonActualizarCliente.setForeground(new java.awt.Color(242, 242, 242));
+        BotonActualizarCliente.setText("Actualizar Cliente");
+        BotonActualizarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonActualizarClienteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(BotonoCrearNuevoCliente, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel1)
-                                                        .addGap(281, 281, 281)))
-                                        .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(BotonRealizarBusquedaCliente, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(BotonoCrearNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel1))
+                                                .addGap(281, 281, 281))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(BotonRealizarBusquedaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(289, 289, 289))))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(82, 82, 82)
-                                .addComponent(BuscarClienteMenu, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(TextAreaBusqueda, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BuscarClienteMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TextAreaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(81, 81, 81))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(105, 105, 105)
-                                                .addComponent(BotonEnviarRutina, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(64, 64, 64)
-                                                .addComponent(BotonAsignarRutina, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(67, 67, 67)
-                                                .addComponent(BotonArchivarCliente, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(46, 46, 46)
+                                                .addComponent(BotonEnviarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(BotonAsignarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(BotonArchivarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(BotonActualizarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGap(25, 25, 25)
-                                                .addComponent(BotonIrAtras))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 860, GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(34, Short.MAX_VALUE))
+                                                .addComponent(BotonIrAtras)))
+                                .addContainerGap(47, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane2)
+                                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotonoCrearNuevoCliente, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(BotonoCrearNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
-                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(BuscarClienteMenu, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(TextAreaBusqueda, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(BuscarClienteMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(TextAreaBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(BotonRealizarBusquedaCliente, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(BotonEnviarRutina, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(BotonAsignarRutina, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(BotonArchivarCliente, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(BotonRealizarBusquedaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(BotonEnviarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(BotonAsignarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(BotonArchivarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(BotonActualizarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(35, 35, 35)
                                 .addComponent(BotonIrAtras)
                                 .addContainerGap())
         );
-
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -541,6 +555,12 @@ public class JfrCliente extends JFrame {
         menu.setVisible(true);
 
 
+    }
+
+    private void BotonActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {
+        this.setVisible(false);
+        JfrModificarCliente modificarCliente = new JfrModificarCliente();
+        modificarCliente.setVisible(true);
     }
 
 
