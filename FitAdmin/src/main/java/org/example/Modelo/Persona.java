@@ -66,7 +66,35 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
         return edad;
     }
 
-    public void setSexo(String sexo) {
+    protected void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    protected void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    protected void setDNI(String DNI) {
+        this.DNI = DNI;
+    }
+
+    protected void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
+    protected void setAltura(Double altura) {
+        this.altura = altura;
+    }
+
+    protected void setFechaDeNacimiento(LocalDate fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
+    }
+
+    private void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    private void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
