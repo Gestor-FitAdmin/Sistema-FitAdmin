@@ -1,5 +1,6 @@
 package org.example.GUI;
 
+import org.example.Enum.ESexo;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
@@ -143,7 +144,7 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
         selectorDeSexo.setBackground(new java.awt.Color(130, 130, 130));
         selectorDeSexo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         selectorDeSexo.setForeground(new java.awt.Color(242, 242, 242));
-        selectorDeSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Hombre", "Mujer"}));
+        selectorDeSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Masculino", "Femenino"}));
         selectorDeSexo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectorDeSexoActionPerformed(evt);
@@ -332,14 +333,36 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         boolean flag = true;  // Inicializa como true
         Gimnasio gym = GUIEnvoltorio.getGimnasio();
-        String sexo = (String) selectorDeSexo.getSelectedItem();
+
+        String sexoString= (String) selectorDeSexo.getSelectedItem();
+        sexoString= sexoString.toUpperCase();
+
+        ESexo sexo= ESexo.valueOf(sexoString);
+
+
         String actividadInscripto = (String) SelectorDeActividades.getSelectedItem();
 
 
-        Double altura = Double.parseDouble(TextAreaAltura.getText());
-        Double peso = Double.parseDouble(TextAreaPeso.getText());
+        double altura=0;
+        double peso=0;
         int idSocio = proximoIdSocio();
 
+        //validar altura
+        try {
+            altura= Double.parseDouble(TextAreaAltura.getText());
+
+        }
+        catch (NumberFormatException e){
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un valor a la altura");
+        }
+        //validar peso
+        try {
+          peso= Double.parseDouble(TextAreaPeso.getText());
+        }
+        catch (NumberFormatException e){
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un valor a la altura");
+
+        }
         // Validar nombre
         if (verificarSiContieneNumero(TextAreaNombre.getText())) {
             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"No puede ingresar digitos en el nombre");
@@ -361,7 +384,7 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
             flag = false;
         }
 
-
+        
         if (verificarDNIExistente()||verificarTamDNI())//si ya existe el DNI en el sistema o si no cumple con los requisitos
         {
             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"DNI ya existente o es invalido");

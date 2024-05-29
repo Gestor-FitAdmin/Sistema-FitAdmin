@@ -1,6 +1,7 @@
 package org.example.Modelo;
 
 import org.example.Enum.EDiasSemana;
+import org.example.Enum.ESexo;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class Cliente extends Persona{
 
 
     //cliente con id
-    public Cliente(String nombre, String apellido, String DNI, String sexo, Double peso, Double altura, String fechaDeNacimiento, String eMail, boolean cuotaPagada) {
+    public Cliente(String nombre, String apellido, String DNI, ESexo sexo, Double peso, Double altura, String fechaDeNacimiento, String eMail, boolean cuotaPagada) {
         super(nombre, apellido, DNI, sexo, peso, altura, fechaDeNacimiento);
         this.idCliente = 0;
         this.eMail = eMail;

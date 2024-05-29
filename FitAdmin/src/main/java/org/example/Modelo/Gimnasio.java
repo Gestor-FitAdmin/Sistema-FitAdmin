@@ -6,6 +6,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
@@ -539,7 +540,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     }
 
     @Override
-    public int contarClientesXGenero(String genero) {
+    public int contarClientesXGenero(ESexo sexoBuscado) {
         //recorro el mapa con iterator y analizo los clientes X genero y los acumulo
         int cont=0;
         Iterator<Map.Entry<Integer,Cliente>> iterator= clientes.entrySet().iterator();
@@ -548,7 +549,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         while (iterator.hasNext())
         {
             Cliente auxCliente= iterator.next().getValue();
-            if (auxCliente.getSexo().equalsIgnoreCase(genero))
+            if (auxCliente.getSexo() == sexoBuscado)
             {
                 cont++;
             }
