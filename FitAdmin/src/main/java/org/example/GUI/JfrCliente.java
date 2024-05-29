@@ -2,6 +2,7 @@ package org.example.GUI;
 
 
 import org.example.Excepciones.MailSinArrobaE;
+import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
@@ -26,7 +27,7 @@ public class JfrCliente extends JFrame {
     private JButton BotonoCrearNuevoCliente;
     private JComboBox<String> BuscarClienteMenu;
     private JTable TablaClientes;
-    private JTextField TextBoxClienteBusqueda;
+    private JTextField TextAreaBusqueda;
     private JLabel jLabel1;
     private JList<String> jList1;
     private JMenu jMenu1;
@@ -34,7 +35,6 @@ public class JfrCliente extends JFrame {
     private JScrollPane jScrollPane1;
     private JButton BotonActualizarCliente;
     private JButton BotonEnviarRutina;
-    private JTextField TextAreaBusqueda;
 
     //constructor
     public JfrCliente() {
@@ -59,7 +59,7 @@ public class JfrCliente extends JFrame {
         BotonAsignarRutina = new JButton();
         BotonRealizarBusquedaCliente = new JButton();
         BotonIrAtras = new JButton();
-        TextBoxClienteBusqueda= new JTextField();
+        TextAreaBusqueda = new JTextField();
         BotonActualizarCliente = new JButton();
 
 
@@ -134,7 +134,7 @@ public class JfrCliente extends JFrame {
             }
         });
         TablaClientes.setToolTipText("");
-        TablaClientes.setColumnSelectionAllowed(true);
+       // TablaClientes.setColumnSelectionAllowed(true);
         TablaClientes.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(TablaClientes);
         TablaClientes.getColumnModel().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -302,16 +302,21 @@ public class JfrCliente extends JFrame {
     private void BotonEnviarRutinaActionPerformed(ActionEvent evt)
     {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();//llamo a tod o el gimnasio
-        Integer idSocioAux;
+        Integer idSocioAuxInteger=0;
         Integer filaSeleccionada = TablaClientes.getSelectedRow();
+        String idSocioAuxString="";
+
 
          if (filaSeleccionada != -1)//si selecciono una fila correctamente
         {
 
-            idSocioAux = (Integer) TablaClientes.getValueAt(filaSeleccionada, 0);//Fila que selecciona el usuario, la comlumna 0 que es el ID
-            if (idSocioAux != null)//si el id es seleccionado
+            idSocioAuxString=(String) TablaClientes.getValueAt(filaSeleccionada,0);//Fila que selecciona el usuario, la comlumna 0 que es el ID
+            idSocioAuxInteger= Integer.parseInt(idSocioAuxString);
+
+
+            if (idSocioAuxInteger != null)//si el id es seleccionado
             {
-                Cliente cliente = gym.buscar(idSocioAux);//agarro el cliente
+                Cliente cliente = gym.buscar(idSocioAuxInteger);//agarro el cliente
 
                 if(!cliente.getRutinaSemanal().isEmpty())//si la rutina contiene ejercicios
                 {
@@ -349,9 +354,6 @@ public class JfrCliente extends JFrame {
     private void TextAreaBusquedaActionPerformed(ActionEvent evt) {
     }
 
-    private void BotonAsignarRutina1ActionPerformed(ActionEvent evt) {
-    }
-
     private void BotonArchivarClienteActionPerformed(ActionEvent evt) {
         if (TablaClientes.getSelectedRow() != -1)
         {
@@ -364,18 +366,16 @@ public class JfrCliente extends JFrame {
 
     private void BotonAsignarRutinaActionPerformed(ActionEvent evt) {
 
-
         int filaSeleccionada= TablaClientes.getSelectedRow();
-
 
         if (filaSeleccionada != -1)
         {
-            Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(filaSeleccionada,0));
+            String idSocioSeleccionado= (String) TablaClientes.getValueAt(filaSeleccionada,0);
+            Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar(Integer.valueOf(idSocioSeleccionado));
 
             this.setVisible(false);
             JfrGenerarRutina rut = new JfrGenerarRutina(clienteAux);
             rut.setVisible(true);
-
         }
         else
         {
@@ -393,7 +393,6 @@ public class JfrCliente extends JFrame {
         // TODO add your handling code here:
 
         //muestro lo obtenido de la busqueda en la tabla
-        int i=0, auxInt=0;
         ArrayList<Cliente> arrayQueSeMostrara = new ArrayList<>();
         ArrayList<Cliente> todosLosClientes= GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
 
@@ -402,10 +401,11 @@ public class JfrCliente extends JFrame {
 
         opcionElegida = opcionElegida.toLowerCase();
 
-        String busqueda=TextBoxClienteBusqueda.getText(); //obtengo el valor de la caja de texto que hay
+        String busqueda= TextAreaBusqueda.getText(); //obtengo el valor de la caja de texto que hay
 
         busqueda= busqueda.replace(" ",""); //le saco todos los espacios
-        System.out.println(opcionElegida);
+
+
         switch (opcionElegida) {
             case "todos":
                 arrayQueSeMostrara = todosLosClientes;
@@ -416,14 +416,24 @@ public class JfrCliente extends JFrame {
                 if (!busqueda.isEmpty()) //si no contiene nada o si no hay espacios, tiene que haber un numero si o si
                 {
                     //el parseo del string a Integer puede provocar errores si no se verifica
-                    if(GUIEnvoltorio.getGimnasio().verificarSiExisteClienteXId(Integer.parseInt(busqueda)))
-                    {
 
-                        arrayQueSeMostrara.add(GUIEnvoltorio.getGimnasio().buscar(Integer.parseInt(busqueda)));
+                    try {
+                        int idLeido=Integer.parseInt(busqueda);
+
+                        if(GUIEnvoltorio.getGimnasio().verificarSiExisteClienteXId(idLeido))
+                        {
+
+                            arrayQueSeMostrara.add(GUIEnvoltorio.getGimnasio().buscar(idLeido));
+                        }
+                        else {
+                            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("El ID buscado no existe");
+                        }
                     }
-                    else {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("El ID buscado no existe");
+                    catch (NumberFormatException e)
+                    {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Solo puede ingresar numeros si busca por ID");
                     }
+
                 }
                 else {
                     JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun ID");

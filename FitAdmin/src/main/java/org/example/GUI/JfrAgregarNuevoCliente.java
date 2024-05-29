@@ -1,11 +1,11 @@
 package org.example.GUI;
 
+import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Persona;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class JfrAgregarNuevoCliente extends javax.swing.JFrame {

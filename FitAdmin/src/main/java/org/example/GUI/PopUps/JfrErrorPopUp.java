@@ -1,7 +1,6 @@
-package org.example.GUI;
+package org.example.GUI.PopUps;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class JfrErrorPopUp extends javax.swing.JFrame{
     //atributos

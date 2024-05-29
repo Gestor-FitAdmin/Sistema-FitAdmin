@@ -1,12 +1,11 @@
 package org.example.GUI;
 
+import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Main;
-import org.example.Modelo.Gimnasio;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
