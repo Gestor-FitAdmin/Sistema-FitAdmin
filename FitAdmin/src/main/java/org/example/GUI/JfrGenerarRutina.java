@@ -316,7 +316,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             else
             {
                 //la tabla de rutina actual esta vacia
-                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se puede crear una rutina vacia");
+                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se puede crear una rutina vacia");
             }
         }
 
@@ -345,7 +345,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             ejerciciosElegidos.add(ejercicio); //agrego al arraylist stage para luego subirlo a la rutina
         }
         else{
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Elija un ejercicio para asignarlo a la rutina");
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Elija un ejercicio para asignarlo a la rutina");
         }
 
     }
@@ -445,7 +445,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         }
         else
         {
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se puede asignar ejercicios sin series ni repeticiones");
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se puede asignar ejercicios sin series ni repeticiones");
         }
     }
 }

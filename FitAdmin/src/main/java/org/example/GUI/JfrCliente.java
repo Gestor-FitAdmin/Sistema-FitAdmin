@@ -334,20 +334,20 @@ public class JfrCliente extends JFrame {
                 }
                 else
                 {
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp("No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
                 }
 
 
             }
             else
             {
-                JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
+                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
             }
 
 
         } else
         {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Seleccione un cliente");//si no selecciona nada es null por lo que necesito seleccione
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Seleccione un cliente");//si no selecciona nada es null por lo que necesito seleccione
         }
     }
 
@@ -379,7 +379,7 @@ public class JfrCliente extends JFrame {
         }
         else
         {
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Elija un cliente primero para asignarle una rutina");
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Elija un cliente primero para asignarle una rutina");
         }
 
 
@@ -426,17 +426,17 @@ public class JfrCliente extends JFrame {
                             arrayQueSeMostrara.add(GUIEnvoltorio.getGimnasio().buscar(idLeido));
                         }
                         else {
-                            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("El ID buscado no existe");
+                            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"El ID buscado no existe");
                         }
                     }
                     catch (NumberFormatException e)
                     {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Solo puede ingresar numeros si busca por ID");
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Solo puede ingresar numeros si busca por ID");
                     }
 
                 }
                 else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun ID");
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun ID");
                 }
 
                 break;
@@ -453,11 +453,11 @@ public class JfrCliente extends JFrame {
                     }
                     if(arrayQueSeMostrara.isEmpty())
                     {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se encontro el nombre buscado");
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se encontro el nombre buscado");
                     }
                 }
                 else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun nombre");
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun nombre");
                 }
 
                 break;
@@ -473,11 +473,11 @@ public class JfrCliente extends JFrame {
                     }
                     if(arrayQueSeMostrara.isEmpty())
                     {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se encontro el apellido buscado");
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se encontro el apellido buscado");
                     }
                 }
                 else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun apellido");
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun apellido");
                 }
                 break;
             case "por actividad":
@@ -496,11 +496,11 @@ public class JfrCliente extends JFrame {
                     }
                     if(arrayQueSeMostrara.isEmpty())
                     {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se encontro la actividad buscada");
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se encontro la actividad buscada");
                     }
                 }
                 else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ninguna actividad");
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ninguna actividad");
                 }
 
 
@@ -518,11 +518,11 @@ public class JfrCliente extends JFrame {
                     }
                     if(arrayQueSeMostrara.isEmpty())
                     {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No hay ninguna persona del sexo elegido");
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No hay ninguna persona del sexo elegido");
                     }
                 }
                 else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No ingreso ningun sexo");
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun sexo");
                 }
                 break;
             default:

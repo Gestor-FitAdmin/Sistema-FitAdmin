@@ -251,7 +251,7 @@ public class JfrLogIn extends javax.swing.JFrame {
                  mensaje= "Contraseña incorrecta!";
 
              }
-             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(mensaje);
+             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this,true,mensaje);
 
          }
 
