@@ -1,11 +1,8 @@
 package org.example.GUI;
 
 
-import org.example.Modelo.Actividad;
 import org.example.Modelo.Cliente;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -231,14 +228,9 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
 
             for (int j=0; j < 10;j++)
             {
-
-
-
-
-
                 if (clienteAux.isEstado())
                 {
-                    actividesString= clienteAux.listarActidades();
+                    actividesString= clienteAux.listarActividades();
                    // actividesString = actividesString.replace(" ","");
 
                     tblDatos.setValueAt(clienteAux.getIdCliente(),i,0);
