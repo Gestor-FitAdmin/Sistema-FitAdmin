@@ -25,11 +25,25 @@ public class Cliente extends Persona{
         this.cuotaPagada = cuotaPagada;
         this.estado = true; //cuando se crea el cliente el estado siempre es true
 
-        rutinaSemanal = new LinkedHashMap<>();
+        setRutinaSemanal();
         actividadesInscripto = new HashSet<>();
     }
 
     //Getters y Setters
+
+
+    public void setRutinaSemanal() {
+        //metodo para inicializar todos los dias con una rutina vacia, y q no haya nullpointers
+        rutinaSemanal = new LinkedHashMap<>();
+        rutinaSemanal.put(EDiasSemana.LUNES.toString(),new Rutina(EDiasSemana.LUNES));
+        rutinaSemanal.put(EDiasSemana.MARTES.toString(),new Rutina(EDiasSemana.MARTES));
+        rutinaSemanal.put(EDiasSemana.MIERCOLES.toString(),new Rutina(EDiasSemana.MIERCOLES));
+        rutinaSemanal.put(EDiasSemana.JUEVES.toString(),new Rutina(EDiasSemana.JUEVES));
+        rutinaSemanal.put(EDiasSemana.VIERNES.toString(),new Rutina(EDiasSemana.VIERNES));
+        rutinaSemanal.put(EDiasSemana.SABADO.toString(),new Rutina(EDiasSemana.SABADO));
+        rutinaSemanal.put(EDiasSemana.DOMINGO.toString(),new Rutina(EDiasSemana.DOMINGO));
+
+    }
 
     public int getIdCliente() {
         return idCliente;
@@ -52,7 +66,7 @@ public class Cliente extends Persona{
     }
 
 
-    public HashMap<String, Rutina> getRutinaSemanal() {
+    public LinkedHashMap<String, Rutina> getRutinaSemanal() {
         return rutinaSemanal;
     }
 
@@ -76,25 +90,7 @@ public class Cliente extends Persona{
     //Metodos
     @Override
     public boolean equals(Object o) {
-        boolean rta = false;
-        if(!super.equals(o))
-        {
-            if(o != null)
-            {
-                if(o instanceof Cliente aComparar)
-                {
-                    if(this.getDNI().equals(aComparar.getDNI()))
-                    {
-                        rta = true;
-                    }
-
-                }
-
-            }
-
-        }
-
-       return rta;
+        return super.equals(o);
     }
 
     @Override
@@ -128,6 +124,12 @@ public class Cliente extends Persona{
 
         return msj;
     }
+
+    public Rutina getUnaRutinaEspecifica(Enum diaRequerido)
+    {
+        return rutinaSemanal.get(diaRequerido.toString());
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
@@ -139,7 +141,7 @@ public class Cliente extends Persona{
                 ", actividadesInscripto=" + actividadesInscripto +
                 '}' + super.toString();
     }
-    public String listarActidades()//metodo para que no tener corchetes en la GUI
+    public String listarActividades()//metodo para que no tener corchetes en la GUI
     {
         String msj ="";
             Iterator iterator = actividadesInscripto.iterator();
