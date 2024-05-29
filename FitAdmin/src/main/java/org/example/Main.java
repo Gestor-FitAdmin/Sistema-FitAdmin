@@ -5,6 +5,7 @@ import org.example.API.QrAPI;
 import org.example.Enum.EObjetivo;
 import org.example.GUI.*;
 import org.example.Modelo.Cliente;
+import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Rutina;
 
@@ -53,9 +54,8 @@ public class Main {
         //guiEnvoltorio.iniciarPrograma();
 
 
-        JfrAcceso jfrAcceso= new JfrAcceso();
-        jfrAcceso.setVisible(true);
-
+        JfrGenerarRutina jfrGenerarRutina= new JfrGenerarRutina(cliente);
+        jfrGenerarRutina.setVisible(true);
 
     }
 }
