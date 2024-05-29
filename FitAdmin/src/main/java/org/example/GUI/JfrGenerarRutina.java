@@ -8,12 +8,15 @@ import org.example.Modelo.Cliente;
 import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Rutina;
 
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class JfrGenerarRutina extends javax.swing.JFrame {
 
@@ -43,6 +46,12 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
+
+
         ejerciciosElegidos= new ArrayList<>();
 
 
@@ -58,6 +67,8 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             e.printStackTrace();
         }
         llenarTablaConEjercicios();
+
+
     }
 
 
@@ -81,7 +92,9 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
+
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
 

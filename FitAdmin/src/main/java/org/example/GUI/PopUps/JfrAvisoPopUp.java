@@ -9,16 +9,16 @@ public class JfrAvisoPopUp extends javax.swing.JDialog {
 
 
 
-    public JfrAvisoPopUp(java.awt.Frame parent, boolean modal,String mensaje) {
+    public JfrAvisoPopUp(java.awt.Frame parent, boolean modal, String mensaje) {
         super(parent, modal);
         initComponents();
         mensajeLabel.setText(mensaje);
 
+        pack(); // Ajustar el tamaño del diálogo para que se ajuste a su contenido
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
     }
-
 
     private void initComponents() {
 
@@ -41,27 +41,29 @@ public class JfrAvisoPopUp extends javax.swing.JDialog {
         mensajeLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         mensajeLabel.setForeground(new java.awt.Color(250, 250, 250));
         mensajeLabel.setText("Aviso al usuario");
+        mensajeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER); // Centrar el texto horizontalmente
         mensajeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        // Modificar el layout para que se centre y ajuste automáticamente al contenido
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(108, 108, 108)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(mensajeLabel))
-                                .addContainerGap(107, Short.MAX_VALUE))
+                                .addContainerGap(50, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(mensajeLabel)
+                                        .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)) // Ajustar el tamaño del botón
+                                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
+                                .addGap(20, 20, 20)
                                 .addComponent(mensajeLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                                 .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27))
+                                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -75,14 +77,13 @@ public class JfrAvisoPopUp extends javax.swing.JDialog {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        pack(); // Ajustar el tamaño del diálogo para que se ajuste a su contenido
     }
 
+    // Acción del botón
     private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {
-        setVisible(false);
+        dispose();
     }
-
-
 
 
 }

@@ -6,6 +6,7 @@ import org.example.Main;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Objects;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
@@ -30,6 +31,10 @@ public class JfrLogIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
+
     }
 
 
@@ -47,6 +52,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 500));

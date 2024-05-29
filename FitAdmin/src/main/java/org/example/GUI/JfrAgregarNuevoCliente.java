@@ -5,8 +5,10 @@ import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Persona;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
@@ -39,6 +41,10 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
     }
 
 
@@ -74,6 +80,8 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
         jTextField2.setText("jTextField2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setToolTipText("");

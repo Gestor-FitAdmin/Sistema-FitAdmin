@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Objects;
 
 public class JfrAcceso extends javax.swing.JFrame {
 
@@ -41,6 +42,10 @@ public class JfrAcceso extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
     }
 
 
@@ -59,6 +64,8 @@ public class JfrAcceso extends javax.swing.JFrame {
         BotonBuscarId = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setToolTipText("");

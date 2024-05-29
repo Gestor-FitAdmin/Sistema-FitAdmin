@@ -1,6 +1,8 @@
 package org.example.GUI;
 
+import javax.swing.*;
 import java.awt.geom.Area;
+import java.util.Objects;
 
 public class JfrEstadisticas  extends javax.swing.JFrame{
 
@@ -16,6 +18,10 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
     public JfrEstadisticas() {
         initComponents();
         setLocationRelativeTo(null);
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
     }
 
 
@@ -29,6 +35,9 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
         BotonAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
 

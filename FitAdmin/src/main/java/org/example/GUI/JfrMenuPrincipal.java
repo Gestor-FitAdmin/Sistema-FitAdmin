@@ -3,8 +3,10 @@ package org.example.GUI;
 
 import org.example.Modelo.Cliente;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class JfrMenuPrincipal extends javax.swing.JFrame {
 
@@ -26,6 +28,10 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         cargarTablaDeDatos();
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
     }
         /*
         public void agregarClientesATabla(){
