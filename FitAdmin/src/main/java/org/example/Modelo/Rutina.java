@@ -28,8 +28,15 @@ public class Rutina
         rutina = new LinkedHashSet<>();
         this.diaAsignado= diaAsignado;
     }
+
+    public Rutina(EDiasSemana diaAsignado) {
+        objetivo = null;
+        this.diaAsignado = diaAsignado;
+        rutina = new LinkedHashSet<>();
+    }
+
     public Rutina() {
-        this.objetivo = null;
+        objetivo = null;
         rutina = new LinkedHashSet<>();
         diaAsignado= null;
     }
@@ -49,6 +56,10 @@ public class Rutina
     {
         EObjetivo objetivoEnum = EObjetivo.valueOf(objetivo);//no necesita validarse ya que viene de un boton del GUI
         this.objetivo = objetivoEnum;
+    }
+
+    public EDiasSemana getDiaAsignado() {
+        return diaAsignado;
     }
 
     //metodos
@@ -240,6 +251,7 @@ public class Rutina
         return "Rutina{" +
                 "rutina=" + rutina +
                 ", objetivo=" + objetivo +
+                ", diaAsignado=" + diaAsignado +
                 '}';
     }
 }
