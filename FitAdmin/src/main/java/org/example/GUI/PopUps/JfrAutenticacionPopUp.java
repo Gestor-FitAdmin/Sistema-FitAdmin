@@ -2,11 +2,13 @@ package org.example.GUI.PopUps;
 
 import com.dropbox.core.DbxException;
 import org.example.API.DropBoxAPI;
+import org.example.GUI.JfrAcceso;
 
+import javax.swing.*;
 import java.awt.*;
 import java.net.URI;
 
-public class JfrAutenticacionPopUp extends javax.swing.JFrame{
+public class JfrAutenticacionPopUp extends javax.swing.JDialog{
     // atributos
     private javax.swing.JLabel TituloDropbox;
     private javax.swing.JButton botonAutenticar;
@@ -17,8 +19,10 @@ public class JfrAutenticacionPopUp extends javax.swing.JFrame{
     private javax.swing.JLabel pasoUno;
     private javax.swing.JLabel urlAAsignar;
     private DropBoxAPI dropBoxAPI;
-
-    public JfrAutenticacionPopUp(DropBoxAPI dropBoxAPI) {
+    private Frame parent;
+    public JfrAutenticacionPopUp(java.awt.Frame parent, boolean modal,DropBoxAPI dropBoxAPI) {
+        super(parent,modal);
+        this.parent=parent;
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -29,6 +33,8 @@ public class JfrAutenticacionPopUp extends javax.swing.JFrame{
 
 
     }
+
+
 
     private void initComponents() {
 
@@ -41,7 +47,7 @@ public class JfrAutenticacionPopUp extends javax.swing.JFrame{
         codigoAutenticacion = new javax.swing.JTextField();
         botonAutenticar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(500, 300));
 
         jPanel1.setBackground(new java.awt.Color(32, 32, 32));
@@ -167,14 +173,14 @@ public class JfrAutenticacionPopUp extends javax.swing.JFrame{
             }
             catch (DbxException e)
             {
-                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Ingrese un codigo valido");
+                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(parent,true,"Ingrese un codigo valido");
                 e.getMessage();
             }
 
         }
         else
         {
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Ingrese un codigo valido");
+            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(parent,true,"Ingrese un codigo valido");
         }
 
 

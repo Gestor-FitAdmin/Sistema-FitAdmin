@@ -284,21 +284,21 @@ public class JfrAcceso extends javax.swing.JFrame {
                 }
                 catch (NullPointerException e)
                 {
-                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(dropBoxAPI);
+                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this,true,dropBoxAPI);
                    // System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
                 } catch (IOException e) {
                     //System.out.println("Archivo roto");
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Error con el archivo");
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Error con el archivo");
                 }
             }
             else
             {
-                JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Busque un cliente para generar el QR");
+                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Busque un cliente para generar el QR");
             }
         }
         else
         {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Seleccione un cliente para generar el QR");
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Seleccione un cliente para generar el QR");
         }
 
 

@@ -334,21 +334,21 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
         // Validar nombre
         if (verificarSiContieneNumero(TextAreaNombre.getText())) {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("No puede ingresar digitos en el nombre");
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"No puede ingresar digitos en el nombre");
             TextAreaNombre.setText(null);
             flag = false;
         }
 
         // Validar apellido
         if (verificarSiContieneNumero(TextAreaApellido.getText())) {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("No puede ingresar digitos en el apellido");
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"No puede ingresar digitos en el apellido");
             TextAreaApellido.setText(null);
             flag = false;
         }
 
         // Validar email
         if (verificarArroba(TextAreaEmail.getText())) {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("Olvido poner su @ en el e-Mail");
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Olvido poner su @ en el e-Mail");
             TextAreaEmail.setText(null);
             flag = false;
         }
@@ -356,7 +356,7 @@ public class JfrAgregarNuevoCliente extends javax.swing.JFrame {
 
         if (verificarDNIExistente()||verificarTamDNI())//si ya existe el DNI en el sistema o si no cumple con los requisitos
         {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp("DNI ya existente o es invalido");
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"DNI ya existente o es invalido");
             TextAreaDNI.setText(null);
             flag = false;
         }

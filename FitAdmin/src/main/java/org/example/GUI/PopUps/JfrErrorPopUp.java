@@ -2,7 +2,7 @@ package org.example.GUI.PopUps;
 
 import javax.swing.*;
 
-public class JfrErrorPopUp extends javax.swing.JFrame{
+public class JfrErrorPopUp extends javax.swing.JDialog{
     //atributos
     private String mensajeError;
     private javax.swing.JLabel jLabel1;
@@ -11,8 +11,9 @@ public class JfrErrorPopUp extends javax.swing.JFrame{
 
     //constructor
 
-    public JfrErrorPopUp(String mensajeError)
+    public JfrErrorPopUp(java.awt.Frame parent, boolean modal,String mensajeError)
     {
+        super(parent,modal);
         initComponents(mensajeError);
         setLocationRelativeTo(null);
         this.mensajeError=mensajeError;
@@ -28,7 +29,7 @@ public class JfrErrorPopUp extends javax.swing.JFrame{
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ocurrio un error");
 
         jPanel1.setBackground(new java.awt.Color(200, 200, 200));
