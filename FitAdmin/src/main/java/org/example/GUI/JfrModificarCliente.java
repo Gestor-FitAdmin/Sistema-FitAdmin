@@ -1,5 +1,8 @@
 package org.example.GUI;
 
+import javax.swing.*;
+import java.util.Objects;
+
 public class JfrModificarCliente extends javax.swing.JFrame {
 
 
@@ -21,6 +24,10 @@ public class JfrModificarCliente extends javax.swing.JFrame {
         setResizable(false);
         initComponents();
         setLocationRelativeTo(null);
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
     }
 
     private void initComponents() {

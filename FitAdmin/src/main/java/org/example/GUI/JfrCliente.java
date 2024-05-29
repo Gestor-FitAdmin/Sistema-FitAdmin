@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class JfrCliente extends JFrame {
 
@@ -41,6 +42,10 @@ public class JfrCliente extends JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+
+        //Cambiar el Icono de la app
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
+        setIconImage(icon.getImage());
     }
 
 
@@ -84,6 +89,8 @@ public class JfrCliente extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(915, 500));
+
+
 
         jPanel1.setBackground(new Color(63, 63, 63));
         jPanel1.setPreferredSize(new Dimension(900, 500));
