@@ -20,7 +20,7 @@ public class JfrAgregarSriesYRepsPopUp extends javax.swing.JDialog {
 
 
     public JfrAgregarSriesYRepsPopUp(java.awt.Frame parent, boolean modal, Ejercicio ejercicioElegido) {
-        super(parent, modal);
+        super(parent,"Series y Repeticiones", modal);
         initComponents();
         this.ejercicioElegido= ejercicioElegido;
         setLocationRelativeTo(null);

@@ -17,7 +17,7 @@ public class JfrErrorPopUp extends javax.swing.JDialog{
 
     public JfrErrorPopUp(java.awt.Frame parent, boolean modal,String mensajeError)
     {
-        super(parent,modal);
+        super(parent,"Error",modal);
         initComponents(mensajeError);
         setLocationRelativeTo(null);
         this.mensajeError=mensajeError;
