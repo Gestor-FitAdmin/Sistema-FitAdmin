@@ -18,7 +18,7 @@ import java.util.HashSet;
 
 public class JfrCliente extends JFrame {
 
-    // Variables declaration - do not modify
+    // atributos
     private JButton BotonArchivarCliente;
     private JButton BotonAsignarRutina;
     private JButton BotonIrAtras;
@@ -27,18 +27,16 @@ public class JfrCliente extends JFrame {
     private JComboBox<String> BuscarClienteMenu;
     private JTable TablaClientes;
     private JTextField TextBoxClienteBusqueda;
-    private Choice choice1;
     private JLabel jLabel1;
     private JList<String> jList1;
     private JMenu jMenu1;
     private JPanel jPanel1;
-    private JProgressBar jProgressBar1;
     private JScrollPane jScrollPane1;
-    private JScrollPane jScrollPane2;
+    private JButton BotonActualizarCliente;
+    private JButton BotonEnviarRutina;
+    private JTextField TextAreaBusqueda;
 
-    /**
-     * Creates new form Clientes
-     */
+    //constructor
     public JfrCliente() {
         initComponents();
         setLocationRelativeTo(null);
@@ -46,50 +44,46 @@ public class JfrCliente extends JFrame {
     }
 
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
         jMenu1 = new JMenu();
-        choice1 = new Choice();
+
         jScrollPane1 = new JScrollPane();
         jList1 = new JList<>();
         BuscarClienteMenu = new JComboBox<>();
-        jProgressBar1 = new JProgressBar();
         jPanel1 = new JPanel();
         jLabel1 = new JLabel();
         BotonoCrearNuevoCliente = new JButton();
         BotonArchivarCliente = new JButton();
-        jScrollPane2 = new JScrollPane();
         TablaClientes = new JTable();
         BotonAsignarRutina = new JButton();
-        BuscarClienteMenu = new JComboBox<>();
         BotonRealizarBusquedaCliente = new JButton();
         BotonIrAtras = new JButton();
         TextBoxClienteBusqueda= new JTextField();
-        JButton BotonActualizarCliente = new JButton();
+        BotonActualizarCliente = new JButton();
 
 
-       JButton BotonEnviarRutina = new JButton();
-       JTextField TextAreaBusqueda = new JTextField();
+       BotonEnviarRutina = new JButton();
+       TextAreaBusqueda = new JTextField();
 
-        jMenu1.setText("jMenu1");
+//        jMenu1.setText("jMenu1");
 
-        jList1.setModel(new AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        BuscarClienteMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                BuscarClienteActionPerformed(evt);
-            }
-        });
+//        jList1.setModel(new AbstractListModel<String>() {
+//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+//            public int getSize() { return strings.length; }
+//            public String getElementAt(int i) { return strings[i]; }
+//        });
+//        jScrollPane1.setViewportView(jList1);
+//
+//        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+//        BuscarClienteMenu.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//                BuscarClienteActionPerformed(evt);
+//            }
+//        });
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900, 500));
+        setPreferredSize(new Dimension(915, 500));
 
         jPanel1.setBackground(new Color(63, 63, 63));
         jPanel1.setPreferredSize(new Dimension(900, 500));
@@ -119,17 +113,13 @@ public class JfrCliente extends JFrame {
         TablaClientes.setBackground(new Color(242, 242, 242));
         TablaClientes.setBorder(new LineBorder(new Color(130, 130, 130), 1, true));
         TablaClientes.setModel(new DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null}
-                },
+                new Object [][]{},
                 new String [] {
                         "N° Socio", "Nombre", "Apellido", "DNI", "Actividad", "Sexo"
                 }
         ) {
             Class[] types = new Class [] {
-                    Integer.class, String.class, Object.class, Object.class, Object.class, Object.class
+                    Object.class, Object.class, Object.class, Object.class, Object.class, Object.class
             };
             boolean[] canEdit = new boolean [] {
                     false, false, false, false, false, false
@@ -146,7 +136,7 @@ public class JfrCliente extends JFrame {
         TablaClientes.setToolTipText("");
         TablaClientes.setColumnSelectionAllowed(true);
         TablaClientes.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        jScrollPane2.setViewportView(TablaClientes);
+        jScrollPane1.setViewportView(TablaClientes);
         TablaClientes.getColumnModel().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         if (TablaClientes.getColumnModel().getColumnCount() > 0) {
             TablaClientes.getColumnModel().getColumn(0).setResizable(false);
@@ -156,6 +146,9 @@ public class JfrCliente extends JFrame {
             TablaClientes.getColumnModel().getColumn(4).setResizable(false);
             TablaClientes.getColumnModel().getColumn(5).setResizable(false);
         }
+
+        agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(),GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
+
 
         BotonAsignarRutina.setBackground(new Color(130, 130, 130));
         BotonAsignarRutina.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
@@ -265,7 +258,7 @@ public class JfrCliente extends JFrame {
                                 .addContainerGap(47, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jScrollPane2)
+                                .addComponent(jScrollPane1)
                                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -281,7 +274,7 @@ public class JfrCliente extends JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(BotonRealizarBusquedaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(BotonEnviarRutina, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,11 +301,11 @@ public class JfrCliente extends JFrame {
 
     private void BotonEnviarRutinaActionPerformed(ActionEvent evt)
     {
-        Gimnasio gym = GUIEnvoltorio.getGimnasio();//llamo a todo el gimnasio
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();//llamo a tod o el gimnasio
         Integer idSocioAux;
         Integer filaSeleccionada = TablaClientes.getSelectedRow();
 
-         if (filaSeleccionada != -1)//si  selecciono una fila correctamente
+         if (filaSeleccionada != -1)//si selecciono una fila correctamente
         {
 
             idSocioAux = (Integer) TablaClientes.getValueAt(filaSeleccionada, 0);//Fila que selecciona el usuario, la comlumna 0 que es el ID
@@ -360,9 +353,13 @@ public class JfrCliente extends JFrame {
     }
 
     private void BotonArchivarClienteActionPerformed(ActionEvent evt) {
-    }
+        if (TablaClientes.getSelectedRow() != -1)
+        {
+            Cliente clienteSeleccionado= GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(TablaClientes.getSelectedRow(),0));
 
-    private void BuscarClienteActionPerformed(ActionEvent evt) {
+           clienteSeleccionado.setEstado(!clienteSeleccionado.isEstado()); // pongo el estado contrario al que es. EJ: si es true lo pongo false
+
+        }
     }
 
     private void BotonAsignarRutinaActionPerformed(ActionEvent evt) {
@@ -371,7 +368,7 @@ public class JfrCliente extends JFrame {
         int filaSeleccionada= TablaClientes.getSelectedRow();
 
 
-        if (filaSeleccionada != -1 && TablaClientes.getValueAt(filaSeleccionada,0) != null)
+        if (filaSeleccionada != -1)
         {
             Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(filaSeleccionada,0));
 
@@ -402,17 +399,18 @@ public class JfrCliente extends JFrame {
 
         String opcionElegida = (String) BuscarClienteMenu.getSelectedItem(); //obtengo el valor de la op q eligio el usuario
         assert opcionElegida != null; // aseguro que la variable opcionElegida no va a ser null
+
         opcionElegida = opcionElegida.toLowerCase();
 
         String busqueda=TextBoxClienteBusqueda.getText(); //obtengo el valor de la caja de texto que hay
 
         busqueda= busqueda.replace(" ",""); //le saco todos los espacios
-
+        System.out.println(opcionElegida);
         switch (opcionElegida) {
-            case "Todos":
+            case "todos":
                 arrayQueSeMostrara = todosLosClientes;
                 break;
-            case "Por ID":
+            case "por id":
 
 
                 if (!busqueda.isEmpty()) //si no contiene nada o si no hay espacios, tiene que haber un numero si o si
@@ -521,20 +519,33 @@ public class JfrCliente extends JFrame {
                 arrayQueSeMostrara = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
                 break;
         }
-        for (Cliente cliente: arrayQueSeMostrara) //id nombre apellido
-        {
-            TablaClientes.setValueAt(cliente.getIdCliente(),i,0);
-            TablaClientes.setValueAt(cliente.getNombre(),i,1);
-            TablaClientes.setValueAt(cliente.getApellido(),i,2);
-            TablaClientes.setValueAt(cliente.getDNI(),i,3);
-            TablaClientes.setValueAt(cliente.getActividadesInscripto(),i,4);
-            TablaClientes.setValueAt(cliente.getSexo(),i,5);
 
-            i++;
-        }
+        DefaultTableModel defaultTableModelClientes= (DefaultTableModel)TablaClientes.getModel();
 
-
+        limpiarTabla(defaultTableModelClientes);
+        agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes,arrayQueSeMostrara);
     }
+
+    private void limpiarTabla(DefaultTableModel defaultTableModel){
+        defaultTableModel.setRowCount(0);
+    }
+
+    private void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList)
+    {
+        for (Cliente cliente: clienteArrayList)
+        {
+            agregarUnClienteEnTablaDeClientes(defaultTableModel,cliente);
+        }
+    }
+
+    private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente)
+    {
+        String[] datosCliente= new String[]{String.valueOf(unCliente.getIdCliente()),unCliente.getNombre(),unCliente.getApellido(),unCliente.getDNI(),unCliente.listarActividades(),unCliente.getSexo()};
+
+       defaultTableModel.addRow(datosCliente);
+    }
+
+
     private void TextBoxClienteBusquedaActionPerformed(ActionEvent evt) {
 
     }
