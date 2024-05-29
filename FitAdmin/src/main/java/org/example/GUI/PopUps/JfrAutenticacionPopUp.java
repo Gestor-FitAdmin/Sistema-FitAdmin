@@ -24,12 +24,12 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
         super(parent,modal);
         this.parent=parent;
         initComponents();
-        setLocationRelativeTo(null);
+        this.dropBoxAPI=dropBoxAPI;
+        urlAAsignar.setText(dropBoxAPI.autenticarTokenNuevoURL());
+        setLocationRelativeTo(parent);
         setResizable(false);
         setVisible(true);
 
-        this.dropBoxAPI=dropBoxAPI;
-        urlAAsignar.setText(dropBoxAPI.autenticarTokenNuevoURL());
 
 
     }

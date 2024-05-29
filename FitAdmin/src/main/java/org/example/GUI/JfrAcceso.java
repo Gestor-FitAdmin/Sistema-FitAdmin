@@ -247,7 +247,6 @@ public class JfrAcceso extends javax.swing.JFrame {
             Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar(idSocioSeleccionado); // busco el cliente
             if (clienteAux != null || idSocioSeleccionado != null)
             {
-
                 try
                 {
                     //intento entrar al api
@@ -258,14 +257,17 @@ public class JfrAcceso extends javax.swing.JFrame {
 
                     String url = dropBoxAPI.obtenerURL(rutaQRaGenerar);
                     qrAPI.generarQr(url);
+
                     // Ruta relativa a la imagen en la carpeta del proyecto
                     String rutaImagen = "qrCliente.jpg";
 
-                    // Cargar la imagen desde la ruta especificada
-
                     // Eliminar cualquier posible caché de la imagen al recargarla
                     BufferedImage bufferedImage = ImageIO.read(new File(rutaImagen));
+
+                    // Cargar la imagen desde la ruta especificada
                     ImageIcon icono = new ImageIcon(bufferedImage);
+
+
                     // Establecer el icono en el JLabel
                     MostrarImagenQR.setIcon(null); // Limpiar el icono anterior
                     MostrarImagenQR.setIcon(icono); // Establecer el nuevo icono
@@ -285,9 +287,9 @@ public class JfrAcceso extends javax.swing.JFrame {
                 catch (NullPointerException e)
                 {
                     JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this,true,dropBoxAPI);
-                   // System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
+                   System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
                 } catch (IOException e) {
-                    //System.out.println("Archivo roto");
+                    System.out.println("Archivo roto");
                     JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Error con el archivo");
                 }
             }
