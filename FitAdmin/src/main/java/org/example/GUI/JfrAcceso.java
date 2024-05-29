@@ -2,11 +2,11 @@ package org.example.GUI;
 
 
 import com.dropbox.core.DbxException;
-import com.dropbox.core.InvalidAccessTokenException;
+import org.example.GUI.PopUps.JfrAutenticacionPopUp;
+import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.API.DropBoxAPI;
 import org.example.API.QrAPI;
-import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
 
@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.HashMap;
 
 public class JfrAcceso extends javax.swing.JFrame {
 

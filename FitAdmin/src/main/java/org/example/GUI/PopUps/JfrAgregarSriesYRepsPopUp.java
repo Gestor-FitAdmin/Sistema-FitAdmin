@@ -1,4 +1,4 @@
-package org.example.GUI;
+package org.example.GUI.PopUps;
 
 
 import org.example.Modelo.Ejercicio;

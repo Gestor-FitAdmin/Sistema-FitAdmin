@@ -1,6 +1,9 @@
 package org.example.GUI;
 
 import org.example.Enum.EDiasSemana;
+import org.example.GUI.PopUps.JfrAgregarSriesYRepsPopUp;
+import org.example.GUI.PopUps.JfrAvisoPopUp;
+import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Rutina;
@@ -10,7 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.LinkedList;
 
 public class JfrGenerarRutina extends javax.swing.JFrame {
 
@@ -34,15 +37,18 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
     private Rutina rutinaSeleccionada;
     private Cliente clienteActual;
     private ArrayList<Ejercicio> ejerciciosJson;
-
+    private ArrayList<Ejercicio> ejerciciosElegidos; // se hace un arraylist de los ejercicios elegidos como un "stage" por si el usuario vuelve hacia atras
 
     public JfrGenerarRutina(Cliente clienteActual) {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        ejerciciosElegidos= new ArrayList<>();
 
 
         rutinaSeleccionada= clienteActual.getUnaRutinaEspecifica(EDiasSemana.LUNES);
+
+        cargarTablaRutinaActualDependeElDia(rutinaSeleccionada.getDiaAsignado());
 
         this.clienteActual=clienteActual;
 
@@ -127,24 +133,24 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             }
         });
 
-        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = TablaDeEjercicios.getSelectedRow();
-                    if (selectedRow != -1) {
-                        String nombre = TablaDeEjercicios.getValueAt(selectedRow, 0).toString();
-                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow, 1).toString();
-                        String materiales = TablaDeEjercicios.getValueAt(selectedRow, 2).toString();
-
-                    }
-
-                }
-
-
-            }
-        });
+//        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//
+//
+//            public void valueChanged(ListSelectionEvent e) {
+//                if (!e.getValueIsAdjusting()) {
+//                    int selectedRow = TablaDeEjercicios.getSelectedRow();
+//                    if (selectedRow != -1) {
+//                        String nombre = TablaDeEjercicios.getValueAt(selectedRow, 0).toString();
+//                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow, 1).toString();
+//                        String materiales = TablaDeEjercicios.getValueAt(selectedRow, 2).toString();
+//
+//                    }
+//
+//                }
+//
+//
+//            }
+//        });
         jScrollPane1.setViewportView(TablaDeEjercicios);
 
         TablaRutinaActual.setModel(new javax.swing.table.DefaultTableModel(
@@ -281,23 +287,38 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>
+    }//
 
 
     private void BotonAgregarRutinaCreadaActionPerformed(java.awt.event.ActionEvent evt) {
 
-        //si esta la rutina vacia que saque un popUp que no se puede agregar rutina vacia
-        if (!rutinaSeleccionada.getRutina().isEmpty())
+        //si no tengo ejercicios elegidos no puedo crear una rutina vacia, por lo tanto popUp que no se puede agregar rutina vacia
+
+        if (!ejerciciosElegidos.isEmpty())
         {
             rutinaSeleccionada.setObjetivo((String) SelectorDeObjetivos.getSelectedItem());
-            System.out.println(rutinaSeleccionada);
+
+            for(int i=0; i < ejerciciosElegidos.size();i++)
+            {
+                rutinaSeleccionada.agregarUnEjercicioARutina(ejerciciosElegidos.get(i));
+            }
+        //todo popup de que la rutina se creo correctamente
+            JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this,true,"Rutina generada con exito");
+
         }
+
         else {
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se puede crear una rutina vacia");
+            if (!rutinaSeleccionada.getRutina().isEmpty())
+            {
+                //la tabla de rutina actual tiene algo pero no se agrego ningun ejercicio
+                JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this,true,"No se agrego ningun ejercicio");
+            }
+            else
+            {
+                //la tabla de rutina actual esta vacia
+                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("No se puede crear una rutina vacia");
+            }
         }
-
-
-
 
     }
 
@@ -321,8 +342,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
             asignarUnEjercicioATablaDeRutinaActual(modeloDatosDefault,ejercicio);//escribo el ejercicio en la tabla
 
-            rutinaSeleccionada.agregarUnEjercicioARutina(ejercicio);//guardo el ejercicio en la rutina del dia seleccionado
-
+            ejerciciosElegidos.add(ejercicio); //agrego al arraylist stage para luego subirlo a la rutina
         }
         else{
             JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp("Elija un ejercicio para asignarlo a la rutina");
@@ -356,7 +376,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
 
         limpiarTabla((DefaultTableModel) TablaRutinaActual.getModel()); //limpio la tabla
-
+        ejerciciosElegidos.clear();//limpio los ejercicios elegidos
 
 
         cargarTablaRutinaActualDependeElDia(EDiasSemana.valueOf(diaSeleccionadoOptionBox));//asigno los elementos

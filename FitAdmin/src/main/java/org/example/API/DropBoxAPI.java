@@ -8,12 +8,10 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 
-import com.dropbox.core.v2.check.DbxUserCheckRequests;
 import com.dropbox.core.v2.files.*;
 
 
 import java.util.Date;
-import java.util.logging.FileHandler;
 
 /**
  DropBoxAPI dropBoxAPI= new DropBoxAPI();
@@ -27,12 +25,7 @@ import java.util.logging.FileHandler;
  */
 //todo: verificar si el TOKEN se vence
 
-import com.dropbox.core.v2.users.DbxUserUsersRequests;
 import com.dropbox.core.v2.users.FullAccount;
-import org.example.GUI.JfrAutenticacionPopUp;
-import org.example.JavaUtiles.JsonUtiles;
-import org.example.Modelo.Cliente;
-
 
 
 public class DropBoxAPI {

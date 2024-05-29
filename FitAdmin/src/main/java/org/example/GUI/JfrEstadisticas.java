@@ -19,7 +19,7 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
     }
 
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -93,7 +93,7 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
         );
 
         pack();
-    }// </editor-fold>
+    }
 
 
     private void BotonAtrasActionPerformed(java.awt.event.ActionEvent evt) {
