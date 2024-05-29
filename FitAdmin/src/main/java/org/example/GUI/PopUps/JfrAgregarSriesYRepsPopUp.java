@@ -17,45 +17,6 @@ public class JfrAgregarSriesYRepsPopUp extends javax.swing.JDialog {
     private Ejercicio ejercicioElegido;
 
 
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(JfrAgregarSriesYRepsPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(JfrAgregarSriesYRepsPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(JfrAgregarSriesYRepsPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(JfrAgregarSriesYRepsPopUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                JfrAgregarSriesYRepsPopUp dialog = new JfrAgregarSriesYRepsPopUp(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
-
 
 
     public JfrAgregarSriesYRepsPopUp(java.awt.Frame parent, boolean modal, Ejercicio ejercicioElegido) {
@@ -68,8 +29,7 @@ public class JfrAgregarSriesYRepsPopUp extends javax.swing.JDialog {
     }
 
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+
     private void initComponents() {
 
         jPanel = new javax.swing.JPanel();
@@ -108,13 +68,13 @@ public class JfrAgregarSriesYRepsPopUp extends javax.swing.JDialog {
         spinnerDeSeries.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         spinnerDeSeries.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         spinnerDeSeries.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        ajustarTamanoSpinner(spinnerDeSeries,40,40);
+        ajustarTamanoSpinner(spinnerDeSeries,60,40);
 
         spinnerDeRepeticiones.setAutoscrolls(true);
         spinnerDeRepeticiones.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         spinnerDeRepeticiones.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         spinnerDeRepeticiones.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        ajustarTamanoSpinner(spinnerDeRepeticiones,40,40);
+        ajustarTamanoSpinner(spinnerDeRepeticiones,60,40);
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
