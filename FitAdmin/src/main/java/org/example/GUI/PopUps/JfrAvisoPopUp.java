@@ -10,7 +10,7 @@ public class JfrAvisoPopUp extends javax.swing.JDialog {
 
 
     public JfrAvisoPopUp(java.awt.Frame parent, boolean modal, String mensaje) {
-        super(parent, modal);
+        super(parent,"Aviso", modal);
         initComponents();
         mensajeLabel.setText(mensaje);
 

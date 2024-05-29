@@ -21,7 +21,7 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
     private DropBoxAPI dropBoxAPI;
     private Frame parent;
     public JfrAutenticacionPopUp(java.awt.Frame parent, boolean modal,DropBoxAPI dropBoxAPI) {
-        super(parent,modal);
+        super(parent,"Autenticacion",modal);
         this.parent=parent;
         initComponents();
         this.dropBoxAPI=dropBoxAPI;
