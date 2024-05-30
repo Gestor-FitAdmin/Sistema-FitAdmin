@@ -6,11 +6,14 @@ import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
+import org.example.Modelo.Persona;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,6 +41,8 @@ public class JfrCliente extends JFrame {
     private JButton BotonActualizarCliente;
     private JButton BotonEnviarRutina;
 
+    public Cliente cliente;
+
     //constructor
     public JfrCliente() {
         initComponents();
@@ -53,7 +58,7 @@ public class JfrCliente extends JFrame {
     private void initComponents() {
 
         jMenu1 = new JMenu();
-
+        cliente = null;
         jScrollPane1 = new JScrollPane();
         jList1 = new JList<>();
         BuscarClienteMenu = new JComboBox<>();
@@ -69,8 +74,9 @@ public class JfrCliente extends JFrame {
         BotonActualizarCliente = new JButton();
 
 
-       BotonEnviarRutina = new JButton();
-       TextAreaBusqueda = new JTextField();
+        BotonEnviarRutina = new JButton();
+        TextAreaBusqueda = new JTextField();
+
 
 //        jMenu1.setText("jMenu1");
 
@@ -90,7 +96,6 @@ public class JfrCliente extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(915, 500));
-
 
 
         jPanel1.setBackground(new Color(63, 63, 63));
@@ -121,28 +126,28 @@ public class JfrCliente extends JFrame {
         TablaClientes.setBackground(new Color(242, 242, 242));
         TablaClientes.setBorder(new LineBorder(new Color(130, 130, 130), 1, true));
         TablaClientes.setModel(new DefaultTableModel(
-                new Object [][]{},
-                new String [] {
+                new Object[][]{},
+                new String[]{
                         "N° Socio", "Nombre", "Apellido", "DNI", "Actividad", "Sexo"
                 }
         ) {
-            Class[] types = new Class [] {
+            Class[] types = new Class[]{
                     Object.class, Object.class, Object.class, Object.class, Object.class, Object.class
             };
-            boolean[] canEdit = new boolean [] {
+            boolean[] canEdit = new boolean[]{
                     false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         TablaClientes.setToolTipText("");
-       // TablaClientes.setColumnSelectionAllowed(true);
+        // TablaClientes.setColumnSelectionAllowed(true);
         TablaClientes.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(TablaClientes);
         TablaClientes.getColumnModel().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -153,9 +158,34 @@ public class JfrCliente extends JFrame {
             TablaClientes.getColumnModel().getColumn(3).setResizable(false);
             TablaClientes.getColumnModel().getColumn(4).setResizable(false);
             TablaClientes.getColumnModel().getColumn(5).setResizable(false);
+
         }
 
-        agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(),GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
+        //todo: Hay que ver por que no funciona el error que tira de que esta mal casteados los double
+/*
+        TablaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (TablaClientes.getSelectedRow() != -1) {
+                    cliente = new Cliente((String) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 0),
+                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 1).toString(),
+                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 2).toString(),
+                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 3).toString(),
+                            Double.parseDouble(TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 4).toString()),
+                            Double.parseDouble(TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 5).toString()),
+                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 6).toString(),
+                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 7).toString(),
+                            (Boolean) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 8)
+                    );
+                }
+            }
+        });
+*/
+
+
+
+
+        agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
 
 
         BotonAsignarRutina.setBackground(new Color(130, 130, 130));
@@ -170,7 +200,7 @@ public class JfrCliente extends JFrame {
 
         BuscarClienteMenu.setBackground(new Color(130, 130, 130));
         BuscarClienteMenu.setForeground(new Color(242, 242, 242));
-        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[] { "Todos", "Por ID", "Por Nombre", "Por Apellido", "Por Actividad", "Por Sexo", " " }));
+        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[]{"Todos", "Por ID", "Por Nombre", "Por Apellido", "Por Actividad", "Por Sexo", " "}));
         BuscarClienteMenu.setBorder(BorderFactory.createTitledBorder(null, "Buscar Cliente", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI", 1, 14), new Color(242, 242, 242))); // NOI18N
         BuscarClienteMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
         BuscarClienteMenu.addActionListener(new ActionListener() {
@@ -307,55 +337,46 @@ public class JfrCliente extends JFrame {
         pack();
     }// </editor-fold>
 
-    private void BotonEnviarRutinaActionPerformed(ActionEvent evt)
-    {
+    private void BotonEnviarRutinaActionPerformed(ActionEvent evt) {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();//llamo a tod o el gimnasio
-        Integer idSocioAuxInteger=0;
+        Integer idSocioAuxInteger = 0;
         Integer filaSeleccionada = TablaClientes.getSelectedRow();
-        String idSocioAuxString="";
+        String idSocioAuxString = "";
 
 
-         if (filaSeleccionada != -1)//si selecciono una fila correctamente
+        if (filaSeleccionada != -1)//si selecciono una fila correctamente
         {
 
-            idSocioAuxString=(String) TablaClientes.getValueAt(filaSeleccionada,0);//Fila que selecciona el usuario, la comlumna 0 que es el ID
-            idSocioAuxInteger= Integer.parseInt(idSocioAuxString);
+            idSocioAuxString = (String) TablaClientes.getValueAt(filaSeleccionada, 0);//Fila que selecciona el usuario, la comlumna 0 que es el ID
+            idSocioAuxInteger = Integer.parseInt(idSocioAuxString);
 
 
             if (idSocioAuxInteger != null)//si el id es seleccionado
             {
                 Cliente cliente = gym.buscar(idSocioAuxInteger);//agarro el cliente
 
-                if(!cliente.getRutinaSemanal().isEmpty())//si la rutina contiene ejercicios
+                if (!cliente.getRutinaSemanal().isEmpty())//si la rutina contiene ejercicios
                 {
                     gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
-                    try
-                    {
-                        gym.enviarUnMail(cliente.geteMail(),"Rutina semanal",true);//le envio la rutina de los dias que tenga grabados
-                    } catch (MessagingException e)
-                    {
+                    try {
+                        gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true);//le envio la rutina de los dias que tenga grabados
+                    } catch (MessagingException e) {
                         e.getMessage();
-                    } catch (MailSinArrobaE e)
-                    {
+                    } catch (MailSinArrobaE e) {
                         e.getMessage();
                     }
-                }
-                else
-                {
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
+                } else {
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
                 }
 
 
-            }
-            else
-            {
-                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
+            } else {
+                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
             }
 
 
-        } else
-        {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Seleccione un cliente");//si no selecciona nada es null por lo que necesito seleccione
+        } else {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Seleccione un cliente");//si no selecciona nada es null por lo que necesito seleccione
         }
     }
 
@@ -363,31 +384,27 @@ public class JfrCliente extends JFrame {
     }
 
     private void BotonArchivarClienteActionPerformed(ActionEvent evt) {
-        if (TablaClientes.getSelectedRow() != -1)
-        {
-            Cliente clienteSeleccionado= GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(TablaClientes.getSelectedRow(),0));
+        if (TablaClientes.getSelectedRow() != -1) {
+            Cliente clienteSeleccionado = GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 0));
 
-           clienteSeleccionado.setEstado(!clienteSeleccionado.isEstado()); // pongo el estado contrario al que es. EJ: si es true lo pongo false
+            clienteSeleccionado.setEstado(!clienteSeleccionado.isEstado()); // pongo el estado contrario al que es. EJ: si es true lo pongo false
 
         }
     }
 
     private void BotonAsignarRutinaActionPerformed(ActionEvent evt) {
 
-        int filaSeleccionada= TablaClientes.getSelectedRow();
+        int filaSeleccionada = TablaClientes.getSelectedRow();
 
-        if (filaSeleccionada != -1)
-        {
-            String idSocioSeleccionado= (String) TablaClientes.getValueAt(filaSeleccionada,0);
-            Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar(Integer.valueOf(idSocioSeleccionado));
+        if (filaSeleccionada != -1) {
+            String idSocioSeleccionado = (String) TablaClientes.getValueAt(filaSeleccionada, 0);
+            Cliente clienteAux = GUIEnvoltorio.getGimnasio().buscar(Integer.valueOf(idSocioSeleccionado));
 
             this.setVisible(false);
             JfrGenerarRutina rut = new JfrGenerarRutina(clienteAux);
             rut.setVisible(true);
-        }
-        else
-        {
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Elija un cliente primero para asignarle una rutina");
+        } else {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Elija un cliente primero para asignarle una rutina");
         }
 
 
@@ -402,16 +419,16 @@ public class JfrCliente extends JFrame {
 
         //muestro lo obtenido de la busqueda en la tabla
         ArrayList<Cliente> arrayQueSeMostrara = new ArrayList<>();
-        ArrayList<Cliente> todosLosClientes= GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
+        ArrayList<Cliente> todosLosClientes = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
 
         String opcionElegida = (String) BuscarClienteMenu.getSelectedItem(); //obtengo el valor de la op q eligio el usuario
         assert opcionElegida != null; // aseguro que la variable opcionElegida no va a ser null
 
         opcionElegida = opcionElegida.toLowerCase();
 
-        String busqueda= TextAreaBusqueda.getText(); //obtengo el valor de la caja de texto que hay
+        String busqueda = TextAreaBusqueda.getText(); //obtengo el valor de la caja de texto que hay
 
-        busqueda= busqueda.replace(" ",""); //le saco todos los espacios
+        busqueda = busqueda.replace(" ", ""); //le saco todos los espacios
 
 
         switch (opcionElegida) {
@@ -426,89 +443,72 @@ public class JfrCliente extends JFrame {
                     //el parseo del string a Integer puede provocar errores si no se verifica
 
                     try {
-                        int idLeido=Integer.parseInt(busqueda);
+                        int idLeido = Integer.parseInt(busqueda);
 
-                        if(GUIEnvoltorio.getGimnasio().verificarSiExisteClienteXId(idLeido))
-                        {
+                        if (GUIEnvoltorio.getGimnasio().verificarSiExisteClienteXId(idLeido)) {
 
                             arrayQueSeMostrara.add(GUIEnvoltorio.getGimnasio().buscar(idLeido));
+                        } else {
+                            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "El ID buscado no existe");
                         }
-                        else {
-                            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"El ID buscado no existe");
-                        }
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Solo puede ingresar numeros si busca por ID");
+                    } catch (NumberFormatException e) {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Solo puede ingresar numeros si busca por ID");
                     }
 
-                }
-                else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun ID");
+                } else {
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun ID");
                 }
 
                 break;
             case "por nombre":
 
-                if (!busqueda.isEmpty()){
+                if (!busqueda.isEmpty()) {
 
-                    for (Cliente cliente: todosLosClientes)
-                    {
-                        if (cliente.getNombre().equalsIgnoreCase(busqueda))
-                        {
+                    for (Cliente cliente : todosLosClientes) {
+                        if (cliente.getNombre().equalsIgnoreCase(busqueda)) {
                             arrayQueSeMostrara.add(cliente);
                         }
                     }
-                    if(arrayQueSeMostrara.isEmpty())
-                    {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se encontro el nombre buscado");
+                    if (arrayQueSeMostrara.isEmpty()) {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se encontro el nombre buscado");
                     }
-                }
-                else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun nombre");
+                } else {
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun nombre");
                 }
 
                 break;
             case "por apellido":
-                if (!busqueda.isEmpty()){
+                if (!busqueda.isEmpty()) {
 
-                    for (Cliente cliente: todosLosClientes)
-                    {
-                        if (cliente.getApellido().equalsIgnoreCase(busqueda))
-                        {
+                    for (Cliente cliente : todosLosClientes) {
+                        if (cliente.getApellido().equalsIgnoreCase(busqueda)) {
                             arrayQueSeMostrara.add(cliente);
                         }
                     }
-                    if(arrayQueSeMostrara.isEmpty())
-                    {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se encontro el apellido buscado");
+                    if (arrayQueSeMostrara.isEmpty()) {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se encontro el apellido buscado");
                     }
-                }
-                else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun apellido");
+                } else {
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun apellido");
                 }
                 break;
             case "por actividad":
-                if (!busqueda.isEmpty()){
+                if (!busqueda.isEmpty()) {
                     HashSet<String> actividadesDelCliente;
 
-                    for (Cliente cliente: todosLosClientes)
-                    {
+                    for (Cliente cliente : todosLosClientes) {
                         //validar como hacer para que ignore las mayusculas o minusculas
-                        actividadesDelCliente= cliente.getActividadesInscripto();
-                        if (actividadesDelCliente.contains(busqueda.toLowerCase()))
-                        {
+                        actividadesDelCliente = cliente.getActividadesInscripto();
+                        if (actividadesDelCliente.contains(busqueda.toLowerCase())) {
                             arrayQueSeMostrara.add(cliente);
                         }
 
                     }
-                    if(arrayQueSeMostrara.isEmpty())
-                    {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se encontro la actividad buscada");
+                    if (arrayQueSeMostrara.isEmpty()) {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se encontro la actividad buscada");
                     }
-                }
-                else {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ninguna actividad");
+                } else {
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ninguna actividad");
                 }
 
 
@@ -518,6 +518,20 @@ public class JfrCliente extends JFrame {
                     ESexo sexoElegido = ESexo.valueOf(busqueda.toUpperCase());
                     if (!busqueda.isEmpty()){
 
+// <<<<<<< ModificarPoP-UPS
+//                 if (!busqueda.isEmpty()) {
+
+//                     for (Cliente cliente : todosLosClientes) {
+//                         if (cliente.getSexo().equalsIgnoreCase(busqueda)) {
+//                             arrayQueSeMostrara.add(cliente);
+//                         }
+//                     }
+//                     if (arrayQueSeMostrara.isEmpty()) {
+//                         JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No hay ninguna persona del sexo elegido");
+//                     }
+//                 } else {
+//                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun sexo");
+// =======
                         for (Cliente cliente: todosLosClientes)
                         {
                             if (cliente.getSexo() == sexoElegido)
@@ -538,6 +552,7 @@ public class JfrCliente extends JFrame {
                 {
                     JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un sexo valido: masculino o femenino");
 
+
                 }
 
 
@@ -549,29 +564,32 @@ public class JfrCliente extends JFrame {
                 break;
         }
 
-        DefaultTableModel defaultTableModelClientes= (DefaultTableModel)TablaClientes.getModel();
+        DefaultTableModel defaultTableModelClientes = (DefaultTableModel) TablaClientes.getModel();
 
         limpiarTabla(defaultTableModelClientes);
-        agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes,arrayQueSeMostrara);
+        agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes, arrayQueSeMostrara);
     }
 
-    private void limpiarTabla(DefaultTableModel defaultTableModel){
+    private void limpiarTabla(DefaultTableModel defaultTableModel) {
         defaultTableModel.setRowCount(0);
     }
 
-    private void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList)
-    {
-        for (Cliente cliente: clienteArrayList)
-        {
-            agregarUnClienteEnTablaDeClientes(defaultTableModel,cliente);
+    private void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList) {
+        for (Cliente cliente : clienteArrayList) {
+            agregarUnClienteEnTablaDeClientes(defaultTableModel, cliente);
         }
     }
 
-    private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente)
+// <<<<<<< ModificarPoP-UPS
+//     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
+//         String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), unCliente.getSexo()};
+// =======
+     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente)
     {
         String[] datosCliente= new String[]{String.valueOf(unCliente.getIdCliente()),unCliente.getNombre(),unCliente.getApellido(),unCliente.getDNI(),unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
 
-       defaultTableModel.addRow(datosCliente);
+
+        defaultTableModel.addRow(datosCliente);
     }
 
 
@@ -597,9 +615,33 @@ public class JfrCliente extends JFrame {
 
     }
 
+//    public Cliente pasarPersona(){
+//        return cliente;
+//    }
+
+    public Cliente obtenerClienteSeleccionado(){
+
+        ArrayList<Cliente>clienteArrayList = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
+
+       int filaSeleccionada = TablaClientes.getSelectedRow();
+
+       int idSocio = Integer.parseInt(TablaClientes.getValueAt(filaSeleccionada, 0).toString());
+
+
+      Gimnasio gym = GUIEnvoltorio.getGimnasio();
+      cliente = gym.buscar(idSocio);
+
+       if(cliente == null){
+           JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "N° de socio no encontrado");
+       }
+
+        return cliente;
+    }
+
     private void BotonActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {
         this.setVisible(false);
-        JfrModificarCliente modificarCliente = new JfrModificarCliente();
+
+        JfrModificarCliente modificarCliente = new JfrModificarCliente( obtenerClienteSeleccionado());
         modificarCliente.setVisible(true);
     }
 

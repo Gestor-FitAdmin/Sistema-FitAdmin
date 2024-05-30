@@ -1,6 +1,10 @@
 package org.example.GUI;
 
+import org.example.Modelo.Cliente;
+import org.example.Modelo.Persona;
+
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.util.Objects;
 
 public class JfrModificarCliente extends javax.swing.JFrame {
@@ -18,19 +22,22 @@ public class JfrModificarCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private Cliente cliente;
 
 
-    public JfrModificarCliente() {
+    public JfrModificarCliente(Cliente p_cliente) {
         setResizable(false);
         initComponents();
         setLocationRelativeTo(null);
-
         //Cambiar el Icono de la app
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
+        cliente = p_cliente;
+        agregarClienteSeleccionadoATabla();
     }
 
     private void initComponents() {
+
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -81,6 +88,8 @@ public class JfrModificarCliente extends javax.swing.JFrame {
             TablaClienteAModificar.getColumnModel().getColumn(8).setResizable(false);
             TablaClienteAModificar.getColumnModel().getColumn(9).setResizable(false);
         }
+
+
 
         ComboBoxModificar.setBackground(new java.awt.Color(130, 130, 130));
         ComboBoxModificar.setForeground(new java.awt.Color(242, 242, 242));
@@ -244,6 +253,22 @@ public class JfrModificarCliente extends javax.swing.JFrame {
         JfrCliente cliente = new JfrCliente();
         cliente.setVisible(true);
 
+    }
+
+    private void agregarClienteSeleccionadoATabla(){
+        TableModel table = TablaClienteAModificar.getModel();
+        TablaClienteAModificar.setModel(table);
+
+        TablaClienteAModificar.setValueAt(cliente.getIdCliente(),0,0);
+        table.setValueAt(cliente.getNombre(),0,1);
+        table.setValueAt(cliente.getApellido(),0,2);
+        table.setValueAt(cliente.getActividadesInscripto(),0,3);
+        table.setValueAt(cliente.geteMail(),0,4);
+        table.setValueAt(cliente.getDNI(),0,5);
+        table.setValueAt(cliente.getPeso(),0,6);
+        table.setValueAt(cliente.getAltura(),0,7);
+        table.setValueAt(cliente.getSexo(),0,8);
+        table.setValueAt(cliente.isCuotaPagada(),0,9);
     }
 
 }

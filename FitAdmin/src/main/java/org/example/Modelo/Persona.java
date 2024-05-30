@@ -104,12 +104,20 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
 
     //Metodos
 
+// <<<<<<< ModificarPoP-UPS
+//     public LocalDate formatearFechaALocalDate(String fecha)
+//     {
+//         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//         return LocalDate.parse(fecha,formato);
+//     }
+// =======
 //    private LocalDate formatearFechaALocalDate(LocalDate fecha)
 //    {
 //        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//
+
 //        return LocalDate.parse(fecha,formato);
 //    }
+
 
 
      private int calcularEdad()
