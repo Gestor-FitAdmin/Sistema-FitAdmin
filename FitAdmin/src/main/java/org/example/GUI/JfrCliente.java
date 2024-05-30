@@ -183,8 +183,6 @@ public class JfrCliente extends JFrame {
 */
 
 
-
-
         agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
 
 
@@ -516,7 +514,7 @@ public class JfrCliente extends JFrame {
             case "por sexo":
                 try {
                     ESexo sexoElegido = ESexo.valueOf(busqueda.toUpperCase());
-                    if (!busqueda.isEmpty()){
+                    if (!busqueda.isEmpty()) {
 
 // <<<<<<< ModificarPoP-UPS
 //                 if (!busqueda.isEmpty()) {
@@ -532,30 +530,22 @@ public class JfrCliente extends JFrame {
 //                 } else {
 //                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun sexo");
 // =======
-                        for (Cliente cliente: todosLosClientes)
-                        {
-                            if (cliente.getSexo() == sexoElegido)
-                            {
+                        for (Cliente cliente : todosLosClientes) {
+                            if (cliente.getSexo() == sexoElegido) {
                                 arrayQueSeMostrara.add(cliente);
                             }
                         }
-                        if(arrayQueSeMostrara.isEmpty())
-                        {
-                            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No hay ninguna persona del sexo elegido");
+                        if (arrayQueSeMostrara.isEmpty()) {
+                            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No hay ninguna persona del sexo elegido");
                         }
+                    } else {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun sexo");
                     }
-                    else {
-                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun sexo");
-                    }
-                }
-                catch (IllegalArgumentException e)
-                {
-                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un sexo valido: masculino o femenino");
+                } catch (IllegalArgumentException e) {
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Ingrese un sexo valido: masculino o femenino");
 
 
                 }
-
-
 
 
                 break;
@@ -580,13 +570,12 @@ public class JfrCliente extends JFrame {
         }
     }
 
-// <<<<<<< ModificarPoP-UPS
+    // <<<<<<< ModificarPoP-UPS
 //     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
 //         String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), unCliente.getSexo()};
 // =======
-     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente)
-    {
-        String[] datosCliente= new String[]{String.valueOf(unCliente.getIdCliente()),unCliente.getNombre(),unCliente.getApellido(),unCliente.getDNI(),unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
+    private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
+        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
 
 
         defaultTableModel.addRow(datosCliente);
@@ -619,35 +608,39 @@ public class JfrCliente extends JFrame {
 //        return cliente;
 //    }
 
-    public Cliente obtenerClienteSeleccionado(){
+    public Cliente obtenerClienteSeleccionado() {
 
-        ArrayList<Cliente>clienteArrayList = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
+        ArrayList<Cliente> clienteArrayList = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
 
-       int filaSeleccionada = TablaClientes.getSelectedRow();
+        int filaSeleccionada = TablaClientes.getSelectedRow();
+        int idSocio = -1;
+        try {
+            idSocio = Integer.parseInt(TablaClientes.getValueAt(filaSeleccionada, 0).toString());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se selecciono ningun cliente");
+        }
 
-       int idSocio = Integer.parseInt(TablaClientes.getValueAt(filaSeleccionada, 0).toString());
+        Gimnasio gym = GUIEnvoltorio.getGimnasio();
 
-
-      Gimnasio gym = GUIEnvoltorio.getGimnasio();
-      cliente = gym.buscar(idSocio);
-
-       if(cliente == null){
-           JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "N° de socio no encontrado");
-       }
+        try {
+            cliente = gym.buscar(idSocio);
+        }catch (NullPointerException e){
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "N° de socio no encontrado");
+        }
 
         return cliente;
     }
 
     private void BotonActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {
-        this.setVisible(false);
+        if (obtenerClienteSeleccionado() != null) {
+            this.setVisible(false);
 
-        JfrModificarCliente modificarCliente = new JfrModificarCliente( obtenerClienteSeleccionado());
-        modificarCliente.setVisible(true);
+            JfrModificarCliente modificarCliente = new JfrModificarCliente(obtenerClienteSeleccionado());
+            modificarCliente.setVisible(true);
+        } 
+
+
     }
-
-
-
-
 
 
 }
