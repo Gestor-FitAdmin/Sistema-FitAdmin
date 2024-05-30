@@ -63,6 +63,10 @@ public class Cliente extends Persona{
         return cuotaPagada;
     }
 
+    public void setCuotaPagada(boolean cuotaPagada) {
+        this.cuotaPagada = cuotaPagada;
+    }
+
     public boolean isEstado() {
         return estado;
     }
@@ -132,6 +136,46 @@ public class Cliente extends Persona{
     public Rutina getUnaRutinaEspecifica(Enum diaRequerido)
     {
         return rutinaSemanal.get(diaRequerido.toString());
+    }
+
+    public void modificarNombreCliente(String nombre){
+        if(nombre != null){
+            setNombre(nombre);
+        }
+    }
+    public void modificarApellidoCliente(String apellido){
+        if(apellido != null){
+            setApellido(apellido);
+        }
+    }
+    public void modificarEMailCliente(String eMail){
+        if(eMail != null){
+            seteMail(eMail);
+        }
+    }
+    public void modificarDNICliente(String DNI){
+        if(DNI != null){
+            setDNI(DNI);
+        }
+    }
+
+    public void modificarPesoCliente(Double peso){
+        if(peso != null){
+            setPeso(peso);
+        }
+    }
+    public void modificarAlturaCliente(Double altura){
+        if(altura!= null){
+            setAltura(altura);
+        }
+    }
+
+    public void modificarCuotaCliente(){
+        if(cuotaPagada){
+            setCuotaPagada(false);
+        }else {
+            setCuotaPagada(true);
+        }
     }
 
     @Override
