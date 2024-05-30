@@ -1,6 +1,7 @@
 package org.example.GUI;
 
 
+import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
@@ -513,20 +514,50 @@ public class JfrCliente extends JFrame {
 
                 break;
             case "por sexo":
+                try {
+                    ESexo sexoElegido = ESexo.valueOf(busqueda.toUpperCase());
+                    if (!busqueda.isEmpty()){
 
-                if (!busqueda.isEmpty()) {
+// <<<<<<< ModificarPoP-UPS
+//                 if (!busqueda.isEmpty()) {
 
-                    for (Cliente cliente : todosLosClientes) {
-                        if (cliente.getSexo().equalsIgnoreCase(busqueda)) {
-                            arrayQueSeMostrara.add(cliente);
+//                     for (Cliente cliente : todosLosClientes) {
+//                         if (cliente.getSexo().equalsIgnoreCase(busqueda)) {
+//                             arrayQueSeMostrara.add(cliente);
+//                         }
+//                     }
+//                     if (arrayQueSeMostrara.isEmpty()) {
+//                         JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No hay ninguna persona del sexo elegido");
+//                     }
+//                 } else {
+//                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun sexo");
+// =======
+                        for (Cliente cliente: todosLosClientes)
+                        {
+                            if (cliente.getSexo() == sexoElegido)
+                            {
+                                arrayQueSeMostrara.add(cliente);
+                            }
+                        }
+                        if(arrayQueSeMostrara.isEmpty())
+                        {
+                            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No hay ninguna persona del sexo elegido");
                         }
                     }
-                    if (arrayQueSeMostrara.isEmpty()) {
-                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No hay ninguna persona del sexo elegido");
+                    else {
+                        JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No ingreso ningun sexo");
                     }
-                } else {
-                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun sexo");
                 }
+                catch (IllegalArgumentException e)
+                {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un sexo valido: masculino o femenino");
+
+
+                }
+
+
+
+
                 break;
             default:
                 arrayQueSeMostrara = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
@@ -549,8 +580,14 @@ public class JfrCliente extends JFrame {
         }
     }
 
-    private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
-        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), unCliente.getSexo()};
+// <<<<<<< ModificarPoP-UPS
+//     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
+//         String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), unCliente.getSexo()};
+// =======
+     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente)
+    {
+        String[] datosCliente= new String[]{String.valueOf(unCliente.getIdCliente()),unCliente.getNombre(),unCliente.getApellido(),unCliente.getDNI(),unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
+
 
         defaultTableModel.addRow(datosCliente);
     }

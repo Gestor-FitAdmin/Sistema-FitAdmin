@@ -1,6 +1,9 @@
 package org.example.GUI;
 
+import org.example.Enum.ESexo;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.util.Objects;
 
@@ -17,8 +20,8 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
 
     public JfrEstadisticas() {
         initComponents();
+        actualizarTextoEstadisticas();
         setLocationRelativeTo(null);
-
         //Cambiar el Icono de la app
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
@@ -45,13 +48,15 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
 
         AreaDeTextoEstadisticas.setEditable(false);
         AreaDeTextoEstadisticas.setBackground(new java.awt.Color(130, 130, 130));
-        AreaDeTextoEstadisticas.setColumns(20);
-        AreaDeTextoEstadisticas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        AreaDeTextoEstadisticas.setColumns(0);
+        AreaDeTextoEstadisticas.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         AreaDeTextoEstadisticas.setForeground(new java.awt.Color(242, 242, 242));
-        AreaDeTextoEstadisticas.setRows(22);
-        AreaDeTextoEstadisticas.setTabSize(100);
+        AreaDeTextoEstadisticas.setRows(0);
+        AreaDeTextoEstadisticas.setTabSize(0);
         AreaDeTextoEstadisticas.setBorder(null);
         jScrollPane2.setViewportView(AreaDeTextoEstadisticas);
+
+        AreaDeTextoEstadisticas.setPreferredSize(new Dimension(200,350));//ajustamos el area como predeterminada
 
         BotonAtras.setBackground(new java.awt.Color(63, 63, 63));
         BotonAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/return.png"))); // NOI18N
@@ -101,6 +106,8 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+
+
         pack();
     }
 
@@ -111,7 +118,21 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
         menu.setVisible(true);
     }
 
-    public void actualizarTextoEstadisticas(String texto){
-        AreaDeTextoEstadisticas.setText(texto);
+    public void actualizarTextoEstadisticas(){
+        String textoConEstadisticas="";
+
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes: "+ GUIEnvoltorio.getGimnasio().contarTotalClientes());
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes activos: "+ GUIEnvoltorio.getGimnasio().contarClientesActivos());
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes inactivos: "+ GUIEnvoltorio.getGimnasio().contarClientesInactivos());
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes en musculacion: "+ GUIEnvoltorio.getGimnasio().contarClientesXActividad("musculacion"));
+        //puede haber mas actividades...
+
+
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo masculino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.MASCULINO));
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo femenino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.FEMENINO));
+        textoConEstadisticas= textoConEstadisticas.concat("Total recaudado: $"+ GUIEnvoltorio.getGimnasio().recaudacionTotal());
+
+
+        AreaDeTextoEstadisticas.setText(textoConEstadisticas);
     }
 }
