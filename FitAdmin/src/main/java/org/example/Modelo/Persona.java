@@ -100,10 +100,9 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
 
     //Metodos
 
-    private LocalDate formatearFechaALocalDate(String fecha)
+    public LocalDate formatearFechaALocalDate(String fecha)
     {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         return LocalDate.parse(fecha,formato);
     }
 
