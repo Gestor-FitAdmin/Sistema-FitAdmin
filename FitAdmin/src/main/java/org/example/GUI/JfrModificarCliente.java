@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Objects;
 
 public class JfrModificarCliente extends JFrame {
@@ -246,42 +247,90 @@ public class JfrModificarCliente extends JFrame {
 
     private void ComboBoxModificarActionPerformed(ActionEvent evt) {
 
-            TextFieldModificar.setText(" ");
+            TextFieldModificar.setText("");
     }
 
     private void BotonGuardarCambiosActionPerformed(ActionEvent evt) {
 
         String opcionElegida = (String) ComboBoxModificar.getSelectedItem();
+        String busqueda = TextFieldModificar.getText().trim();
+
         switch (opcionElegida) {
             case "Nombre": {
-                cliente.modificarNombreCliente(TextFieldModificar.getText());
-                agregarClienteSeleccionadoATabla();
+
+                //todo: Hay que verificar que no tenga numeros
+                if(!busqueda.isEmpty()) {
+                    cliente.modificarNombreCliente(busqueda);
+                    agregarClienteSeleccionadoATabla();
+                }
+                else{
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun nombre");
+                    }
                 break;
             }
 
             case "Apellido": {
-                cliente.modificarApellidoCliente(TextFieldModificar.getText());
-                agregarClienteSeleccionadoATabla();
+                if(!busqueda.isEmpty()) {
+                    //todo: Hay qie verificar que no tenga numeros
+                    cliente.modificarApellidoCliente(busqueda);
+                    agregarClienteSeleccionadoATabla();
+                }else{
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun Apellido");
+                }
                 break;
             }
             case "DNI" : {
-                cliente.modificarDNICliente(TextFieldModificar.getText());
-                agregarClienteSeleccionadoATabla();
+                if(!busqueda.isEmpty()) {
+                    cliente.modificarDNICliente(busqueda);
+                    agregarClienteSeleccionadoATabla();
+                }else{
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun DNI");
+                }
                 break;
             }
             case "E-Mail" : {
-                cliente.modificarEMailCliente(TextFieldModificar.getText());
-                agregarClienteSeleccionadoATabla();
+                if(!busqueda.isEmpty()) {
+
+                    //todo: Hay que verificar el arroba
+
+                    cliente.modificarEMailCliente(busqueda);
+                    agregarClienteSeleccionadoATabla();
+                }else{
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun E-Mail");
+                }
                 break;
             }
             case "Peso" : {
-                cliente.modificarPesoCliente(Double.parseDouble(TextFieldModificar.getText()));
-                agregarClienteSeleccionadoATabla();
+                if(!busqueda.isEmpty()) {
+                    try {
+
+                        //todo: Hay que verificar el tipo de dato
+                        Double dato = Double.parseDouble(busqueda);
+                        cliente.modificarPesoCliente(dato);
+                        agregarClienteSeleccionadoATabla();
+                    }catch (Exception e){
+                        JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un dato valido");
+                    }
+
+                }else{
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun peso");
+                }
                 break;
             }
             case "Altura" : {
-                cliente.modificarAlturaCliente(Double.parseDouble((TextFieldModificar.getText())));
-                agregarClienteSeleccionadoATabla();
+                if(!busqueda.isEmpty()) {
+                    try {
+                        //todo: Hay que verificar el tipo de dato
+                        Double dato = Double.parseDouble(busqueda);
+                        cliente.modificarAlturaCliente(dato);
+                        agregarClienteSeleccionadoATabla();
+                    }catch (Exception e){
+                        JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un dato valido");
+                    }
+
+                }else{
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ninguna altura");
+                }
                 break;
             }
 
@@ -290,7 +339,7 @@ public class JfrModificarCliente extends JFrame {
         }
 
 
-        TextFieldModificar.setText(" ");
+        TextFieldModificar.setText("");
     }
 
     private void TextFieldModificarActionPerformed(ActionEvent evt) {
