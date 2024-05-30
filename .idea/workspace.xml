@@ -6,13 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ae97a1cc-6b72-437d-955f-0951bfcca64f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAcceso.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAgregarNuevoCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrAgregarNuevoCliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrCliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrGenerarRutina.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrGenerarRutina.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrLogIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/JfrLogIn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/PopUps/JfrAutenticacionPopUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/PopUps/JfrAutenticacionPopUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/PopUps/JfrErrorPopUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/GUI/PopUps/JfrErrorPopUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Persona.java" beforeDir="false" afterPath="$PROJECT_DIR$/FitAdmin/src/main/java/org/example/Modelo/Persona.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -61,7 +59,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "modificacion-popups-a-JDialog",
+    "git-widget-placeholder": "validacion-fecha-crearCliente",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Gc/Desktop/programacion/tpFinal3erCuatri/FitAdmin/java-json.jar",
     "node.js.detected.package.eslint": "true",
@@ -124,7 +122,7 @@
       <workItem from="1716607844612" duration="11760000" />
       <workItem from="1716753212250" duration="3591000" />
       <workItem from="1716757678306" duration="18425000" />
-      <workItem from="1716992176917" duration="24374000" />
+      <workItem from="1716992176917" duration="37073000" />
     </task>
     <servers />
   </component>

@@ -3,6 +3,7 @@ package org.example.Modelo;
 import org.example.Enum.EDiasSemana;
 import org.example.Enum.ESexo;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Cliente extends Persona{
@@ -19,7 +20,7 @@ public class Cliente extends Persona{
 
 
     //cliente con id
-    public Cliente(String nombre, String apellido, String DNI, ESexo sexo, Double peso, Double altura, String fechaDeNacimiento, String eMail, boolean cuotaPagada) {
+    public Cliente(String nombre, String apellido, String DNI, ESexo sexo, Double peso, Double altura, LocalDate fechaDeNacimiento, String eMail, boolean cuotaPagada) {
         super(nombre, apellido, DNI, sexo, peso, altura, fechaDeNacimiento);
         this.idCliente = 0;
         this.eMail = eMail;
@@ -99,11 +100,13 @@ public class Cliente extends Persona{
         return 1;
     }
 
-    public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
-        String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
+//    public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
+//        String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
+//
+//        rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
+//    }
 
-        rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
-    }
+
     //Esta funcion me va a servir para ordenar por dias y luego imprimir el PDF correctamente
     public String formatearDatosCliente(Cliente cliente)
     {
