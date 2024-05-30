@@ -25,14 +25,14 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
 
     //Constructor
 
-    public Persona(String nombre, String apellido, String DNI, ESexo sexo, Double peso, Double altura, String fechaDeNacimiento) {
+    public Persona(String nombre, String apellido, String DNI, ESexo sexo, Double peso, Double altura, LocalDate fechaDeNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.DNI = DNI;
         this.sexo = sexo;
         this.peso = peso;
         this.altura = altura;
-        this.fechaDeNacimiento = formatearFechaALocalDate(fechaDeNacimiento); //formateo string DD-MM-YYYY
+        this.fechaDeNacimiento = fechaDeNacimiento; //formateo string DD-MM-YYYY
         edad = calcularEdad();
     }
 
@@ -62,8 +62,8 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
         return altura;
     }
 
-    public LocalDate getFechaDeNacimiento() {
-        return fechaDeNacimiento;
+    public String getFechaDeNacimiento() {
+        return fechaDeNacimiento.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     }
 
     public int getEdad() {
@@ -104,12 +104,12 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
 
     //Metodos
 
-    private LocalDate formatearFechaALocalDate(String fecha)
-    {
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        return LocalDate.parse(fecha,formato);
-    }
+//    private LocalDate formatearFechaALocalDate(LocalDate fecha)
+//    {
+//        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//
+//        return LocalDate.parse(fecha,formato);
+//    }
 
 
      private int calcularEdad()
