@@ -1,10 +1,12 @@
 package org.example.GUI;
 
+import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Main;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
+import javax.mail.MessagingException;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -39,6 +41,8 @@ public class JfrLogIn extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
 
+        //Enviar Saludos de cumpleaños
+        enviarSaludosDeCumpleanos();
     }
 
 
@@ -272,26 +276,58 @@ public class JfrLogIn extends javax.swing.JFrame {
     }
 
     public void enviarSaludosDeCumpleanos() {
-        Gimnasio gimnasio = GUIEnvoltorio.getGimnasio(); // Accedo al gimansio
+
+        System.out.println("Ingreso");
+        Gimnasio gimnasio = GUIEnvoltorio.getGimnasio(); // Accedo al gimnasio
         ArrayList<String> localDates = leerArchivoFechas(); // Leo los elementos del archivo y los meto en el arraylist
         HashMap<Integer, Cliente> integerClienteHashMap = gimnasio.getClientes();
-
+        String fechaActualdMy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")); // Obtengo fecha actual
+        String fechaActualdM = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM")); // Obtengo solo el día y el mes
         Set<Map.Entry<Integer, Cliente>> entrySet = integerClienteHashMap.entrySet();
         Iterator<Map.Entry<Integer, Cliente>> iterator = entrySet.iterator();
 
+        System.out.println("Creo todo");
         while (iterator.hasNext()) {
-
+            System.out.println("entro al while");
             Map.Entry<Integer, Cliente> dato = iterator.next();
+
             Cliente cliente = dato.getValue();
-            for(String fecha : localDates){
-                if(fecha.equals(cliente.getFechaDeNacimiento())){
-                    //todo: Hay que comparar las fechas, si son iguales, sigo con el siguiente,
-                    // si son diferentes comparo la fecha esa con la fecha actual y si son iguales mando mail, sino paso
+
+            String cumpleActualdM = cliente.getFechaDeNacimiento().substring(0, cliente.getFechaDeNacimiento().length() - 5);
+            System.out.println(cliente.get);
+            System.out.println(cumpleActualdM + "hola manola");
+            if (fechaActualdM.equals(cumpleActualdM)) {
+                    if (!localDates.contains(fechaActualdMy)) {
+                        String mensaje = String.format(
+                                """
+                                        ¡Feliz cumpleaños, %s!
+
+                                        Desde FitAdmin, queremos desearte un día lleno de alegría y celebración. Para hacerlo aún más especial, te estamos esperando en el gimnasio con un regalo sorpresa.
+
+                                        ¡No olvides visitarnos hoy y recibir tu regalo por tu cumpleaños %d!
+
+                                        ¡Feliz cumpleaños y que tengas un excelente día!
+
+                                        Saludos cordiales,
+                                        El equipo de FitAdmin""",
+                                cliente.getNombre(), cliente.calcularEdad()
+                        );
+                        try {
+                            gimnasio.enviarUnMail(cliente.geteMail(), mensaje, false);
+                            System.out.println("envioMail");
+                        } catch (MessagingException e) {
+                            System.out.println("MessagingException");
+                        } catch (MailSinArrobaE e) {
+                            System.out.println("MailSinArroba");
+                        }
+                        grabarArchvioFechas(fechaActualdMy);
+                        System.out.println("grabo Archivo");
+                    }
                 }
             }
 
         }
-    }
+
 
     static ArrayList<String> leerArchivoFechas() {
         ArrayList<String> localDates = new ArrayList<>();
@@ -301,10 +337,10 @@ public class JfrLogIn extends javax.swing.JFrame {
             objectInputStream = new ObjectInputStream(fileInputStream);
 
             while (true) {
-                LocalDate fecha = (LocalDate) objectInputStream.readObject();
-                localDates.add(fecha.toString());
+                String fecha = (String) objectInputStream.readObject();
+                localDates.add(fecha);
             }
-        }catch ( FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             //todo: hay que mostrar pop up en metodos static
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -314,14 +350,14 @@ public class JfrLogIn extends javax.swing.JFrame {
         return localDates;
 
     }
-    static void grabarArchvioFechas() {
+
+    static void grabarArchvioFechas(String fecha) {
         ObjectOutputStream objectOutputStream = null;
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("fechas.bin");
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            String fechaFormateada = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            objectOutputStream.writeObject(fechaFormateada);
+            objectOutputStream.writeObject(fecha);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
