@@ -251,6 +251,7 @@ public class JfrModificarCliente extends JFrame {
     }
 
     private void BotonGuardarCambiosActionPerformed(ActionEvent evt) {
+        JfrAgregarNuevoCliente nuevoCliente = new JfrAgregarNuevoCliente();
 
         String opcionElegida = (String) ComboBoxModificar.getSelectedItem();
         String busqueda = TextFieldModificar.getText().trim();
@@ -258,10 +259,14 @@ public class JfrModificarCliente extends JFrame {
         switch (opcionElegida) {
             case "Nombre": {
 
-                //todo: Hay que verificar que no tenga numeros
                 if(!busqueda.isEmpty()) {
-                    cliente.modificarNombreCliente(busqueda);
-                    agregarClienteSeleccionadoATabla();
+                    if(!nuevoCliente.verificarSiContieneNumero(busqueda)) {
+                        cliente.modificarNombreCliente(busqueda);
+                        agregarClienteSeleccionadoATabla();
+                    }
+                    else {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this,true, "El nombre no puede tener digitos");
+                    }
                 }
                 else{
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun nombre");
@@ -271,9 +276,12 @@ public class JfrModificarCliente extends JFrame {
 
             case "Apellido": {
                 if(!busqueda.isEmpty()) {
-                    //todo: Hay qie verificar que no tenga numeros
-                    cliente.modificarApellidoCliente(busqueda);
-                    agregarClienteSeleccionadoATabla();
+                    if(!nuevoCliente.verificarSiContieneNumero(busqueda)) {
+                        cliente.modificarApellidoCliente(busqueda);
+                        agregarClienteSeleccionadoATabla();
+                    }else{
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "El apellido no puede contener digitos");
+                    }
                 }else{
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun Apellido");
                 }
@@ -281,8 +289,13 @@ public class JfrModificarCliente extends JFrame {
             }
             case "DNI" : {
                 if(!busqueda.isEmpty()) {
+                    if(!nuevoCliente.verificarDNIExistente(busqueda) && !nuevoCliente.verificarTamDNI(busqueda)){
+
                     cliente.modificarDNICliente(busqueda);
                     agregarClienteSeleccionadoATabla();
+                    } else{
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Ingrese un DNI valido");
+                    }
                 }else{
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun DNI");
                 }
@@ -290,11 +303,13 @@ public class JfrModificarCliente extends JFrame {
             }
             case "E-Mail" : {
                 if(!busqueda.isEmpty()) {
+                    if(!nuevoCliente.verificarArroba(busqueda)){
+                        cliente.modificarEMailCliente(busqueda);
+                        agregarClienteSeleccionadoATabla();
 
-                    //todo: Hay que verificar el arroba
-
-                    cliente.modificarEMailCliente(busqueda);
-                    agregarClienteSeleccionadoATabla();
+                    }else {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Debe ingresar un mail con '@' ");
+                    }
                 }else{
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun E-Mail");
                 }
@@ -303,15 +318,13 @@ public class JfrModificarCliente extends JFrame {
             case "Peso" : {
                 if(!busqueda.isEmpty()) {
                     try {
-
-                        //todo: Hay que verificar el tipo de dato
                         Double dato = Double.parseDouble(busqueda);
                         cliente.modificarPesoCliente(dato);
                         agregarClienteSeleccionadoATabla();
-                    }catch (Exception e){
+
+                    }catch (NumberFormatException e){
                         JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un dato valido");
                     }
-
                 }else{
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun peso");
                 }
@@ -320,11 +333,10 @@ public class JfrModificarCliente extends JFrame {
             case "Altura" : {
                 if(!busqueda.isEmpty()) {
                     try {
-                        //todo: Hay que verificar el tipo de dato
                         Double dato = Double.parseDouble(busqueda);
                         cliente.modificarAlturaCliente(dato);
                         agregarClienteSeleccionadoATabla();
-                    }catch (Exception e){
+                    }catch (NumberFormatException e){
                         JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un dato valido");
                     }
 

@@ -375,7 +375,6 @@ public class JfrAgregarNuevoCliente extends JFrame {
         catch (NumberFormatException e){
             posibleError= posibleError.concat("Ingrese un valor al peso. ");
             //JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un valor al peso");
-
         }
 
 
@@ -402,9 +401,9 @@ public class JfrAgregarNuevoCliente extends JFrame {
             TextAreaEmail.setText(null);
             flag = false;
         }
-
         //Validar DNI
-        if (verificarDNIExistente()||verificarTamDNI())//si ya existe el DNI en el sistema o si no cumple con los requisitos
+
+        if (verificarDNIExistente(TextAreaDNI.getText())||verificarTamDNI(TextAreaDNI.getText()))//si ya existe el DNI en el sistema o si no cumple con los requisitos
         {
             posibleError= posibleError.concat("DNI ya existente o es invalido. ");
            // JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"DNI ya existente o es invalido");
@@ -501,7 +500,7 @@ public class JfrAgregarNuevoCliente extends JFrame {
         JfrCliente cliente = new JfrCliente();
         cliente.setVisible(true);
     }
-    private boolean verificarSiContieneNumero(String aComparar)
+    protected boolean verificarSiContieneNumero(String aComparar)
     {
         boolean rta = false;
         for (int i = 0; i < aComparar.length(); i++)
@@ -513,7 +512,7 @@ public class JfrAgregarNuevoCliente extends JFrame {
         }
         return rta;
     }
-    private boolean verificarArroba(String aComparar)
+    protected boolean verificarArroba(String aComparar)
     {
         boolean rta = false;
 
@@ -523,33 +522,33 @@ public class JfrAgregarNuevoCliente extends JFrame {
            }
         return rta;
     }
-    private boolean verificarDNIExistente()
+    protected boolean verificarDNIExistente(String aComparar)
     {
         Gimnasio gym = GUIEnvoltorio.getGimnasio();
         boolean rta = false;
         HashMap<Integer, Cliente> clientes = gym.getClientes();
         for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
+
             Persona siExiste =(Cliente) entry.getValue();
-            if(siExiste.getDNI().equals(TextAreaDNI.getText()))
+            if(siExiste.getDNI().equals(aComparar))
             {
                 rta = true;//es true si ya existe el DNI
             }
         }
         return rta;
     }
-    private boolean verificarTamDNI()
+    protected boolean verificarTamDNI(String aComparar)
     {
         boolean rta = false;
-        String aVerificar = TextAreaDNI.getText();
-        if(aVerificar.length()<7 ||aVerificar.length()>8)
+        //String aVerificar = TextAreaDNI.getText();
+        if(aComparar.length()<7 ||aComparar.length()>8)
         {
             rta = true;
         }
-
-
         return rta;
     }
-    private boolean verificarFechaDeNacimiento(String fechaRecibida)
+
+    protected boolean verificarFechaDeNacimiento(String fechaRecibida)
     {
         boolean flag=false;
         //System.out.println(fechaRecibida);
