@@ -237,22 +237,6 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         return session;
     }
 
-    public boolean verificarDNIExistente(String dniAComparar)
-    {
-
-        boolean rta = false;
-        System.out.println(dniAComparar);
-        for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
-
-            Cliente siExiste =entry.getValue();
-            System.out.println(siExiste.getDNI());
-            if(siExiste.getDNI().equals(dniAComparar))
-            {
-                rta = true;//es true si ya existe el DNI
-            }
-        }
-        return rta;
-    }
 
     public Cliente buscarClienteXDNI(String dniAComparar)
     {
@@ -270,7 +254,22 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         return rta;
     }
+    public boolean verificarDNIExistente(String dniAComparar)
+    {
 
+        boolean rta = false;
+       // System.out.println(dniAComparar);
+        for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
+
+            Cliente siExiste =entry.getValue();
+            System.out.println(siExiste.getDNI());
+            if(siExiste.getDNI().equals(dniAComparar))
+            {
+                rta = true;//es true si ya existe el DNI
+            }
+        }
+        return rta;
+    }
     public void leerUnMail() throws MessagingException {
 
         //propiedades para el tipo de conexion
