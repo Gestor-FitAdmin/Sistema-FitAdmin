@@ -1,13 +1,22 @@
 package org.example.Modelo;
 
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
+
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
+
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.GUIEnvoltorio;
@@ -25,6 +34,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.*;
 
 public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
@@ -139,30 +149,72 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
     public boolean crearPDFParaQR(Cliente cliente) {
         boolean rta = false;
-        String dest = "QRaGenerar.pdf";
+
+        // Ruta del archivo PDF a crear
+        String ruta = "QRaGenerar.pdf";
+        // Ruta de la imagen de perfil
+        String rutaFotoPerfil = "fotoPerfil.jpeg";
+
+        // Estado de acceso
+        boolean accesoDelCliente = cliente.isCuotaPagada(); // todo: ver en que caso es falso
+
         try {
-            // Crear un escritor de PDF
-            PdfWriter writer = new PdfWriter(dest);
-
-            // Crear un documento PDF
+            // Crear el PdfWriter
+            PdfWriter writer = new PdfWriter(ruta);
+            // Crear el PdfDocument
             PdfDocument pdf = new PdfDocument(writer);
-
-            // Crear un documento de layout
+            // Crear el Document
             Document document = new Document(pdf);
 
-            // Agregar un párrafo al documento
-            document.add(new Paragraph(cliente.formatearDatosCliente(cliente)));
+            // Crear una tabla con dos columnas
+            Table table = new Table(UnitValue.createPercentArray(new float[]{1, 2}));
+            table.setWidth(UnitValue.createPercentValue(100));
+
+            // Agregar imagen de perfil
+            ImageData imageData = ImageDataFactory.create(rutaFotoPerfil);
+            Image image = new Image(imageData);
+            image.scaleToFit(240, 240); // Ajustar el tamaño de la imagen
+            table.addCell(image);
+
+            // Crear un párrafo con la información del socio
+            Paragraph infoParagraph = new Paragraph();
+            String formatoConSaltosDeLinea = cliente.formatearDatosCliente(cliente);//"Número de socio: " + cliente.getIdCliente() + "\n" + "Nombre: " + cliente.getNombre() + "\n" + "Apellido:  " + cliente.getApellido()+"\n";
+            infoParagraph.add(formatoConSaltosDeLinea);
+
+            table.addCell(infoParagraph);
+
+            // Agregar la tabla al documento
+            document.add(table);
+
+            // Agregar mensaje de acceso
+            String mensajeDeAcceso;
+            Paragraph accessParagraph = new Paragraph();
+
+            if (accesoDelCliente)
+            {
+                mensajeDeAcceso = "ACCESO CONCEDIDO";
+                accessParagraph.setFontColor(ColorConstants.GREEN);
+            } else
+            {
+                mensajeDeAcceso = "ACCESO DENEGADO";
+                accessParagraph.setFontColor(ColorConstants.RED);
+            }
+            accessParagraph.add(mensajeDeAcceso).setFontSize(20).setTextAlignment(TextAlignment.CENTER);
+
+            document.add(accessParagraph);
 
             // Cerrar el documento
             document.close();
             rta = true;
+
         } catch (FileNotFoundException e) {
-            e.getMessage();
             e.printStackTrace();
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
         }
 
-
         return rta;
+
     }
 
 

@@ -3,6 +3,7 @@ package org.example.GUI;
 
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
+import org.example.GUI.PopUps.JfrAvisoPopUp;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
@@ -382,11 +383,27 @@ public class JfrCliente extends JFrame {
     }
 
     private void BotonArchivarClienteActionPerformed(ActionEvent evt) {
-        if (TablaClientes.getSelectedRow() != -1) {
-            Cliente clienteSeleccionado = GUIEnvoltorio.getGimnasio().buscar((Integer) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 0));
 
-            clienteSeleccionado.setEstado(!clienteSeleccionado.isEstado()); // pongo el estado contrario al que es. EJ: si es true lo pongo false
+        if (TablaClientes.getSelectedRow() != -1)
+        {
 
+            String idSocio = (String) TablaClientes.getValueAt(TablaClientes.getSelectedRow(),0);//aunque sea un int el id, si lo hago string se rompe y lanza una exception
+            Cliente clienteSeleccionado = GUIEnvoltorio.getGimnasio().buscar(Integer.valueOf(idSocio));//paso el string a int(lo parseo)
+            clienteSeleccionado.setEstado(!clienteSeleccionado.isEstado());//pongo el estado contrario al que estaba antes
+            if(clienteSeleccionado.isEstado())//si es true es activo
+            {
+               // System.out.println(clienteSeleccionado.isEstado());
+                JfrAvisoPopUp jfrErrorPopUp = new JfrAvisoPopUp(this,true,"Cliente activo");
+            }
+            else//inactivo/desarchivado
+            {
+                //System.out.println(clienteSeleccionado.isEstado());
+                JfrAvisoPopUp jfrErrorPopUp = new JfrAvisoPopUp(this,true,"Cliente archivado");
+            }
+        }
+        else
+        {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this,true,"Seleccione un cliente");
         }
     }
 
