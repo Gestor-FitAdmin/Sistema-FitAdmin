@@ -292,9 +292,7 @@ public class JfrLogIn extends javax.swing.JFrame {
             Map.Entry<Integer, Cliente> dato = iterator.next();
 
             Cliente cliente = dato.getValue();
-
             String cumpleActualdM = cliente.getFechaDeNacimiento().substring(0, cliente.getFechaDeNacimiento().length() - 5);
-            System.out.println(cliente.get);
             System.out.println(cumpleActualdM + "hola manola");
             if (fechaActualdM.equals(cumpleActualdM)) {
                     if (!localDates.contains(fechaActualdMy)) {
@@ -343,7 +341,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         } catch (FileNotFoundException e) {
             //todo: hay que mostrar pop up en metodos static
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
