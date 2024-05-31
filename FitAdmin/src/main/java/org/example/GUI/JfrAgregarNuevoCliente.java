@@ -403,7 +403,7 @@ public class JfrAgregarNuevoCliente extends JFrame {
         }
         //Validar DNI
 
-        if (verificarDNIExistente(TextAreaDNI.getText())||verificarTamDNI(TextAreaDNI.getText()))//si ya existe el DNI en el sistema o si no cumple con los requisitos
+        if (GUIEnvoltorio.getGimnasio().verificarDNIExistente(TextAreaDNI.getText())||verificarTamDNI(TextAreaDNI.getText()))//si ya existe el DNI en el sistema o si no cumple con los requisitos
         {
             posibleError= posibleError.concat("DNI ya existente o es invalido. ");
            // JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"DNI ya existente o es invalido");
@@ -522,21 +522,7 @@ public class JfrAgregarNuevoCliente extends JFrame {
            }
         return rta;
     }
-    protected boolean verificarDNIExistente(String aComparar)
-    {
-        Gimnasio gym = GUIEnvoltorio.getGimnasio();
-        boolean rta = false;
-        HashMap<Integer, Cliente> clientes = gym.getClientes();
-        for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
 
-            Persona siExiste =(Cliente) entry.getValue();
-            if(siExiste.getDNI().equals(aComparar))
-            {
-                rta = true;//es true si ya existe el DNI
-            }
-        }
-        return rta;
-    }
     protected boolean verificarTamDNI(String aComparar)
     {
         boolean rta = false;
