@@ -370,23 +370,23 @@ public class JfrModificarCliente extends JFrame {
         table.setValueAt(cliente.isCuotaPagada(), 0, 9);
     }
 
-    private void actualizarTablaClienteAModificar( Cliente clienteActual){
-
-        TableModel table = TablaClienteAModificar.getModel();
-        TablaClienteAModificar.setModel(table);
-
-        TablaClienteAModificar.setValueAt(clienteActual.getIdCliente(), 0, 0);
-        table.setValueAt(clienteActual.getNombre(), 0, 1);
-        table.setValueAt(clienteActual.getApellido(), 0, 2);
-        table.setValueAt(clienteActual.getActividadesInscripto(), 0, 3);
-        table.setValueAt(clienteActual.geteMail(), 0, 4);
-        table.setValueAt(clienteActual.getDNI(), 0, 5);
-        table.setValueAt(clienteActual.getPeso(), 0, 6);
-        table.setValueAt(clienteActual.getAltura(), 0, 7);
-        table.setValueAt(clienteActual.getSexo(), 0, 8);
-        table.setValueAt(clienteActual.isCuotaPagada(), 0, 9);
-
-
-    }
+//    private void actualizarTablaClienteAModificar( Cliente clienteActual){
+//
+//        TableModel table = TablaClienteAModificar.getModel();
+//        TablaClienteAModificar.setModel(table);
+//
+//        TablaClienteAModificar.setValueAt(clienteActual.getIdCliente(), 0, 0);
+//        table.setValueAt(clienteActual.getNombre(), 0, 1);
+//        table.setValueAt(clienteActual.getApellido(), 0, 2);
+//        table.setValueAt(clienteActual.getActividadesInscripto(), 0, 3);
+//        table.setValueAt(clienteActual.geteMail(), 0, 4);
+//        table.setValueAt(clienteActual.getDNI(), 0, 5);
+//        table.setValueAt(clienteActual.getPeso(), 0, 6);
+//        table.setValueAt(clienteActual.getAltura(), 0, 7);
+//        table.setValueAt(clienteActual.getSexo(), 0, 8);
+//        table.setValueAt(clienteActual.isCuotaPagada(), 0, 9);
+//
+//
+//    }
 
 }
