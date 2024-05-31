@@ -289,7 +289,7 @@ public class JfrModificarCliente extends JFrame {
             }
             case "DNI" : {
                 if(!busqueda.isEmpty()) {
-                    if(!nuevoCliente.verificarDNIExistente(busqueda) && !nuevoCliente.verificarTamDNI(busqueda)){
+                    if(!GUIEnvoltorio.getGimnasio().verificarDNIExistente(busqueda) && !nuevoCliente.verificarTamDNI(busqueda)){
 
                     cliente.modificarDNICliente(busqueda);
                     agregarClienteSeleccionadoATabla();

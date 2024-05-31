@@ -6,8 +6,11 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.sun.mail.imap.IMAPFolder;
+import com.sun.mail.imap.IMAPStore;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
+import org.example.GUI.GUIEnvoltorio;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
 
@@ -15,6 +18,8 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
+import javax.mail.event.MessageCountAdapter;
+import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -30,6 +35,10 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     private String usuario;
     private String contrasenia;
     private ArrayList<Actividad> actividades;
+
+    private static String mailFit = "f69343696@gmail.com"; //mail nuestro
+    private static String contraFit = "xpve mrro kysx ishp"; //contrasenia de app de google
+
     //constructores
 
     public Gimnasio() {
@@ -158,6 +167,152 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
 
+    private Session getSesionMailIniciada(Properties props)
+    {
+
+
+        //todo: dependiendo las propiedades que reciba, retornarne una sesion con una funcion especifica.
+        //ej: SMTP es SOLO Y EXCLUSIVAMENTE para enviar mails. IMAPS es para recibir y leer mails
+
+
+        Session session = Session.getDefaultInstance(props, new Authenticator() //inicio de sesion
+        {
+            protected PasswordAuthentication getPasswordAuthentication() //autenticacion de contrasenia
+            {
+                return new PasswordAuthentication(mailFit, contraFit); //retornamos si se autentico correctamente la contrasenia
+            }
+        });
+        return session;
+    }
+
+    public boolean verificarDNIExistente(String dniAComparar)
+    {
+
+        boolean rta = false;
+        System.out.println(dniAComparar);
+        for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
+
+            Cliente siExiste =entry.getValue();
+            System.out.println(siExiste.getDNI());
+            if(siExiste.getDNI().equals(dniAComparar))
+            {
+                rta = true;//es true si ya existe el DNI
+            }
+        }
+        return rta;
+    }
+
+    public Cliente buscarClienteXDNI(String dniAComparar)
+    {
+
+        Cliente rta=null;
+
+        for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
+
+            Cliente clienteAux =entry.getValue();
+            if(clienteAux.getDNI().equals(dniAComparar))
+            {
+                rta=clienteAux;
+            }
+        }
+
+        return rta;
+    }
+
+    public void leerUnMail() throws MessagingException {
+
+        //propiedades para el tipo de conexion
+        Properties props= new Properties();
+        props.put("mail.store.protocol", "imaps"); //protocolo para recibir y leer mails
+        props.put("mail.imap.host", "imap.gmail.com"); // este es el host del protocolo
+        props.put("mail.imap.port", "993"); // IMAP con SSL/TLS: puerto 993. Es un puerto seguro
+        props.put("mail.imap.ssl.enable", "true"); // activamos la seguridad
+        try {
+        //obtengo la sesion con las propiedades especificadas
+            Session session= getSesionMailIniciada(props);
+
+        //creo una conexion con el servidor de correo
+//        Store store= session.getStore();
+
+            IMAPStore imapStore=(IMAPStore) session.getStore();
+            imapStore.connect("imap.gmail.com",mailFit,contraFit);
+
+
+
+        //abro la bandeja de entrada
+//        Folder carpetaEmail = store.getFolder("INBOX");
+//        carpetaEmail.open(Folder.READ_ONLY);
+            IMAPFolder carpetaEmail = (IMAPFolder) imapStore.getFolder("INBOX");
+            carpetaEmail.open(Folder.READ_ONLY);
+
+
+
+            // Listener para eventos de la carpeta
+            carpetaEmail.addMessageCountListener(new MessageCountAdapter() {
+                Cliente auxCliente=null;
+                @Override
+                public void messagesAdded(MessageCountEvent e) {
+                    Message[] mensajes = e.getMessages();
+
+                    System.out.println("Nuevos correos recibidos:");
+
+                    for (Message mensaje : mensajes) {
+                        try {
+                            //obtengo el titulo del mail
+                            String dni= mensaje.getSubject();
+
+                            System.out.println(verificarDNIExistente(dni));
+                            //verifico si existe el cliente
+                            if (verificarDNIExistente(dni))
+                            {
+                                //obtengo el cliente para verificar si ya tiene foto de perfil
+                                auxCliente= buscarClienteXDNI(dni);
+
+                                System.out.println(auxCliente);
+
+                                if (!auxCliente.isTieneFotoPerfil())
+                                {
+                                    //si no tiene foto de perfil la mando a dropbox con titulo del dni
+                                    System.out.println("Asunto: " + mensaje.getSubject());
+
+                                }
+                            }
+
+                        } catch (MessagingException me) {
+                            me.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+            while (true)
+            {
+
+                System.out.println("Esperando mensajes");
+                carpetaEmail.idle();
+
+
+
+
+//                Message[] mensajes= carpetaEmail.getMessages();
+//
+//                for (Message mensaje : mensajes) {
+//                    System.out.println("Asunto: " + mensaje.getSubject());
+//                    // Aquí puedes añadir lógica para procesar cada correo
+//                }
+            }
+        } catch (Exception e)
+        {
+           e.getMessage();
+        }
+
+    }
+
+
+    public void guardarFotoPerfilEnDropbox(){
+
+    }
+
     public void enviarUnMail(String mailCliente, String mensaje, boolean adjuntarPDF) throws MessagingException, MailSinArrobaE {
         //VERIFICAR SI TIENE UN ARROBA UNICAMENTE
 
@@ -166,66 +321,56 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             throw new MailSinArrobaE();
         }
 
-        String mailFit = "f69343696@gmail.com"; //mail nuestro
-        String contraFit = "xpve mrro kysx ishp"; //contrasenia de app de google
         Properties props = new Properties(); //conjunto de propiedades para la autenticacion/verificacion
 
-            props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-            props.put("mail.smtp.port", "587"); //TLS Port
-            props.put("mail.smtp.auth", "true"); //enable authentication
-            props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host. solo para enviar mails
+        props.put("mail.smtp.port", "587"); //puerto con autenticacion TLS. puerto seguro
+        props.put("mail.smtp.auth", "true"); //enable authentication
+        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
 
-            //NO BORRAR LA AUTENTICACION DEBIDO A QUE ES INDISPENSABLE
+        Session session= getSesionMailIniciada(props);
 
-            Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() //inicio de sesion
+        try{
+            //todo: verificar el try catch ya que tiene q estar fuera de la clase(throws)
+
+            MimeMessage message = new MimeMessage(session); //creamos el mensaje para construirlo
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailCliente, true)); //mail del cliente a enviar
+            message.setSubject("Sistema automatico FitAdmin. Importante aviso"); //el titulo
+            message.setText(mensaje); //mensaje
+
+            // Adjuntar el archivo PDF
+            if(adjuntarPDF)//todo: si quiero enviar con un PDF le pongo true si no false y envio un mensaje unicamente!!
             {
-                protected PasswordAuthentication getPasswordAuthentication() //autenticacion de contrasenia
-                {
-                    return new PasswordAuthentication(mailFit, contraFit); //retornamos si se autentico correctamente la contrasenia
-                }
-            });
-
-            try{
-                //todo: verificar el try catch ya que tiene q estar fuera de la clase(throws)
-
-                MimeMessage message = new MimeMessage(session); //creamos el mensaje para construirlo
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailCliente, true)); //mail del cliente a enviar
-                message.setSubject("Sistema automatico FitAdmin. Importante aviso"); //el titulo
-                message.setText(mensaje); //mensaje
-
-                // Adjuntar el archivo PDF
-                if(adjuntarPDF)//todo: si quiero enviar con un PDF le pongo true si no false y envio un mensaje unicamente!!
-                {
 
 
-                String rutaPDF = "rutina.pdf";//direccion de la rutina general
+            String rutaPDF = "rutina.pdf";//direccion de la rutina general
 
-                Multipart multipart = new MimeMultipart();// Creamos un objeto MimeMultipart para manejar múltiples partes del mensaje
+            Multipart multipart = new MimeMultipart();// Creamos un objeto MimeMultipart para manejar múltiples partes del mensaje
 
-                MimeBodyPart messageBodyPart = new MimeBodyPart();// Creamos una parte del cuerpo del mensaje y establecemos el texto del mensaje
+            MimeBodyPart messageBodyPart = new MimeBodyPart();// Creamos una parte del cuerpo del mensaje y establecemos el texto del mensaje
 
-                messageBodyPart.setText(mensaje);
+            messageBodyPart.setText(mensaje);
 
-                multipart.addBodyPart(messageBodyPart);// Agregamos la parte del cuerpo del mensaje al objeto MimeMultipart
+            multipart.addBodyPart(messageBodyPart);// Agregamos la parte del cuerpo del mensaje al objeto MimeMultipart
 
-                MimeBodyPart attachmentPart = new MimeBodyPart();// Creamos otra parte del cuerpo del mensaje para el archivo adjunto
+            MimeBodyPart attachmentPart = new MimeBodyPart();// Creamos otra parte del cuerpo del mensaje para el archivo adjunto
 
-                DataSource source = new FileDataSource(rutaPDF);// Creamos un DataSource utilizando la ruta del archivo PDF
+            DataSource source = new FileDataSource(rutaPDF);// Creamos un DataSource utilizando la ruta del archivo PDF
 
-                attachmentPart.setDataHandler(new DataHandler(source));// Configuramos el manejador de datos de la parte del cuerpo del archivo adjunto
+            attachmentPart.setDataHandler(new DataHandler(source));// Configuramos el manejador de datos de la parte del cuerpo del archivo adjunto
 
-                attachmentPart.setFileName(new File(rutaPDF).getName());// Establecemos el nombre del archivo adjunto utilizando el nombre del archivo PDF
+            attachmentPart.setFileName(new File(rutaPDF).getName());// Establecemos el nombre del archivo adjunto utilizando el nombre del archivo PDF
 
-                multipart.addBodyPart(attachmentPart);// Agregamos la parte del cuerpo del archivo adjunto al objeto MimeMultipart
+            multipart.addBodyPart(attachmentPart);// Agregamos la parte del cuerpo del archivo adjunto al objeto MimeMultipart
 
-                message.setContent(multipart);// Establecemos el contenido del mensaje como el objeto MimeMultipart que contiene tanto el cuerpo del mensaje como el archivo adjunto
-                }
-
-                Transport.send(message); // clase message finalizada y enviada por mail
-            }catch (MessagingException e){
-
-                throw e;
+            message.setContent(multipart);// Establecemos el contenido del mensaje como el objeto MimeMultipart que contiene tanto el cuerpo del mensaje como el archivo adjunto
             }
+
+            Transport.send(message); // clase message finalizada y enviada por mail
+        }catch (MessagingException e){
+
+            throw e;
+        }
 
 
 

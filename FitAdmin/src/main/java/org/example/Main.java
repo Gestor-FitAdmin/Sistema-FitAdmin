@@ -10,6 +10,8 @@ import org.example.Modelo.Ejercicio;
 import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Rutina;
 
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +30,7 @@ public class Main {
         Cliente cliente1 = new Cliente("asd", "awerger", "34534", ESexo.FEMENINO, 75.5, 182.5, fecha, "fabri.vogol@gmail.com", true);
         Cliente cliente2 = new Cliente("Leasdaso", "aerh", "754457", ESexo.MASCULINO, 75.5, 182.5, fecha, "facundoprocelli@gmail.com", true);
 //
-        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
+       // GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
 
         GUIEnvoltorio.getGimnasio().agregar(cliente);
         GUIEnvoltorio.getGimnasio().agregar(cliente1);
@@ -38,12 +40,27 @@ public class Main {
 
         //guiEnvoltorio.iniciarPrograma();
 
-        JfrCliente jfrCliente = new JfrCliente();
-        jfrCliente.setVisible(true);
+//        JfrCliente jfrCliente = new JfrCliente();
+//        jfrCliente.setVisible(true);
 
 //        System.out.println(cliente.getFechaDeNacimiento()+" " +cliente.getEdad());
 //        JfrGenerarRutina jfrGenerarRutina= new JfrGenerarRutina(cliente);
 //        jfrGenerarRutina.setVisible(true);
+
+
+        try {
+
+
+            gimnasio.leerUnMail();
+
+
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
 
     }
 }

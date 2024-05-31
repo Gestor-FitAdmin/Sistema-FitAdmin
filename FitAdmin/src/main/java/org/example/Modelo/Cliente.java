@@ -19,6 +19,7 @@ public class Cliente extends Persona{
     private boolean estado;
     private LinkedHashMap<String, Rutina> rutinaSemanal;
     private HashSet<String> actividadesInscripto;
+    private boolean tieneFotoPerfil;
 
     //Constructor
 
@@ -30,6 +31,8 @@ public class Cliente extends Persona{
         this.eMail = eMail;
         this.cuotaPagada = cuotaPagada;
         this.estado = true; //cuando se crea el cliente el estado siempre es true
+
+        tieneFotoPerfil=false;
 
         setRutinaSemanal();
         actividadesInscripto = new HashSet<>();
@@ -75,6 +78,9 @@ public class Cliente extends Persona{
         return estado;
     }
 
+    public boolean isTieneFotoPerfil() {
+        return tieneFotoPerfil;
+    }
 
     public LinkedHashMap<String, Rutina> getRutinaSemanal() {
         return rutinaSemanal;
@@ -96,6 +102,9 @@ public class Cliente extends Persona{
         this.eMail = eMail;
     }
 
+    public void setTieneFotoPerfil(boolean tieneFotoPerfil) {
+        this.tieneFotoPerfil = tieneFotoPerfil;
+    }
 
     //Metodos
     @Override
@@ -181,7 +190,7 @@ public class Cliente extends Persona{
             setCuotaPagada(true);
         }
     }
-    //todo cambiar rango a private
+
     public void verificarSiEsCumpleanos()
     {
         LocalDate fechaNacimiento = LocalDate.parse(getFechaDeNacimiento(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
