@@ -341,12 +341,15 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             ejercicio = rutinaSeleccionada.buscarUnEjercicioXNombre(nombreEjercicioElegido); //busco el ejercicio
 
             DefaultTableModel modeloDatosDefault = (DefaultTableModel) TablaRutinaActual.getModel(); //este es un formateo para poder agregar filas
+            if (!ejercicioRepetido(nombreEjercicioElegido)) {
+                JfrAgregarSriesYRepsPopUp jfrAgregarSriesYRepsPopUp = new JfrAgregarSriesYRepsPopUp(this, true, ejercicio);//asigno series y ejercicios
+                asignarUnEjercicioATablaDeRutinaActual(modeloDatosDefault, ejercicio);//escribo el ejercicio en la tabla
+                ejerciciosElegidos.add(ejercicio); //agrego al arraylist stage para luego subirlo a la rutina
+            } else {
+                JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "El ejercicio ya esta en la rutina");
 
-            JfrAgregarSriesYRepsPopUp jfrAgregarSriesYRepsPopUp = new JfrAgregarSriesYRepsPopUp(this, true, ejercicio);//asigno series y ejercicios
+            }
 
-            asignarUnEjercicioATablaDeRutinaActual(modeloDatosDefault, ejercicio);//escribo el ejercicio en la tabla
-
-            ejerciciosElegidos.add(ejercicio); //agrego al arraylist stage para luego subirlo a la rutina
         } else {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Elija un ejercicio para asignarlo a la rutina");
         }
@@ -361,6 +364,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         if (filaSeleccionada != -1) {
             ejerciciosElegidos.remove(filaSeleccionada);
             tableModel.removeRow(filaSeleccionada);
+            System.out.println(ejerciciosElegidos.toString());
         } else {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No haz seleccionado un ejercicio");
         }
@@ -445,16 +449,31 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
     }
 
     private void asignarUnEjercicioATablaDeRutinaActual(DefaultTableModel modeloDeDatosDefault, Ejercicio ejercicioActual) {
+
         //se utiliza defaultTableModel justamente para poder agregar filas, el tableModel normal no te deja
         //es medio tosco crear un string como arreglo, pero es de la unica forma de la que DefaultTableModel acepta para agregar una nueva fila
-        String[] datosEjercicio = new String[]{ejercicioActual.getNombreEjercicio(), ejercicioActual.getComplejidad(), ejercicioActual.getMaterialDeTrabajo(), String.valueOf(ejercicioActual.getSeries()), String.valueOf(ejercicioActual.getRepeticiones())};
+        String[] datosEjercicio = new String[]{ejercicioActual.getNombreEjercicio(),
+                ejercicioActual.getComplejidad(),
+                ejercicioActual.getMaterialDeTrabajo(),
+                String.valueOf(ejercicioActual.getSeries()),
+                String.valueOf(ejercicioActual.getRepeticiones())};
 
-
-        if (ejercicioActual.getRepeticiones() != 0 && ejercicioActual.getSeries() != 0) {
+        if ((ejercicioActual.getRepeticiones() != 0 && ejercicioActual.getSeries() != 0)) {
             modeloDeDatosDefault.addRow(datosEjercicio);
         } else {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se puede asignar ejercicios sin series ni repeticiones");
+
         }
+    }
+
+    public boolean ejercicioRepetido(String nombreEjercicio) {
+        boolean rta = false;
+        for (Ejercicio ejercicios : ejerciciosElegidos) {
+            if (ejercicios.getNombreEjercicio().equals(nombreEjercicio)) {
+                rta = true;
+            }
+        }
+        return rta;
     }
 }
 
