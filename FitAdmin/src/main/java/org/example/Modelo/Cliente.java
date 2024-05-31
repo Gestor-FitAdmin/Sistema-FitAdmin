@@ -2,8 +2,12 @@ package org.example.Modelo;
 
 import org.example.Enum.EDiasSemana;
 import org.example.Enum.ESexo;
+import org.example.Excepciones.MailSinArrobaE;
+import org.example.GUI.GUIEnvoltorio;
 
+import javax.mail.MessagingException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Cliente extends Persona{
@@ -177,6 +181,39 @@ public class Cliente extends Persona{
             setCuotaPagada(true);
         }
     }
+    //todo cambiar rango a private
+    public void verificarSiEsCumpleanos()
+    {
+        LocalDate fechaNacimiento = LocalDate.parse(getFechaDeNacimiento(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
+        int diaActual=LocalDate.now().getDayOfMonth(),mesActual=LocalDate.now().getMonthValue();
+        int diaCliente= fechaNacimiento.getDayOfMonth(),mesCliente=fechaNacimiento.getMonthValue();
+
+        String mensajeCumple="";
+        int nuevaEdad=0;
+
+
+
+        if (diaActual == diaCliente && mesActual == mesCliente)
+        {
+            nuevaEdad= calcularEdad();
+
+
+            setEdad(nuevaEdad);
+
+
+            mensajeCumple="Adminfit te desea un muy feliz cumpleaños. Felices "+getEdad()+" "+getNombre()+"!!!!!"+".Mas te vale que vengas ;)";
+            try {
+                GUIEnvoltorio.getGimnasio().enviarUnMail(geteMail(),mensajeCumple,false);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (MailSinArrobaE e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
     @Override
     public String toString() {

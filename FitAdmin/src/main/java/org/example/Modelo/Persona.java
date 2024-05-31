@@ -5,6 +5,7 @@ import org.example.Enum.ESexo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
@@ -94,7 +95,7 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
         this.fechaDeNacimiento = fechaDeNacimiento;
     }
 
-    private void setEdad(int edad) {
+    protected void setEdad(int edad) {
         this.edad = edad;
     }
 
@@ -120,7 +121,7 @@ public abstract class Persona implements Serializable {//todo : implemet Seriali
 
 
 
-     private int calcularEdad()
+     public int calcularEdad()
      {
          LocalDate fechaActual = LocalDate.now();
 
