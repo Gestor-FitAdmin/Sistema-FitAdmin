@@ -36,7 +36,7 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
         jScrollPane2 = new javax.swing.JScrollPane();
         AreaDeTextoEstadisticas = new javax.swing.JTextArea();
         BotonAtras = new javax.swing.JButton();
-
+        setResizable(false);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
@@ -121,16 +121,16 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
     public void actualizarTextoEstadisticas(){
         String textoConEstadisticas="";
 
-        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes: "+ GUIEnvoltorio.getGimnasio().contarTotalClientes());
-        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes activos: "+ GUIEnvoltorio.getGimnasio().contarClientesActivos());
-        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes inactivos: "+ GUIEnvoltorio.getGimnasio().contarClientesInactivos());
-        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes en musculacion: "+ GUIEnvoltorio.getGimnasio().contarClientesXActividad("musculacion"));
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes: "+ GUIEnvoltorio.getGimnasio().contarTotalClientes()+"\n");
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes activos: "+ GUIEnvoltorio.getGimnasio().contarClientesActivos()+"\n");
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes inactivos: "+ GUIEnvoltorio.getGimnasio().contarClientesInactivos()+"\n");
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes en musculacion: "+ GUIEnvoltorio.getGimnasio().contarClientesXActividad("musculacion")+"\n");
         //puede haber mas actividades...
 
 
-        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo masculino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.MASCULINO));
-        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo femenino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.FEMENINO));
-        textoConEstadisticas= textoConEstadisticas.concat("Total recaudado: $"+ GUIEnvoltorio.getGimnasio().recaudacionTotal());
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo masculino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.MASCULINO)+"\n");
+        textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo femenino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.FEMENINO)+"\n");
+        textoConEstadisticas= textoConEstadisticas.concat("Total recaudado: $"+ GUIEnvoltorio.getGimnasio().recaudacionTotal()+"\n");
 
 
         AreaDeTextoEstadisticas.setText(textoConEstadisticas);
