@@ -12,7 +12,9 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,6 +24,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
     private javax.swing.JButton BotonAgregarEjercicioARutina;
     private javax.swing.JButton BotonAgregarRutinaCreada;
+    private javax.swing.JButton BotonSacarEjercicioRutina;
     private javax.swing.JButton BotonIrAtras;
     private javax.swing.JComboBox<String> SelectorDeObjetivos;
     private javax.swing.JComboBox<String> SelectorDeDias;
@@ -52,22 +55,20 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         setIconImage(icon.getImage());
 
 
-        ejerciciosElegidos= new ArrayList<>();
+        ejerciciosElegidos = new ArrayList<>();
 
-
-        rutinaSeleccionada= clienteActual.getUnaRutinaEspecifica(EDiasSemana.LUNES);
+        rutinaSeleccionada = clienteActual.getUnaRutinaEspecifica(EDiasSemana.LUNES);
 
         cargarTablaRutinaActualDependeElDia(rutinaSeleccionada.getDiaAsignado());
 
-        this.clienteActual=clienteActual;
+        this.clienteActual = clienteActual;
 
         try {
-            ejerciciosJson= rutinaSeleccionada.leerJSONEjercicio();
+            ejerciciosJson = rutinaSeleccionada.leerJSONEjercicio();
         } catch (IOException e) {
             e.printStackTrace();
         }
         llenarTablaConEjercicios();
-
 
     }
 
@@ -86,6 +87,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         TablaRutinaActual = new javax.swing.JTable();
         BotonAgregarRutinaCreada = new javax.swing.JButton();
         BotonAgregarEjercicioARutina = new javax.swing.JButton();
+        BotonSacarEjercicioRutina = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         BotonIrAtras = new javax.swing.JButton();
@@ -135,7 +137,6 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 return canEdit[columnIndex];
             }
 
-
         });
 
         SelectorDeDias.addActionListener(new java.awt.event.ActionListener() {
@@ -146,24 +147,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             }
         });
 
-//        TablaDeEjercicios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//
-//
-//            public void valueChanged(ListSelectionEvent e) {
-//                if (!e.getValueIsAdjusting()) {
-//                    int selectedRow = TablaDeEjercicios.getSelectedRow();
-//                    if (selectedRow != -1) {
-//                        String nombre = TablaDeEjercicios.getValueAt(selectedRow, 0).toString();
-//                        String dificultad = TablaDeEjercicios.getValueAt(selectedRow, 1).toString();
-//                        String materiales = TablaDeEjercicios.getValueAt(selectedRow, 2).toString();
-//
-//                    }
-//
-//                }
-//
-//
-//            }
-//        });
+
         jScrollPane1.setViewportView(TablaDeEjercicios);
 
         TablaRutinaActual.setModel(new javax.swing.table.DefaultTableModel(
@@ -211,48 +195,56 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
             }
         });
 
+        BotonSacarEjercicioRutina.setBackground(new java.awt.Color(130, 130, 130));
+        BotonSacarEjercicioRutina.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BotonSacarEjercicioRutina.setForeground(new java.awt.Color(242, 242, 242));
+        BotonSacarEjercicioRutina.setText("Remover ejercicio");
+        BotonSacarEjercicioRutina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonSacarEjercicioRutinaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addGap(45, 45, 45)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jLabel1)
-                                                                .addGap(45, 45, 45))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                                .addComponent(jLabel2)
-                                                                                .addGap(45, 45, 45)
-                                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                        .addComponent(SelectorDeDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                        .addComponent(SelectorDeObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                                                .addComponent(jLabel3)
-                                                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-                                                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                                                                .addComponent(jLabel4))
-                                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                                .addGap(6, 6, 6)
-                                                                                .addComponent(BotonIrAtras)))
-                                                                .addGap(15, 15, 15))))
+                                                        .addComponent(SelectorDeDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(SelectorDeObjetivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel1))
+                                .addGap(94, 94, 94))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabel4)
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(BotonIrAtras)
+                                                .addGap(37, 37, 37)
+                                                .addComponent(BotonAgregarRutinaCreada)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(BotonSacarEjercicioRutina)
+                                                .addGap(83, 83, 83))))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel5)
-                                                .addGap(0, 0, Short.MAX_VALUE))))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(106, 106, 106)
-                                                .addComponent(BotonAgregarEjercicioARutina))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(132, 132, 132)
-                                                .addComponent(BotonAgregarRutinaCreada)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(28, 28, 28)
+                                                .addComponent(BotonAgregarEjercicioARutina)))
+                                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,36 +259,42 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel3)
                                         .addComponent(SelectorDeDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotonAgregarEjercicioARutina)
-                                .addGap(16, 16, 16)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(BotonAgregarRutinaCreada)
-                                                .addGap(18, 18, 18))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(BotonIrAtras)
-                                                .addContainerGap())))
+                                                .addComponent(BotonAgregarEjercicioARutina))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(24, 24, 24)
+                                                .addComponent(jLabel5)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(27, 27, 27)
+                                                .addComponent(BotonIrAtras))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(BotonAgregarRutinaCreada)
+                                                        .addComponent(BotonSacarEjercicioRutina))))
+                                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -307,29 +305,22 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         //si no tengo ejercicios elegidos no puedo crear una rutina vacia, por lo tanto popUp que no se puede agregar rutina vacia
 
-        if (!ejerciciosElegidos.isEmpty())
-        {
+        if (!ejerciciosElegidos.isEmpty()) {
             rutinaSeleccionada.setObjetivo((String) SelectorDeObjetivos.getSelectedItem());
 
-            for(int i=0; i < ejerciciosElegidos.size();i++)
-            {
+            for (int i = 0; i < ejerciciosElegidos.size(); i++) {
                 rutinaSeleccionada.agregarUnEjercicioARutina(ejerciciosElegidos.get(i));
             }
-        //todo popup de que la rutina se creo correctamente
-            JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this,true,"Rutina generada con exito");
 
-        }
+            JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this, true, "Rutina generada con exito");
 
-        else {
-            if (!rutinaSeleccionada.getRutina().isEmpty())
-            {
+        } else {
+            if (!rutinaSeleccionada.getRutina().isEmpty()) {
                 //la tabla de rutina actual tiene algo pero no se agrego ningun ejercicio
-                JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this,true,"No se agrego ningun ejercicio");
-            }
-            else
-            {
+                JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this, true, "No se agrego ningun ejercicio");
+            } else {
                 //la tabla de rutina actual esta vacia
-                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se puede crear una rutina vacia");
+                JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se puede crear una rutina vacia");
             }
         }
 
@@ -342,23 +333,36 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         Ejercicio ejercicio;
 
-        String nombreEjercicioElegido="";
+        String nombreEjercicioElegido = "";
 
-        if (filaSeleccionada != -1 && TablaDeEjercicios.getValueAt(filaSeleccionada,0) != null) {
+        if (filaSeleccionada != -1 && TablaDeEjercicios.getValueAt(filaSeleccionada, 0) != null) {
 
-            nombreEjercicioElegido= (String) TablaDeEjercicios.getValueAt(filaSeleccionada,0); // obtengo el nombre
+            nombreEjercicioElegido = (String) TablaDeEjercicios.getValueAt(filaSeleccionada, 0); // obtengo el nombre
             ejercicio = rutinaSeleccionada.buscarUnEjercicioXNombre(nombreEjercicioElegido); //busco el ejercicio
 
             DefaultTableModel modeloDatosDefault = (DefaultTableModel) TablaRutinaActual.getModel(); //este es un formateo para poder agregar filas
 
-            JfrAgregarSriesYRepsPopUp jfrAgregarSriesYRepsPopUp=new JfrAgregarSriesYRepsPopUp(this,true,ejercicio);//asigno series y ejercicios
+            JfrAgregarSriesYRepsPopUp jfrAgregarSriesYRepsPopUp = new JfrAgregarSriesYRepsPopUp(this, true, ejercicio);//asigno series y ejercicios
 
-            asignarUnEjercicioATablaDeRutinaActual(modeloDatosDefault,ejercicio);//escribo el ejercicio en la tabla
+            asignarUnEjercicioATablaDeRutinaActual(modeloDatosDefault, ejercicio);//escribo el ejercicio en la tabla
 
             ejerciciosElegidos.add(ejercicio); //agrego al arraylist stage para luego subirlo a la rutina
+        } else {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Elija un ejercicio para asignarlo a la rutina");
         }
-        else{
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Elija un ejercicio para asignarlo a la rutina");
+
+    }
+
+    private void BotonSacarEjercicioRutinaActionPerformed(ActionEvent evt) {
+        int filaSeleccionada = TablaRutinaActual.getSelectedRow();
+
+        DefaultTableModel tableModel = (DefaultTableModel) TablaRutinaActual.getModel();
+
+        if (filaSeleccionada != -1) {
+            ejerciciosElegidos.remove(filaSeleccionada);
+            tableModel.removeRow(filaSeleccionada);
+        } else {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No haz seleccionado un ejercicio");
         }
 
     }
@@ -375,7 +379,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         //dependiendo el dia seleccionado, se lee la rutina asignada que tiene el cliente
 
 
-        String diaSeleccionadoOptionBox= (String) SelectorDeDias.getSelectedItem();//el dia seleccionado en el optionbox
+        String diaSeleccionadoOptionBox = (String) SelectorDeDias.getSelectedItem();//el dia seleccionado en el optionbox
 
         //System.out.println("1"+ diaSeleccionadoOptionBox);
 
@@ -383,7 +387,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         //System.out.println("2"+ rutinaSeleccionada);
 
-        String diaRutinaActual= rutinaSeleccionada.getDiaAsignado().toString();//el dia de la rutina actual
+        String diaRutinaActual = rutinaSeleccionada.getDiaAsignado().toString();//el dia de la rutina actual
 
         //System.out.println("3"+ diaRutinaActual);
 
@@ -396,22 +400,18 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
     }
 
-    private void limpiarTabla(DefaultTableModel tablaDefault)
-    {
+    private void limpiarTabla(DefaultTableModel tablaDefault) {
         tablaDefault.setRowCount(0);
     }
 
-    private void cargarTablaRutinaActualDependeElDia(EDiasSemana diaSeleccionado)
-    {
-        DefaultTableModel modeloDeDatosDefault= (DefaultTableModel) TablaRutinaActual.getModel();
+    private void cargarTablaRutinaActualDependeElDia(EDiasSemana diaSeleccionado) {
+        DefaultTableModel modeloDeDatosDefault = (DefaultTableModel) TablaRutinaActual.getModel();
 
-        for (Ejercicio ejercicio: rutinaSeleccionada.getRutina())
-        {
-            asignarUnEjercicioATablaDeRutinaActual(modeloDeDatosDefault,ejercicio);
+        for (Ejercicio ejercicio : rutinaSeleccionada.getRutina()) {
+            asignarUnEjercicioATablaDeRutinaActual(modeloDeDatosDefault, ejercicio);
         }
 
     }
-
 
 
     private void BotonIrAtrasActionPerformed(java.awt.event.ActionEvent evt) {
@@ -430,35 +430,30 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         for (Ejercicio ejercicio : ejerciciosJson) {
 
             //jercicio ejercicioResumido = new Ejercicio(ejercicio.getNombreEjercicio(), ejercicio.getComplejidad(), ejercicio.getMaterialDeTrabajo());
-            asignarUnEjercicioATablaDeEjercicios(modeloDeDatosDefault,ejercicio);
+            asignarUnEjercicioATablaDeEjercicios(modeloDeDatosDefault, ejercicio);
 
         }
     }
 
-    private void asignarUnEjercicioATablaDeEjercicios(DefaultTableModel modeloDeDatos, Ejercicio ejercicioActual)
-    {
+    private void asignarUnEjercicioATablaDeEjercicios(DefaultTableModel modeloDeDatos, Ejercicio ejercicioActual) {
         //esta a la tabla de los ejercicios del json
         //String[]datosEjercicio= new String[]{"Nombre", " Complejidad", "Material"};
-        String[]datosEjercicios= new String[]{ejercicioActual.getNombreEjercicio(),ejercicioActual.getComplejidad(),ejercicioActual.getMaterialDeTrabajo()};
+        String[] datosEjercicios = new String[]{ejercicioActual.getNombreEjercicio(), ejercicioActual.getComplejidad(), ejercicioActual.getMaterialDeTrabajo()};
 
         modeloDeDatos.addRow(datosEjercicios);
 
     }
 
-    private void asignarUnEjercicioATablaDeRutinaActual(DefaultTableModel modeloDeDatosDefault, Ejercicio ejercicioActual)
-    {
+    private void asignarUnEjercicioATablaDeRutinaActual(DefaultTableModel modeloDeDatosDefault, Ejercicio ejercicioActual) {
         //se utiliza defaultTableModel justamente para poder agregar filas, el tableModel normal no te deja
         //es medio tosco crear un string como arreglo, pero es de la unica forma de la que DefaultTableModel acepta para agregar una nueva fila
-        String[]datosEjercicio= new String[]{ejercicioActual.getNombreEjercicio(),ejercicioActual.getComplejidad(),ejercicioActual.getMaterialDeTrabajo(), String.valueOf(ejercicioActual.getSeries()), String.valueOf(ejercicioActual.getRepeticiones())};
+        String[] datosEjercicio = new String[]{ejercicioActual.getNombreEjercicio(), ejercicioActual.getComplejidad(), ejercicioActual.getMaterialDeTrabajo(), String.valueOf(ejercicioActual.getSeries()), String.valueOf(ejercicioActual.getRepeticiones())};
 
 
-        if (ejercicioActual.getRepeticiones() != 0 && ejercicioActual.getSeries()!=0)
-        {
+        if (ejercicioActual.getRepeticiones() != 0 && ejercicioActual.getSeries() != 0) {
             modeloDeDatosDefault.addRow(datosEjercicio);
-        }
-        else
-        {
-            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No se puede asignar ejercicios sin series ni repeticiones");
+        } else {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se puede asignar ejercicios sin series ni repeticiones");
         }
     }
 }
