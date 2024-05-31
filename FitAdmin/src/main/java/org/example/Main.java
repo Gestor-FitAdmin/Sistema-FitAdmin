@@ -36,7 +36,10 @@ public class Main {
         //logro github...
 
 
-        guiEnvoltorio.iniciarPrograma();
+        //guiEnvoltorio.iniciarPrograma();
+
+        JfrCliente jfrCliente = new JfrCliente();
+        jfrCliente.setVisible(true);
 
 //        System.out.println(cliente.getFechaDeNacimiento()+" " +cliente.getEdad());
 //        JfrGenerarRutina jfrGenerarRutina= new JfrGenerarRutina(cliente);
