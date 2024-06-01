@@ -19,7 +19,6 @@ import com.itextpdf.layout.properties.UnitValue;
 
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
-import org.example.GUI.GUIEnvoltorio;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
 
@@ -35,7 +34,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+
+import static javax.management.remote.JMXConnectorFactory.connect;
 
 public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     //atributos
@@ -153,7 +157,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         // Ruta del archivo PDF a crear
         String ruta = "QRaGenerar.pdf";
         // Ruta de la imagen de perfil
-        String rutaFotoPerfil = "fotoPerfil.jpeg";
+        String rutaFotoPerfil = "fotoPerfil.jpeg"; //todo: esto viene de un metodo aparte
 
         // Estado de acceso
         boolean accesoDelCliente = cliente.isCuotaPagada(); // todo: ver en que caso es falso
@@ -262,7 +266,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         for (Map.Entry<Integer, Cliente> entry : clientes.entrySet()) {
 
             Cliente siExiste =entry.getValue();
-            System.out.println(siExiste.getDNI());
+            //System.out.println(siExiste.getDNI());
             if(siExiste.getDNI().equals(dniAComparar))
             {
                 rta = true;//es true si ya existe el DNI
@@ -270,95 +274,193 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         }
         return rta;
     }
-    public void leerUnMail() throws MessagingException {
 
+    private Properties propiedadesParaImap()
+    {
+        //esto retorna las propiedades para conectarme a Imap
         //propiedades para el tipo de conexion
         Properties props= new Properties();
         props.put("mail.store.protocol", "imaps"); //protocolo para recibir y leer mails
         props.put("mail.imap.host", "imap.gmail.com"); // este es el host del protocolo
         props.put("mail.imap.port", "993"); // IMAP con SSL/TLS: puerto 993. Es un puerto seguro
         props.put("mail.imap.ssl.enable", "true"); // activamos la seguridad
+        return props;
+    }
+
+    public void leerMails(){
+
+        Properties props= propiedadesParaImap();
+
         try {
         //obtengo la sesion con las propiedades especificadas
             Session session= getSesionMailIniciada(props);
 
         //creo una conexion con el servidor de correo
-//        Store store= session.getStore();
 
-            IMAPStore imapStore=(IMAPStore) session.getStore();
-            imapStore.connect("imap.gmail.com",mailFit,contraFit);
+            IMAPStore imapStore= (IMAPStore) conectarConImap(session,"imap.gmail.com");
 
-
-
-        //abro la bandeja de entrada
-//        Folder carpetaEmail = store.getFolder("INBOX");
-//        carpetaEmail.open(Folder.READ_ONLY);
-            IMAPFolder carpetaEmail = (IMAPFolder) imapStore.getFolder("INBOX");
-            carpetaEmail.open(Folder.READ_ONLY);
-
-
+            //abro la bandeja de entrada
+            IMAPFolder carpetaEmail = (IMAPFolder) obtenerCarpeta(imapStore,"INBOX");
 
             // Listener para eventos de la carpeta
-            carpetaEmail.addMessageCountListener(new MessageCountAdapter() {
-                Cliente auxCliente=null;
-                @Override
-                public void messagesAdded(MessageCountEvent e) {
-                    Message[] mensajes = e.getMessages();
+            verificarMailsBandejaDeEntrada(carpetaEmail);
 
-                    System.out.println("Nuevos correos recibidos:");
-
-                    for (Message mensaje : mensajes) {
-                        try {
-                            //obtengo el titulo del mail
-                            String dni= mensaje.getSubject();
-
-                            System.out.println(verificarDNIExistente(dni));
-                            //verifico si existe el cliente
-                            if (verificarDNIExistente(dni))
-                            {
-                                //obtengo el cliente para verificar si ya tiene foto de perfil
-                                auxCliente= buscarClienteXDNI(dni);
-
-                                System.out.println(auxCliente);
-
-                                if (!auxCliente.isTieneFotoPerfil())
-                                {
-                                    //si no tiene foto de perfil la mando a dropbox con titulo del dni
-                                    System.out.println("Asunto: " + mensaje.getSubject());
-
-                                }
-                            }
-
-                        } catch (MessagingException me) {
-                            me.printStackTrace();
-                        }
-                    }
-                }
-            });
-
-            while (true)
-            {
-
+            //todo: hay dos problemas, el primero es que si hay inactividad x mucho tiempo se cierra.
+            //todo: El otro es verificar si el programa funciona al 100% sin haber hecho un hilo nuevo ya que por el momento esta funcionando
+            try {
                 System.out.println("Esperando mensajes");
+
                 carpetaEmail.idle();
+            }catch (FolderClosedException e)
+            {
+                System.out.println("Se cerro la conexion con el server debido a la inactividad");
 
-
-
-
-//                Message[] mensajes= carpetaEmail.getMessages();
-//
-//                for (Message mensaje : mensajes) {
-//                    System.out.println("Asunto: " + mensaje.getSubject());
-//                    // Aquí puedes añadir lógica para procesar cada correo
-//                }
+                //reconectarConServImap(carpetaEmail,imapStore);
             }
-        } catch (Exception e)
-        {
-           e.getMessage();
+
+
+
         }
+        catch (Exception e)
+        {
+           e.printStackTrace();
+        }
+
+
 
     }
 
+    private void verificarMailsBandejaDeEntrada(Folder carpetaEmail){
+
+        carpetaEmail.addMessageCountListener(new MessageCountAdapter() {
+
+            Cliente auxCliente=null; //creo un cliente
+
+            @Override
+            public void messagesAdded(MessageCountEvent e) {
+                Message[] mensajes = e.getMessages(); //obtengo todos los mensajes NUEVOS
+
+                System.out.println("Nuevos correos recibidos");
+
+                //leo cada mensaje nuevo
+                for (Message mensajeNuevo : mensajes) {
+                    try {
+                        //obtengo el titulo del mail que tendria que ser el DNI del cliente
+                        String dniRecibido = mensajeNuevo.getSubject();
+
+                        //verifico si existe el cliente x DNI
+                        if (verificarDNIExistente(dniRecibido))
+                        {
+                            //obtengo el cliente para verificar si ya tiene foto de perfil
+                            auxCliente= buscarClienteXDNI(dniRecibido);
+
+                            if (!auxCliente.isTieneFotoPerfil())
+                            {
+                                //si no tiene foto de perfil verifico que lo que me mandaron sirva
+                                System.out.println("Asunto: " + mensajeNuevo.getSubject());
+
+                                if (mensajeNuevo.isMimeType("multipart/*")) {
+                                    //obtengo el cuerpo si hay multiples partes (Ej texto e imagen). En este caso tiene que haber una imagen, y eso es lo que vamos a verificar
+
+                                    Multipart multipartes = (Multipart) mensajeNuevo.getContent(); //casteo el contenido a un tipo de dato multiparte
+
+                                    for (int j = 0; j < multipartes.getCount(); j++) {
+                                        //recorro cada parte
+                                        BodyPart parte = multipartes.getBodyPart(j);
+//                                            System.out.println("Revisando parte: " + j);
+//                                            System.out.println("Disposición: " + parte.getDisposition());
+//                                            System.out.println("Nombre del archivo: " + parte.getFileName());
+
+                                        if ((Part.ATTACHMENT.equalsIgnoreCase(parte.getDisposition()) || Part.INLINE.equalsIgnoreCase(parte.getDisposition()))&& (parte.getFileName().endsWith(".jpg"))) {
+                                            // Si la parte es una imagen, la guardo en el repo para subirla a dropbox
+                                            // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg
+                                            // Procesar y guardar la imagen
+
+                                            //todo hay que verificar si existe en dropbox tambien
+
+
+
+                                            System.out.println("Entro a guardar imagen");
+                                            guardarImagenLeidaDeUnMail(parte,dniRecibido);
+                                            auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
+
+
+
+                                            //guardarFotoPerfilEnDropbox();
+
+                                            //eliminarImagenDelRepo(parte);
+
+                                        }
+                                    }
+                                }
+                            }
+                            else{
+                                //si ya tiene foto de perfil no se asigna nada
+                                System.out.println("retornar un error al mail que nos envio el mensaje");
+                            }
+                        }
+
+                    } catch (MessagingException me) {
+                        me.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private Folder obtenerCarpeta(IMAPStore imapStore, String nombreCarpeta) throws MessagingException {
+        IMAPFolder carpetaEmail = (IMAPFolder) imapStore.getFolder(nombreCarpeta);
+        carpetaEmail.open(Folder.READ_ONLY);
+        return carpetaEmail;
+    }
+
+    private Store conectarConImap(Session sesionImap,String host) throws MessagingException {
+        IMAPStore store= (IMAPStore) sesionImap.getStore();
+        store.connect(host,mailFit,contraFit);
+        return store;
+    }
+
+
+
+//    private void reconectarConServImap() {
+//       NO BORRAR FUNCION POR LAS DUDAS SI HAY QUE RECONECTARSE
+//        try {
+//            // Cerrar recursos existentes
+//            if (carpetaMail != null && carpetaMail.isOpen()) {
+//                carpetaMail.close(false);
+//            }
+//            if (imapStore != null && imapStore.isConnected()) {
+//                imapStore.close();
+//            }
+//
+//            // Reconectar y reintentar
+//            imapStore.connect();
+//            openFolder("INBOX");
+//            fetchMessages(); // Intentar de nuevo
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void guardarImagenLeidaDeUnMail(BodyPart parte,String nombreDelArchivo) throws MessagingException, IOException {
+
+        String destinoRutaArchivo = "FitAdmin/"+ nombreDelArchivo + ".jpg"; //quiero ponerle este nombre al archivo que voy a crear
+
+        InputStream inputStream = parte.getInputStream();// abro un canal de datos de input
+
+        Path pathArchivo= Path.of(destinoRutaArchivo);//convierto string a ruta
+
+        Files.deleteIfExists(pathArchivo);//si el archivo existe lo elimino, sino tira FileAlreadyExistsException
+
+        Files.copy(inputStream,pathArchivo); // copio la foto recibida del mail, a la carpeta/repositorio actual
+
+        inputStream.close();
+
+        System.out.println("Imagen guardada exitosamente");
+
+    }
 
     public void guardarFotoPerfilEnDropbox(){
 

@@ -32,6 +32,10 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         //Cambiar el Icono de la app
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
+
+
+        //todo cambiar el inicio de sesion de dropbox aca y recibir los mails aca tambien.
+
     }
         /*
         public void agregarClientesATabla(){
