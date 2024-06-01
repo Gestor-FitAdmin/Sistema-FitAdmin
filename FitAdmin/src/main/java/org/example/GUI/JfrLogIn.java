@@ -1,12 +1,19 @@
 package org.example.GUI;
 
+import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Main;
+import org.example.Modelo.Cliente;
+import org.example.Modelo.Gimnasio;
 
+import javax.mail.MessagingException;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Objects;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
@@ -25,7 +32,6 @@ public class JfrLogIn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
 
 
-
     public JfrLogIn() {
         initComponents();
         setLocationRelativeTo(null);
@@ -35,6 +41,8 @@ public class JfrLogIn extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
 
+        //Enviar Saludos de cumpleaños
+        enviarSaludosDeCumpleanos();
     }
 
 
@@ -101,7 +109,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         BotonIngreso.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(242, 242, 242), 2, true));
         BotonIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    BotonIngresoActionPerformed();
+                BotonIngresoActionPerformed();
             }
         });
 
@@ -189,16 +197,14 @@ public class JfrLogIn extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void escuchadorParaLasTeclas(JTextField jTextField)
-    {
+    private void escuchadorParaLasTeclas(JTextField jTextField) {
         jTextField.setFocusable(true);
         jTextField.requestFocusInWindow();
 
         jTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     BotonIngresoActionPerformed();
                 }
 
@@ -206,8 +212,7 @@ public class JfrLogIn extends javax.swing.JFrame {
 
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     BotonIngresoActionPerformed();
                 }
             }
@@ -218,7 +223,6 @@ public class JfrLogIn extends javax.swing.JFrame {
             }
         });
     }
-
 
 
     private void TextAreaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,49 +236,155 @@ public class JfrLogIn extends javax.swing.JFrame {
         char[] contrasenaRecibida = TextAreaContrasena.getPassword();
         String contrasena = new String(contrasenaRecibida);
 
-         if(validacion(usuario, contrasena)){
+        if (validacion(usuario, contrasena)) {
 
-             TextAreaUsuario.setText("");
-             TextAreaContrasena.setText("");
+            TextAreaUsuario.setText("");
+            TextAreaContrasena.setText("");
 
-             this.setVisible(false);
-             JfrMenuPrincipal menu = new JfrMenuPrincipal();
-             menu.setVisible(true);
+            this.setVisible(false);
+            JfrMenuPrincipal menu = new JfrMenuPrincipal();
+            menu.setVisible(true);
 
-         }
-         else
-         {
-             String mensaje=null;
+        } else {
+            String mensaje = null;
 
 
-             if (!gimnasio.getUsuario().equals(usuario))
-             {
-                 mensaje= "Usuario incorrecto!";
+            if (!gimnasio.getUsuario().equals(usuario)) {
+                mensaje = "Usuario incorrecto!";
 
-             }
-             else if (!gimnasio.getContrasenia().equals(contrasena))
-             {
-                 mensaje= "Contraseña incorrecta!";
+            } else if (!gimnasio.getContrasenia().equals(contrasena)) {
+                mensaje = "Contraseña incorrecta!";
 
-             }
-             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this,true,mensaje);
+            }
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, mensaje);
 
-         }
+        }
 
     }
 
-    public boolean validacion(String usuario, String contrasena){
+    public boolean validacion(String usuario, String contrasena) {
         boolean flag = false;
 
-        if(GUIEnvoltorio.getGimnasio().getContrasenia().equals(contrasena) && Main.gimnasio.getUsuario().equals(usuario)){
+        if (GUIEnvoltorio.getGimnasio().getContrasenia().equals(contrasena) && Main.gimnasio.getUsuario().equals(usuario)) {
             flag = true;
         }
-        return flag ;
+        return flag;
     }
 
     private void TextAreaContrasenaActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-}
 
+    //Función para mandar saludo de feliz cumpleaños al inicio del programa 
+    public void enviarSaludosDeCumpleanos() {
+        // Leo los elementos del archivo y los meto en el arraylist
+        ArrayList<String> localDates = leerArchivoFechas();
+
+        // Accedo al gimnasio y guardo los clientes
+        Gimnasio gimnasio = GUIEnvoltorio.getGimnasio();
+        HashMap<Integer, Cliente> integerClienteHashMap = gimnasio.getClientes();
+
+        //Tomo la fecha actual en dos formatos
+        String fechaActualdMy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")); // Obtengo fecha actual
+        String fechaActualdM = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM")); // Obtengo solo el día y el mes
+
+        //Creo iterator para manipular el HashSet
+        Set<Map.Entry<Integer, Cliente>> entrySet = integerClienteHashMap.entrySet();
+        Iterator<Map.Entry<Integer, Cliente>> iterator = entrySet.iterator();
+
+        while (iterator.hasNext()) {
+
+            //Agarro el cliente actual
+            Map.Entry<Integer, Cliente> dato = iterator.next();
+            Cliente cliente = dato.getValue();
+            //Agarro la fecha de cumpleaños y me quedo solo con el día y el mes
+            String cumpleActualdM = cliente.getFechaDeNacimiento().substring(0, cliente.getFechaDeNacimiento().length() - 5);
+
+            //Si el dia y el mes coinciden
+            if (fechaActualdM.equals(cumpleActualdM)) {
+                //Si la fecha no esta en el archvio
+                    if (!localDates.contains(fechaActualdMy)) {
+
+                        String mensaje = String.format(
+                                """
+                                        ¡Feliz cumpleaños, %s!
+
+                                        Desde FitAdmin, queremos desearte un día lleno de alegría y celebración. Para hacerlo aún más especial, te estamos esperando en el gimnasio con un regalo sorpresa.
+
+                                        ¡No olvides visitarnos hoy y recibir tu regalo por tu cumpleaños %d!
+
+                                        ¡Feliz cumpleaños y que tengas un excelente día!
+
+                                        Saludos cordiales,
+                                        El equipo de FitAdmin""",
+                                cliente.getNombre(), cliente.calcularEdad()
+                        );
+                        try {
+                            //Envio mensaje
+                            gimnasio.enviarUnMail(cliente.geteMail(), mensaje, false);
+                            System.out.println("envioMail");
+                        } catch (MessagingException e) {
+                            System.out.println("MessagingException");
+                        } catch (MailSinArrobaE e) {
+                            System.out.println("MailSinArroba");
+                        }
+                        //Grabo la fecha en el archivo
+                        grabarArchvioFechas(fechaActualdMy);
+                        System.out.println("grabo Archivo");
+                    }
+                }
+            }
+
+        }
+
+//Función para leer el archivo de fechas
+    static ArrayList<String> leerArchivoFechas() {
+
+        ArrayList<String> localDates = new ArrayList<>();
+        ObjectInputStream objectInputStream = null;
+
+        //Abro el archivo y guardo las fechas en el arraylist
+        try {
+            FileInputStream fileInputStream = new FileInputStream("fechas.bin");
+            objectInputStream = new ObjectInputStream(fileInputStream);
+
+            while (true) {
+                String fecha = (String) objectInputStream.readObject();
+                localDates.add(fecha);
+            }
+        } catch (FileNotFoundException e) {
+            //todo: hay que mostrar pop up en metodos static
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        //retorno el arraylist
+        return localDates;
+
+    }
+
+    //Función para guardar las fechas en el archivo
+    static void grabarArchvioFechas(String fecha) {
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            //Abro el arcvhio y escribo la fecha
+            FileOutputStream fileOutputStream = new FileOutputStream("fechas.bin");
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(fecha);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                //Cierro el archivo
+                objectOutputStream.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
+}
