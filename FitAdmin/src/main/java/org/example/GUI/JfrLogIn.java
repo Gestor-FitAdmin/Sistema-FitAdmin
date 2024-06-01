@@ -275,27 +275,37 @@ public class JfrLogIn extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
 
-    public void enviarSaludosDeCumpleanos() {
 
-        System.out.println("Ingreso");
-        Gimnasio gimnasio = GUIEnvoltorio.getGimnasio(); // Accedo al gimnasio
-        ArrayList<String> localDates = leerArchivoFechas(); // Leo los elementos del archivo y los meto en el arraylist
+    //Función para mandar saludo de feliz cumpleaños al inicio del programa 
+    public void enviarSaludosDeCumpleanos() {
+        // Leo los elementos del archivo y los meto en el arraylist
+        ArrayList<String> localDates = leerArchivoFechas();
+
+        // Accedo al gimnasio y guardo los clientes
+        Gimnasio gimnasio = GUIEnvoltorio.getGimnasio();
         HashMap<Integer, Cliente> integerClienteHashMap = gimnasio.getClientes();
+
+        //Tomo la fecha actual en dos formatos
         String fechaActualdMy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")); // Obtengo fecha actual
         String fechaActualdM = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM")); // Obtengo solo el día y el mes
+
+        //Creo iterator para manipular el HashSet
         Set<Map.Entry<Integer, Cliente>> entrySet = integerClienteHashMap.entrySet();
         Iterator<Map.Entry<Integer, Cliente>> iterator = entrySet.iterator();
 
-        System.out.println("Creo todo");
         while (iterator.hasNext()) {
-            System.out.println("entro al while");
-            Map.Entry<Integer, Cliente> dato = iterator.next();
 
+            //Agarro el cliente actual
+            Map.Entry<Integer, Cliente> dato = iterator.next();
             Cliente cliente = dato.getValue();
+            //Agarro la fecha de cumpleaños y me quedo solo con el día y el mes
             String cumpleActualdM = cliente.getFechaDeNacimiento().substring(0, cliente.getFechaDeNacimiento().length() - 5);
-            System.out.println(cumpleActualdM + "hola manola");
+
+            //Si el dia y el mes coinciden
             if (fechaActualdM.equals(cumpleActualdM)) {
+                //Si la fecha no esta en el archvio
                     if (!localDates.contains(fechaActualdMy)) {
+
                         String mensaje = String.format(
                                 """
                                         ¡Feliz cumpleaños, %s!
@@ -311,6 +321,7 @@ public class JfrLogIn extends javax.swing.JFrame {
                                 cliente.getNombre(), cliente.calcularEdad()
                         );
                         try {
+                            //Envio mensaje
                             gimnasio.enviarUnMail(cliente.geteMail(), mensaje, false);
                             System.out.println("envioMail");
                         } catch (MessagingException e) {
@@ -318,6 +329,7 @@ public class JfrLogIn extends javax.swing.JFrame {
                         } catch (MailSinArrobaE e) {
                             System.out.println("MailSinArroba");
                         }
+                        //Grabo la fecha en el archivo
                         grabarArchvioFechas(fechaActualdMy);
                         System.out.println("grabo Archivo");
                     }
@@ -326,10 +338,13 @@ public class JfrLogIn extends javax.swing.JFrame {
 
         }
 
-
+//Función para leer el archivo de fechas
     static ArrayList<String> leerArchivoFechas() {
+
         ArrayList<String> localDates = new ArrayList<>();
         ObjectInputStream objectInputStream = null;
+
+        //Abro el archivo y guardo las fechas en el arraylist
         try {
             FileInputStream fileInputStream = new FileInputStream("fechas.bin");
             objectInputStream = new ObjectInputStream(fileInputStream);
@@ -345,14 +360,16 @@ public class JfrLogIn extends javax.swing.JFrame {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        //retorno el arraylist
         return localDates;
 
     }
 
+    //Función para guardar las fechas en el archivo
     static void grabarArchvioFechas(String fecha) {
         ObjectOutputStream objectOutputStream = null;
-
         try {
+            //Abro el arcvhio y escribo la fecha
             FileOutputStream fileOutputStream = new FileOutputStream("fechas.bin");
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(fecha);
@@ -361,6 +378,7 @@ public class JfrLogIn extends javax.swing.JFrame {
             throw new RuntimeException(e);
         } finally {
             try {
+                //Cierro el archivo
                 objectOutputStream.close();
 
             } catch (IOException e) {
