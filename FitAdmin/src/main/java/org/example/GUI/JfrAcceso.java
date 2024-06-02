@@ -2,6 +2,7 @@ package org.example.GUI;
 
 
 import com.dropbox.core.DbxException;
+import org.example.Excepciones.TokenDeAccesoInvalidoE;
 import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
@@ -16,7 +17,6 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Objects;
@@ -236,7 +236,7 @@ public class JfrAcceso extends javax.swing.JFrame {
     private void BotonIrParaAtrasActionPerformed(java.awt.event.ActionEvent evt) {
         this.setVisible(false);
         JfrMenuPrincipal prin = new JfrMenuPrincipal();
-        prin.setVisible(true);
+
     }
     private void BotonGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -260,7 +260,7 @@ public class JfrAcceso extends javax.swing.JFrame {
                     dropBoxAPI=new DropBoxAPI();
 
                     gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-                    dropBoxAPI.subirPDF(rutaQRaGenerar);//nombre del archivo de donde se genero el PDF del cliente
+                    dropBoxAPI.subirArchivo(new File(rutaQRaGenerar+".pdf"),"/");//nombre del archivo de donde se genero el PDF del cliente
 
                     String url = dropBoxAPI.obtenerURL(rutaQRaGenerar);
                     qrAPI.generarQr(url);
@@ -287,14 +287,10 @@ public class JfrAcceso extends javax.swing.JFrame {
                     //url invalida
                     e.printStackTrace();
                 }
-                catch (FileNotFoundException e)
+                catch (TokenDeAccesoInvalidoE e)
                 {
-                    e.printStackTrace();
-                }
-                catch (NullPointerException e)
-                {
-                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this,true,dropBoxAPI);
-                   System.out.println("No estamos conectados a la api por eso el cliente esta vacio");
+                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this,true);
+                   e.getMessage();
                 } catch (IOException e) {
                     System.out.println("Archivo roto");
                     JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Error con el archivo");

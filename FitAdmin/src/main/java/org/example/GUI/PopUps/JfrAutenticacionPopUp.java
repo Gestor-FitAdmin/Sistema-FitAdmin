@@ -20,16 +20,15 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
     private javax.swing.JLabel urlAAsignar;
     private DropBoxAPI dropBoxAPI;
     private Frame parent;
-    public JfrAutenticacionPopUp(java.awt.Frame parent, boolean modal,DropBoxAPI dropBoxAPI) {
+    public JfrAutenticacionPopUp(java.awt.Frame parent, boolean modal) {
         super(parent,"Autenticacion",modal);
         this.parent=parent;
         initComponents();
-        this.dropBoxAPI=dropBoxAPI;
-        urlAAsignar.setText(dropBoxAPI.autenticarTokenNuevoURL());
-        setLocationRelativeTo(parent);
+        urlAAsignar.setText(DropBoxAPI.autenticarTokenNuevoURL());
+
+        setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-
 
 
     }
@@ -48,9 +47,11 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
         botonAutenticar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(new java.awt.Dimension(500, 300));
+        setSize(new java.awt.Dimension(800, 300));
 
         jPanel1.setBackground(new java.awt.Color(32, 32, 32));
+
+
 
         TituloDropbox.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         TituloDropbox.setForeground(new java.awt.Color(250, 250, 250));
@@ -167,8 +168,8 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
         {
             try {
 
-                String tokenNuevo= dropBoxAPI.autenticarCliente(codigoAut); //si se rompe es porque se ingreso mal el codigo de acceso
-                dropBoxAPI.guardarTokenEnArchivo(tokenNuevo);
+                String tokenNuevo= DropBoxAPI.autenticarCliente(codigoAut); //si se rompe es porque se ingreso mal el codigo de acceso
+                DropBoxAPI.guardarTokenEnArchivo(tokenNuevo);
                 setVisible(false);
             }
             catch (DbxException e)
