@@ -22,6 +22,8 @@ import org.example.API.DropBoxAPI;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Excepciones.TokenDeAccesoInvalidoE;
+import org.example.GUI.GUIEnvoltorio;
+import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
 
@@ -158,13 +160,18 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         // Ruta del archivo PDF a crear
         String ruta = "QRaGenerar.pdf";
-        // Ruta de la imagen de perfil
-        String rutaFotoPerfil = "fotoPerfil.jpeg"; //todo: esto viene de un metodo aparte
 
-        // Estado de acceso
-        boolean accesoDelCliente = cliente.isCuotaPagada(); // todo: ver en que caso es falso
 
         try {
+            DropBoxAPI dropBoxAPI= new DropBoxAPI();
+
+            // Ruta de la imagen de perfil
+            String rutaFotoPerfil = dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI()));
+
+            // Estado de acceso
+            boolean accesoDelCliente = cliente.isCuotaPagada(); // todo: ver en que caso es falso
+
+
             // Crear el PdfWriter
             PdfWriter writer = new PdfWriter(ruta);
             // Crear el PdfDocument
@@ -209,14 +216,18 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
             document.add(accessParagraph);
 
+
             // Cerrar el documento
             document.close();
             rta = true;
+            eliminarImagen(new File("FitAdmin/"+cliente.getDNI()+".jpg"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
+        } catch (TokenDeAccesoInvalidoE e) {
+            e.printStackTrace();
         }
 
         return rta;
@@ -298,7 +309,6 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             Session session= getSesionMailIniciada(props);
 
         //creo una conexion con el servidor de correo
-
             IMAPStore imapStore= (IMAPStore) conectarConImap(session);
 
             //abro la bandeja de entrada
@@ -368,12 +378,13 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
                                     for (int j = 0; j < multipartes.getCount(); j++) {
                                         //recorro cada parte
-                                        BodyPart parte = multipartes.getBodyPart(j);
+                                        BodyPart parte = multipartes.getBodyPart(j); //esto es una parte del multipart singular
+
 //                                            System.out.println("Revisando parte: " + j);
 //                                            System.out.println("Disposición: " + parte.getDisposition());
 //                                            System.out.println("Nombre del archivo: " + parte.getFileName());
 
-                                        if ((Part.ATTACHMENT.equalsIgnoreCase(parte.getDisposition()) || Part.INLINE.equalsIgnoreCase(parte.getDisposition()))&& (parte.getFileName().endsWith(".jpg"))) {
+                                        if ((Part.ATTACHMENT.equalsIgnoreCase(parte.getDisposition()) || Part.INLINE.equalsIgnoreCase(parte.getDisposition())) && (parte.getFileName().endsWith(".jpg"))) {
                                             // Si la parte es una imagen, la guardo en el repo para subirla a dropbox
                                             // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg
                                             // Procesar y guardar la imagen
@@ -462,14 +473,14 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         Path pathArchivo= Path.of(destinoRutaArchivo);//convierto string a ruta
 
-        Files.deleteIfExists(pathArchivo);//si el archivo existe lo elimino, sino tira FileAlreadyExistsException
-
         Files.copy(inputStream,pathArchivo); // copio la foto recibida del mail, a la carpeta/repositorio actual
 
-        inputStream.close();
+       // Files.deleteIfExists(pathArchivo);//si el archivo existe lo elimino, sino tira FileAlreadyExistsException
+
+        inputStream.close(); // cierro el canal de datos de input
 
         System.out.println("Imagen guardada exitosamente");
-        return destinoRutaArchivo;
+        return destinoRutaArchivo; // esto me va a retornar donde se encuentra la imagen guardada
     }
 
     public void guardarFotoPerfilEnDropbox(File archivo){

@@ -206,10 +206,10 @@ public class DropBoxAPI {
         //String nombreDeArchivoCompleto="/"+ archivo.getName(); //esto se puede recibir por parametro: String ubicacion
 
         try {
-            inputStream = new FileInputStream(archivo);
+            inputStream = new FileInputStream(archivo); //abro un canal de datos input
 
             if (existeArchivoEnDropbox(ubicacion)){
-                eliminarArchivoEnDropbox(ubicacion);
+                eliminarArchivoEnDropbox(ubicacion); // si el archivo existe lo piso(Esto es para los qr)
             }
 
             UploadBuilder uploadBuilder = cliente.files().uploadBuilder(ubicacion);//guardar el archivo en la carpeta DropBox
@@ -238,20 +238,36 @@ public class DropBoxAPI {
 
     }
 
-    public void descargarArchivo(File archivo) throws FileNotFoundException {
+    public String descargarArchivoDeDropbox(File archivo){
 
-        String rutaCarpetaFotosDePerfil="/fotosDePerfil/";
+        String rutaLocal="FitAdmin/"+archivo.getName()+".jpg";
+
+
+        String rutaDropbox="/fotosDePerfil/"+archivo.getName()+".jpg";
+        System.out.println(archivo.getName());
+
         try{
 
-            OutputStream archivoADescargar= new FileOutputStream(archivo);
+            OutputStream canalDeDatos= new FileOutputStream(rutaLocal); // donde quiero que se me descargue
 
-            FileMetadata metadata = cliente.files().downloadBuilder(rutaCarpetaFotosDePerfil).download(archivoADescargar);
+            FileMetadata metadata = cliente.files().downloadBuilder(rutaDropbox).download(canalDeDatos);
 
-            System.out.println("Archivo descargado: " + metadata.getName());
-        } catch (DbxException | IOException ex) {
-            System.err.println("Error al descargar el archivo: " + ex.getMessage());
-            ex.printStackTrace();
+
+            canalDeDatos.close();
+
+        }catch (DownloadErrorException e){
+            e.printStackTrace();
+            System.out.println("NO SE ENCONTRO EL ARCHYIVO");
         }
+        catch (DbxException e) {
+            System.err.println("Error al descargar el archivo: " + e.getMessage());
+            e.printStackTrace();
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return rutaLocal;
     }
 
 
