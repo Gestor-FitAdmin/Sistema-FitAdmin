@@ -24,7 +24,6 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDatos;
-    private static Thread hiloAparte;
     //private static boolean tokenEstaVerificado = false; //todo: verificar que no quede en blanco la pantalla
 
 
@@ -47,31 +46,11 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
             JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this,true);
         }
 
-        sethiloAparte();
         setVisible(true);
 
     }
 
-    private void sethiloAparte(){
-        if (hiloAparte == null)
-        {
-            //si el hilo no existe (osea la primera vez) voy a crearlo, ya despues no se creara mas, por mas que me mueva de ventanas
-            //una vez creado el hilo, corriendo== false
-            hiloAparte = new Thread(new HiloVerificarMailsNuevos(GUIEnvoltorio.getGimnasio()));
 
-        }
-        if (!hiloAparte.isAlive())
-        {
-            //si el hilo NO esta corriendo lo empiezo a correr
-            try {
-                hiloAparte.start();
-                System.out.println("Hilo comenzo");
-            }catch (IllegalThreadStateException e)
-            {
-                System.out.println("Se intento crear un hilo cuando ya habia uno en ejecucion");
-            }
-        }
-    }
 
 
     private void initComponents() {

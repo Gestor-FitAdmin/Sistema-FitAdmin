@@ -333,12 +333,16 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             try {
                 System.out.println("Esperando mensajes");
 
-                carpetaEmail.idle();
+                while (true)
+                {
+                    carpetaEmail.idle();
+                }
+
             }catch (FolderClosedException e)
             {
                 System.out.println("Se cerro la conexion con el server debido a la inactividad");
 
-                //reconectarConServImap(carpetaEmail,imapStore);
+                reconectarConServImap(carpetaEmail,imapStore);
             }
 
 
@@ -351,6 +355,23 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
 
+    }
+
+    private void reconectarConServImap(Folder carpetaMail, Store imapStore) {
+        //NO BORRAR FUNCION POR LAS DUDAS SI HAY QUE RECONECTARSE
+        try {
+            // Cerrar recursos existentes
+            if (carpetaMail != null && carpetaMail.isOpen()) {
+                carpetaMail.close(false);
+            }
+            if (imapStore != null && imapStore.isConnected()) {
+                imapStore.close();
+            }
+
+            leerMails();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void verificarMailsBandejaDeEntrada(Folder carpetaEmail){
@@ -453,26 +474,6 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
     }
 
 
-
-//    private void reconectarConServImap() {
-//       NO BORRAR FUNCION POR LAS DUDAS SI HAY QUE RECONECTARSE
-//        try {
-//            // Cerrar recursos existentes
-//            if (carpetaMail != null && carpetaMail.isOpen()) {
-//                carpetaMail.close(false);
-//            }
-//            if (imapStore != null && imapStore.isConnected()) {
-//                imapStore.close();
-//            }
-//
-//            // Reconectar y reintentar
-//            imapStore.connect();
-//            openFolder("INBOX");
-//            fetchMessages(); // Intentar de nuevo
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public void eliminarImagen(File archivo)
     {

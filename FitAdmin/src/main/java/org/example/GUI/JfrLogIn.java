@@ -1,5 +1,6 @@
 package org.example.GUI;
 
+import org.example.API.HiloVerificarMailsNuevos;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Main;
@@ -34,6 +35,7 @@ public class JfrLogIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private static Thread hiloAparte;
 
 
     public JfrLogIn() {
@@ -45,12 +47,32 @@ public class JfrLogIn extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
 
+        sethiloAparte();
+
+
         //Enviar Saludos de cumpleaños
         enviarSaludosDeCumpleanos();
-
-
     }
+    private void sethiloAparte(){
+        if (hiloAparte == null)
+        {
+            //si el hilo no existe (osea la primera vez) voy a crearlo, ya despues no se creara mas, por mas que me mueva de ventanas
+            //una vez creado el hilo, corriendo== false
+            hiloAparte = new Thread(new HiloVerificarMailsNuevos(GUIEnvoltorio.getGimnasio()));
 
+        }
+        if (!hiloAparte.isAlive())
+        {
+            //si el hilo NO esta corriendo lo empiezo a correr
+            try {
+                hiloAparte.start();
+                System.out.println("Hilo comenzo");
+            }catch (IllegalThreadStateException e)
+            {
+                System.out.println("Se intento crear un hilo cuando ya habia uno en ejecucion");
+            }
+        }
+    }
 
     private void initComponents() {
 
