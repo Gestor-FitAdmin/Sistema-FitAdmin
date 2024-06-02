@@ -40,14 +40,15 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
 
 
 
-        setVisible(true);
 
         if (!DropBoxAPI.verificarSiElTokenEsValido(DropBoxAPI.leerTokenDeAcceso()))
         {
+            setVisible(true);
             JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this,true);
         }
 
         sethiloAparte();
+        setVisible(true);
 
     }
 
