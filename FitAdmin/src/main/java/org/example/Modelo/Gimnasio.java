@@ -164,12 +164,19 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         try {
             DropBoxAPI dropBoxAPI= new DropBoxAPI();
+            String rutaFotoPerfil="FitAdmin/fotoDePerfilPredeterminada.jpg"; //por defecto tiene una foto de perfil predeterminada
+
 
             // Ruta de la imagen de perfil
-            String rutaFotoPerfil = dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI()));
+            if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil
+            {
+
+                rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
+            }
+
 
             // Estado de acceso
-            boolean accesoDelCliente = cliente.isCuotaPagada(); // todo: ver en que caso es falso
+            boolean accesoDelCliente = cliente.isCuotaPagada(); //esto nos dira si el cliente puede acceder o no
 
 
             // Crear el PdfWriter
@@ -220,7 +227,10 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             // Cerrar el documento
             document.close();
             rta = true;
-            eliminarImagen(new File("FitAdmin/"+cliente.getDNI()+".jpg"));
+            if (cliente.isTieneFotoPerfil())
+            {
+                eliminarImagen(new File("FitAdmin/"+cliente.getDNI()+".jpg")); // elimino la foto de perfil si es que tiene 
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
