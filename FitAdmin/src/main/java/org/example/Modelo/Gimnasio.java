@@ -168,11 +168,11 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
             // Ruta de la imagen de perfil
-            if (!cliente.isTieneFotoPerfil()) // si el cliente no tiene foto de perfil
+            if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil
             {
-
                 rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
-                cliente.setTieneFotoPerfil(true);//es momentaneo para luego poder borrarla de la carpeta, luego deja de tener foto de perfil porque el usuario es temporal
+                System.out.println(cliente);
+                //cliente.setTieneFotoPerfil(true);//es momentaneo para luego poder borrarla de la carpeta, luego deja de tener foto de perfil porque el usuario es temporal
             }
 
 
@@ -395,20 +395,20 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 //                                            System.out.println("Disposición: " + parte.getDisposition());
 //                                            System.out.println("Nombre del archivo: " + parte.getFileName());
 
-                                        if ((Part.ATTACHMENT.equalsIgnoreCase(parte.getDisposition()) || Part.INLINE.equalsIgnoreCase(parte.getDisposition())) && (parte.getFileName().endsWith(".jpg"))) {
+                                        if ((Part.ATTACHMENT.equalsIgnoreCase(parte.getDisposition()) || Part.INLINE.equalsIgnoreCase(parte.getDisposition())) && verificarSiMensajeMailEsImagen(parte.getFileName())) {
                                             // Si la parte es una imagen, la guardo en el repo para subirla a dropbox
-                                            // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg
+                                            // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg,.jpeg o .png
                                             // Procesar y guardar la imagen
-
                                             System.out.println("Entro a guardar imagen");
-                                            String rutaDelArchivo= guardarImagenLeidaDeUnMail(parte,dniRecibido);
+                                            auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
+                                            System.out.println(auxCliente);
 
-                                            guardarFotoPerfilEnDropbox(new File(rutaDelArchivo));
+                                            String rutaDelArchivo= guardarImagenLeidaDeUnMail(parte,dniRecibido); // guardo la imagen en la carpeta FitAdmin
+
+                                            guardarFotoPerfilEnDropbox(new File(rutaDelArchivo)); //guardo la imagen en dropbox
 
                                             eliminarImagen(new File(rutaDelArchivo)); // el file sera con el nombre del dni por lo tanto lo elimino con ese nombre
 
-
-                                            auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
 
                                         }
                                     }
@@ -430,7 +430,15 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         });
     }
 
-
+private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
+{
+    boolean flag=false;
+    if (nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg") || nombreArchivo.endsWith("png"))
+    {
+        flag=true;
+    }
+    return flag;
+}
 
     private Folder obtenerCarpeta(IMAPStore imapStore) throws MessagingException {
         IMAPFolder carpetaEmail = (IMAPFolder) imapStore.getFolder("INBOX");

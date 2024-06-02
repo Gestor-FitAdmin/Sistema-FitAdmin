@@ -31,7 +31,7 @@ public class Main {
         Cliente cliente1 = new Cliente("asd", "awerger", "34534", ESexo.FEMENINO, 75.5, 182.5, fecha, "fabri.vogol@gmail.com", true);
         Cliente cliente2 = new Cliente("Leasdaso", "aerh", "754457", ESexo.MASCULINO, 75.5, 182.5, fecha, "facundoprocelli@gmail.com", true);
 //
-        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
+       GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
 
         GUIEnvoltorio.getGimnasio().agregar(cliente);
         GUIEnvoltorio.getGimnasio().agregar(cliente1);
@@ -39,7 +39,7 @@ public class Main {
         //logro github...
 
 
-        guiEnvoltorio.iniciarPrograma();
+       guiEnvoltorio.iniciarPrograma();
 
 
 
@@ -50,7 +50,7 @@ public class Main {
 //        JfrGenerarRutina jfrGenerarRutina= new JfrGenerarRutina(cliente);
 //        jfrGenerarRutina.setVisible(true);
 
-
+       //GUIEnvoltorio.getGimnasio().crearPDFParaQR(cliente);
 
     }
 }

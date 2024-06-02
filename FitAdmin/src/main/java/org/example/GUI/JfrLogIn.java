@@ -361,6 +361,7 @@ public class JfrLogIn extends javax.swing.JFrame {
                 String fecha = (String) objectInputStream.readObject();
                 localDates.add(fecha);
             }
+
         } catch (FileNotFoundException e) {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se encontro el archvio");
         } catch (IOException e) {
