@@ -456,6 +456,13 @@ public class JfrAgregarNuevoCliente extends JFrame {
             gym.agregar(cliente);
 
             JfrAvisoPopUp jfrAvisoPopUp= new JfrAvisoPopUp(this,true,"Cliente creado con exito");
+            TextAreaPeso.setText("");
+            TextAreaAltura.setText("");
+            TextAreaDNI.setText("");
+            TextAreaApellido.setText("");
+            TextAreaNombre.setText("");
+            TextAreaFechaDeNacimiento.setText("");
+            TextAreaEmail.setText("");
         }
 
 
