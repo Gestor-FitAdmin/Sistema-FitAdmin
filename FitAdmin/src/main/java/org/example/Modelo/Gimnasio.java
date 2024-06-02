@@ -168,10 +168,11 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
             // Ruta de la imagen de perfil
-            if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil
+            if (!cliente.isTieneFotoPerfil()) // si el cliente no tiene foto de perfil
             {
 
                 rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
+                cliente.setTieneFotoPerfil(true);//es momentaneo para luego poder borrarla de la carpeta, luego deja de tener foto de perfil porque el usuario es temporal
             }
 
 
@@ -194,14 +195,14 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             ImageData imageData = ImageDataFactory.create(rutaFotoPerfil);
             Image image = new Image(imageData);
             image.scaleToFit(240, 240); // Ajustar el tamaño de la imagen
-            table.addCell(image);
+            table.addCell(image);//agrega en la 1er columno la imagen
 
             // Crear un párrafo con la información del socio
             Paragraph infoParagraph = new Paragraph();
             String formatoConSaltosDeLinea = cliente.formatearDatosCliente(cliente);//"Número de socio: " + cliente.getIdCliente() + "\n" + "Nombre: " + cliente.getNombre() + "\n" + "Apellido:  " + cliente.getApellido()+"\n";
             infoParagraph.add(formatoConSaltosDeLinea);
 
-            table.addCell(infoParagraph);
+            table.addCell(infoParagraph);//agrego los datos del cliente en la 2da columna
 
             // Agregar la tabla al documento
             document.add(table);
@@ -213,15 +214,15 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             if (accesoDelCliente)
             {
                 mensajeDeAcceso = "ACCESO CONCEDIDO";
-                accessParagraph.setFontColor(ColorConstants.GREEN);
+                accessParagraph.setFontColor(ColorConstants.GREEN);//si tiene la cuota pagada es concedido
             } else
             {
                 mensajeDeAcceso = "ACCESO DENEGADO";
-                accessParagraph.setFontColor(ColorConstants.RED);
+                accessParagraph.setFontColor(ColorConstants.RED);//si no tiene la cuota pagada es denegado
             }
-            accessParagraph.add(mensajeDeAcceso).setFontSize(20).setTextAlignment(TextAlignment.CENTER);
+            accessParagraph.add(mensajeDeAcceso).setFontSize(20).setTextAlignment(TextAlignment.CENTER);//tamaño y posicionamiento del mensaje de acceso
 
-            document.add(accessParagraph);
+            document.add(accessParagraph);//añade el mensaje de acceso con sus ajustes
 
 
             // Cerrar el documento
@@ -239,7 +240,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         } catch (TokenDeAccesoInvalidoE e) {
             e.printStackTrace();
         }
-
+            cliente.setTieneFotoPerfil(false);//yo no se si el cliente va a cambiar lo foto o si no esta mas, entonces siempre la voy a querer buscar para generarle el acceso y luego eliminarla de mi carpeta/repositorio por eso la dejo en false
         return rta;
 
     }
