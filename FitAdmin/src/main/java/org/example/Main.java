@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
    public static  Gimnasio gimnasio;
-    public static void main(String[] args) throws TokenDeAccesoInvalidoE, FileNotFoundException, DbxException {
+    public static void main(String[] args){
          gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "1234");
 
 
@@ -49,10 +49,6 @@ public class Main {
 //        System.out.println(cliente.getFechaDeNacimiento()+" " +cliente.getEdad());
 //        JfrGenerarRutina jfrGenerarRutina= new JfrGenerarRutina(cliente);
 //        jfrGenerarRutina.setVisible(true);
-
-
-
-//        GUIEnvoltorio.getGimnasio().leerMails();
 
 
 

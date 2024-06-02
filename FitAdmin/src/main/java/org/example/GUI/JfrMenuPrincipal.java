@@ -3,6 +3,7 @@ package org.example.GUI;
 
 import org.example.API.DropBoxAPI;
 import org.example.API.HiloVerificarMailsNuevos;
+import org.example.Excepciones.TokenDeAccesoInvalidoE;
 import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.Modelo.Cliente;
 
@@ -24,7 +25,7 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDatos;
     private static Thread hiloAparte;
-
+    //private static boolean tokenEstaVerificado = false; //todo: verificar que no quede en blanco la pantalla
 
 
     public JfrMenuPrincipal() {
@@ -37,18 +38,19 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
 
+
+
         setVisible(true);
-        //todo cambiar el inicio de sesion de dropbox aca y recibir los mails aca tambien.
+
         if (!DropBoxAPI.verificarSiElTokenEsValido(DropBoxAPI.leerTokenDeAcceso()))
         {
             JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this,true);
         }
 
         sethiloAparte();
+
     }
 
-
-    
     private void sethiloAparte(){
         if (hiloAparte == null)
         {
