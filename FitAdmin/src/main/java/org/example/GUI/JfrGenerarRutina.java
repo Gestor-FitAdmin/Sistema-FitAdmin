@@ -306,14 +306,18 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         //si no tengo ejercicios elegidos no puedo crear una rutina vacia, por lo tanto popUp que no se puede agregar rutina vacia
 
         if (!ejerciciosElegidos.isEmpty()) {
-            rutinaSeleccionada.setObjetivo((String) SelectorDeObjetivos.getSelectedItem());
+            if(ejerciciosElegidos.size() >= 3) {
+                rutinaSeleccionada.setObjetivo((String) SelectorDeObjetivos.getSelectedItem());
 
-            for (int i = 0; i < ejerciciosElegidos.size(); i++) {
-                rutinaSeleccionada.agregarUnEjercicioARutina(ejerciciosElegidos.get(i));
+                for (int i = 0; i < ejerciciosElegidos.size(); i++) {
+                    rutinaSeleccionada.agregarUnEjercicioARutina(ejerciciosElegidos.get(i));
+                }
+
+                JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this, true, "Rutina generada con exito");
             }
-
-            JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this, true, "Rutina generada con exito");
-
+            else {
+                JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "La rutina no puede tener menos de 3 ejercicios");
+            }
         } else {
             if (!rutinaSeleccionada.getRutina().isEmpty()) {
                 //la tabla de rutina actual tiene algo pero no se agrego ningun ejercicio

@@ -10,6 +10,8 @@ import javax.mail.MessagingException;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +20,8 @@ import java.util.*;
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrLogIn extends javax.swing.JFrame {
+
+
 
     //atributos
     private javax.swing.JButton BotonIngreso;
@@ -43,6 +47,8 @@ public class JfrLogIn extends javax.swing.JFrame {
 
         //Enviar Saludos de cumpleaños
         enviarSaludosDeCumpleanos();
+
+
     }
 
 
@@ -60,7 +66,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 500));
@@ -115,6 +121,8 @@ public class JfrLogIn extends javax.swing.JFrame {
 
         jLabel6.setForeground(new java.awt.Color(242, 242, 242));
         jLabel6.setText("By: Caimmi Leonardo, Golisciano Fabrizio, Procelli Facundo");
+
+
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -354,11 +362,11 @@ public class JfrLogIn extends javax.swing.JFrame {
                 localDates.add(fecha);
             }
         } catch (FileNotFoundException e) {
-            //todo: hay que mostrar pop up en metodos static
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se encontro el archvio");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se puedo abrir el archivo");
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "Problemas con los tipos de clases");
         }
         //retorno el arraylist
         return localDates;
@@ -375,16 +383,21 @@ public class JfrLogIn extends javax.swing.JFrame {
             objectOutputStream.writeObject(fecha);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se pudo abrir el archvio ");
         } finally {
             try {
                 //Cierro el archivo
-                objectOutputStream.close();
+                if(objectOutputStream != null) {
+                    objectOutputStream.close();
+                }
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se pudo errar el archivo");
+
             }
 
         }
     }
+
+
 }
