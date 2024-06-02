@@ -37,7 +37,6 @@ public class JfrAcceso extends javax.swing.JFrame {
     private DropBoxAPI dropBoxAPI;
 
 
-
     public JfrAcceso() {
         initComponents();
         setLocationRelativeTo(null);
@@ -66,28 +65,27 @@ public class JfrAcceso extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 
-
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setToolTipText("");
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
 
         TableSeleccionarClienteQR.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
+                new Object[][]{
                         {null, null, null},
                         {null, null, null},
                         {null, null, null}
                 },
-                new String [] {
+                new String[]{
                         "Id", "Nombre", "Apellido"
                 }
         ) {
-            boolean[] canEdit = new boolean [] {
+            boolean[] canEdit = new boolean[]{
                     false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(TableSeleccionarClienteQR);
@@ -126,8 +124,7 @@ public class JfrAcceso extends javax.swing.JFrame {
         ContadorIdUsuario.setValue(1);//aparece con el ID 1 por defecto
         //validacion del spinner
         JComponent editor = ContadorIdUsuario.getEditor();
-        if (editor instanceof JSpinner.NumberEditor numberEditor)
-        {
+        if (editor instanceof JSpinner.NumberEditor numberEditor) {
             //no permite ingresar letras
             JFormattedTextField textField = numberEditor.getTextField();
             DefaultFormatterFactory factory = (DefaultFormatterFactory) textField.getFormatterFactory();
@@ -227,8 +224,8 @@ public class JfrAcceso extends javax.swing.JFrame {
 
         pack();
     }
-    private void verificarCaracteresEnSpinner(java.awt.event.ActionEvent evt)
-    {
+
+    private void verificarCaracteresEnSpinner(java.awt.event.ActionEvent evt) {
         ContadorIdUsuario.setModel(new javax.swing.SpinnerNumberModel());
     }
 
@@ -238,6 +235,7 @@ public class JfrAcceso extends javax.swing.JFrame {
         JfrMenuPrincipal prin = new JfrMenuPrincipal();
 
     }
+
     private void BotonGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {
 
         Gimnasio gym = GUIEnvoltorio.getGimnasio();//agarro el gimnasio entero
@@ -247,20 +245,18 @@ public class JfrAcceso extends javax.swing.JFrame {
         String rutaQRaGenerar = "QRaGenerar";
 
 
-        if(filaSeleccionada != -1 ) //si no selecciono nada retorna -1
+        if (filaSeleccionada != -1) //si no selecciono nada retorna -1
         {
 
-            idSocioSeleccionado= (Integer) TableSeleccionarClienteQR.getValueAt(filaSeleccionada, 0); //obtengo el id en la columna 0
-            Cliente clienteAux= GUIEnvoltorio.getGimnasio().buscar(idSocioSeleccionado); // busco el cliente
-            if (clienteAux != null || idSocioSeleccionado != null)
-            {
-                try
-                {
+            idSocioSeleccionado = (Integer) TableSeleccionarClienteQR.getValueAt(filaSeleccionada, 0); //obtengo el id en la columna 0
+            Cliente clienteAux = GUIEnvoltorio.getGimnasio().buscar(idSocioSeleccionado); // busco el cliente
+            if (clienteAux != null || idSocioSeleccionado != null) {
+                try {
                     //intento entrar al api
-                    dropBoxAPI=new DropBoxAPI();
+                    dropBoxAPI = new DropBoxAPI();
 
                     gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-                    dropBoxAPI.subirArchivo(new File(rutaQRaGenerar+".pdf"),"/");//nombre del archivo de donde se genero el PDF del cliente
+                    dropBoxAPI.subirArchivo(new File(rutaQRaGenerar + ".pdf"), "/");//nombre del archivo de donde se genero el PDF del cliente
 
                     String url = dropBoxAPI.obtenerURL(rutaQRaGenerar);
                     qrAPI.generarQr(url);
@@ -281,70 +277,64 @@ public class JfrAcceso extends javax.swing.JFrame {
                     MostrarImagenQR.revalidate(); // Actualizar el JLabel
                     MostrarImagenQR.repaint(); // Repintar el JLabel
 
-                }
-                catch (DbxException e)
-                {
+                } catch (DbxException e) {
                     //url invalida
                     e.printStackTrace();
-                }
-                catch (TokenDeAccesoInvalidoE e)
-                {
-                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this,true);
-                   e.getMessage();
+                } catch (TokenDeAccesoInvalidoE e) {
+                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this, true);
+                    e.getMessage();
                 } catch (IOException e) {
                     System.out.println("Archivo roto");
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Error con el archivo");
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Error con el archivo");
                 }
+            } else {
+                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Busque un cliente para generar el QR");
             }
-            else
-            {
-                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Busque un cliente para generar el QR");
-            }
-        }
-        else
-        {
-            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this,true,"Seleccione un cliente para generar el QR");
+        } else {
+            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Seleccione un cliente para generar el QR");
         }
 
 
     }
+
     private void BotonBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {
         // busco el id que esta seleccionado en el contador y lo muestro en la tabla
 
-        Integer idSocioLeido=(Integer) ContadorIdUsuario.getValue();
+        Integer idSocioLeido = (Integer) ContadorIdUsuario.getValue();
 
-        idSocioLeido++;
+        Cliente aux = GUIEnvoltorio.getGimnasio().buscar(idSocioLeido);
+        if (aux != null) {
+            idSocioLeido++;
+            for (int i = 0; i < TableSeleccionarClienteQR.getColumnCount(); i++) {
 
-        for (int i=0; i < TableSeleccionarClienteQR.getColumnCount(); i++)
-        {
-            Cliente cliente= GUIEnvoltorio.getGimnasio().buscar(idSocioLeido);
+                Cliente cliente1 = GUIEnvoltorio.getGimnasio().buscar(idSocioLeido);
 
-            //limpio la tabla
-            TableSeleccionarClienteQR.setValueAt(null,i,0);
-            TableSeleccionarClienteQR.setValueAt(null,i,1);
-            TableSeleccionarClienteQR.setValueAt(null,i,2);
 
-            if (cliente != null)
-            {
-                TableSeleccionarClienteQR.setValueAt(cliente.getIdCliente(),i,0);
-                TableSeleccionarClienteQR.setValueAt(cliente.getNombre(),i,1);
-                TableSeleccionarClienteQR.setValueAt(cliente.getApellido(),i,2);
+                //limpio la tabla
+                TableSeleccionarClienteQR.setValueAt(null, i, 0);
+                TableSeleccionarClienteQR.setValueAt(null, i, 1);
+                TableSeleccionarClienteQR.setValueAt(null, i, 2);
+
+                if (cliente1 != null) {
+                    TableSeleccionarClienteQR.setValueAt(cliente1.getIdCliente(), i, 0);
+                    TableSeleccionarClienteQR.setValueAt(cliente1.getNombre(), i, 1);
+                    TableSeleccionarClienteQR.setValueAt(cliente1.getApellido(), i, 2);
+                }
+                idSocioLeido--;
             }
-            idSocioLeido--;
+        } else {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Id socio no registrado");
         }
-
-
     }
 
 
     private void MostrarImagenQRActionPerformed(java.awt.event.ActionEvent evt) {
-       // Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
+        // Cliente clientePrueba = new Cliente("Leo", "Caimmi", "46012540", "masculino", 75.5, 182.5, "09/07/2004", "leonardocaimmi1@gmail.com", true);
 
 
     }
 
-    private Cliente TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt,Gimnasio gym)
-    {
+    private Cliente TableSeleccionarClienteQRActionPerformed(java.awt.event.ActionEvent evt, Gimnasio gym) {
         int selectedRow = TableSeleccionarClienteQR.getSelectedRow();//agarro la fila que seleccionaron con el mouse
 
         int idAbuscar = (int) TableSeleccionarClienteQR.getValueAt(selectedRow, 0);//agarro el id del seleccionado
