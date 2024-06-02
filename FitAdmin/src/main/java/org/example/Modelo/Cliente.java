@@ -227,14 +227,16 @@ public class Cliente extends Persona{
     @Override
     public String toString() {
         return "Cliente{" +
-                "idSocio=" + idCliente +
+                "actividadesInscripto=" + actividadesInscripto +
+                ", idCliente=" + idCliente +
                 ", eMail='" + eMail + '\'' +
                 ", cuotaPagada=" + cuotaPagada +
                 ", estado=" + estado +
                 ", rutinaSemanal=" + rutinaSemanal +
-                ", actividadesInscripto=" + actividadesInscripto +
-                '}' + super.toString();
+                ", tieneFotoPerfil=" + tieneFotoPerfil +
+                '}'+super.toString();
     }
+
     public String listarActividades()//metodo para que no tener corchetes en la GUI
     {
         String msj ="";
