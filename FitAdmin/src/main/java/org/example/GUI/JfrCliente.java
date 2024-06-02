@@ -616,8 +616,6 @@ public class JfrCliente extends JFrame {
 
         this.setVisible(false);
         JfrMenuPrincipal menu = new JfrMenuPrincipal();
-        menu.setVisible(true);
-
 
     }
 

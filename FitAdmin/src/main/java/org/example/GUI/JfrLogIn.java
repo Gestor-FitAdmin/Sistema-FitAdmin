@@ -243,7 +243,7 @@ public class JfrLogIn extends javax.swing.JFrame {
 
             this.setVisible(false);
             JfrMenuPrincipal menu = new JfrMenuPrincipal();
-            menu.setVisible(true);
+
 
         } else {
             String mensaje = null;

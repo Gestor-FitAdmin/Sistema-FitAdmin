@@ -1,5 +1,6 @@
 package org.example.Modelo;
 
+import com.dropbox.core.DbxException;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -17,8 +18,10 @@ import com.sun.mail.imap.IMAPStore;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
+import org.example.API.DropBoxAPI;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
+import org.example.Excepciones.TokenDeAccesoInvalidoE;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
 
@@ -34,7 +37,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.net.MalformedURLException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -297,15 +299,15 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         //creo una conexion con el servidor de correo
 
-            IMAPStore imapStore= (IMAPStore) conectarConImap(session,"imap.gmail.com");
+            IMAPStore imapStore= (IMAPStore) conectarConImap(session);
 
             //abro la bandeja de entrada
-            IMAPFolder carpetaEmail = (IMAPFolder) obtenerCarpeta(imapStore,"INBOX");
+            IMAPFolder carpetaEmail = (IMAPFolder) obtenerCarpeta(imapStore);
 
             // Listener para eventos de la carpeta
             verificarMailsBandejaDeEntrada(carpetaEmail);
 
-            //todo: hay dos problemas, el primero es que si hay inactividad x mucho tiempo se cierra.
+            //todo: hay dos problemas, el primero es que si hay inactividad x mucho tiempo se cierra (Hay un metodo x terminar para reconectarse).
             //todo: El otro es verificar si el programa funciona al 100% sin haber hecho un hilo nuevo ya que por el momento esta funcionando
             try {
                 System.out.println("Esperando mensajes");
@@ -376,19 +378,15 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                                             // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg
                                             // Procesar y guardar la imagen
 
-                                            //todo hay que verificar si existe en dropbox tambien
-
-
-
                                             System.out.println("Entro a guardar imagen");
-                                            guardarImagenLeidaDeUnMail(parte,dniRecibido);
+                                            String rutaDelArchivo= guardarImagenLeidaDeUnMail(parte,dniRecibido);
+
+                                            guardarFotoPerfilEnDropbox(new File(rutaDelArchivo));
+
+                                            eliminarImagen(new File(rutaDelArchivo)); // el file sera con el nombre del dni por lo tanto lo elimino con ese nombre
+
+
                                             auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
-
-
-
-                                            //guardarFotoPerfilEnDropbox();
-
-                                            //eliminarImagenDelRepo(parte);
 
                                         }
                                     }
@@ -410,15 +408,17 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         });
     }
 
-    private Folder obtenerCarpeta(IMAPStore imapStore, String nombreCarpeta) throws MessagingException {
-        IMAPFolder carpetaEmail = (IMAPFolder) imapStore.getFolder(nombreCarpeta);
+
+
+    private Folder obtenerCarpeta(IMAPStore imapStore) throws MessagingException {
+        IMAPFolder carpetaEmail = (IMAPFolder) imapStore.getFolder("INBOX");
         carpetaEmail.open(Folder.READ_ONLY);
         return carpetaEmail;
     }
 
-    private Store conectarConImap(Session sesionImap,String host) throws MessagingException {
+    private Store conectarConImap(Session sesionImap) throws MessagingException {
         IMAPStore store= (IMAPStore) sesionImap.getStore();
-        store.connect(host,mailFit,contraFit);
+        store.connect("imap.gmail.com",mailFit,contraFit);
         return store;
     }
 
@@ -444,7 +444,17 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 //        }
 //    }
 
-    public void guardarImagenLeidaDeUnMail(BodyPart parte,String nombreDelArchivo) throws MessagingException, IOException {
+    public void eliminarImagen(File archivo)
+    {
+        System.out.println("Imagen eliminada de la carpeta nuestra, quedo en dropbox");
+        if (archivo.exists())
+        {
+            boolean flag= archivo.delete();
+        }
+
+    }
+
+    public String guardarImagenLeidaDeUnMail(BodyPart parte,String nombreDelArchivo) throws MessagingException, IOException {
 
         String destinoRutaArchivo = "FitAdmin/"+ nombreDelArchivo + ".jpg"; //quiero ponerle este nombre al archivo que voy a crear
 
@@ -459,11 +469,26 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         inputStream.close();
 
         System.out.println("Imagen guardada exitosamente");
-
+        return destinoRutaArchivo;
     }
 
-    public void guardarFotoPerfilEnDropbox(){
+    public void guardarFotoPerfilEnDropbox(File archivo){
+        try {
+            DropBoxAPI dropBoxAPI =new DropBoxAPI();
+            dropBoxAPI.subirArchivo(archivo,"/fotosDePerfil/");
 
+            System.out.println("Imagen subida exitosamente a dropbox");
+        }catch (TokenDeAccesoInvalidoE e)
+        {
+            //token deberia estar autenticado
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            //no se encontro el archivo
+            e.printStackTrace();
+        } catch (DbxException e) {
+            //problema con dropbox
+           e.printStackTrace();
+        }
     }
 
     public void enviarUnMail(String mailCliente, String mensaje, boolean adjuntarPDF) throws MessagingException, MailSinArrobaE {

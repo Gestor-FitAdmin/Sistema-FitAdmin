@@ -26,6 +26,7 @@ import java.util.Date;
 //todo: verificar si el TOKEN se vence
 
 import com.dropbox.core.v2.users.FullAccount;
+import org.example.Excepciones.TokenDeAccesoInvalidoE;
 
 
 public class DropBoxAPI {
@@ -33,40 +34,47 @@ public class DropBoxAPI {
     private static final String APP_KEY = "txclgtve4z6nla2";
     private static final String APP_SECRET = "4l7sllt3ezkyhuf";
     private static final String ACCESS_TOKEN_FILE = "access_token.txt";
-    private DbxRequestConfig config;
+    private static final DbxRequestConfig config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();;
+    private static final DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET); // app info me da la informacion de la app fitAdmin creada en dropbox
+
+
     private DbxClientV2 cliente;
     private String accessToken;
 
-    public DropBoxAPI() throws IOException {
-        config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();
 
+    public DropBoxAPI() throws TokenDeAccesoInvalidoE {
         accessToken = leerTokenDeAcceso();
 
         if(accessToken != null)
         {
-            iniciarCliente(accessToken);
+            if (verificarSiElTokenEsValido(accessToken))
+            {
+                iniciarCliente(accessToken);
+            }
+            else {
+                throw new TokenDeAccesoInvalidoE();
+            }
         }
         else
         {
-            // esto es por si el archivo esta corrupto
-            File file = new File(ACCESS_TOKEN_FILE);
-
-            // Utilizamos try-with-resources para asegurarnos de que el BufferedWriter se cierra adecuadamente
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                writer.write("Sin token no tenes QR...");
-                writer.flush();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            crearYEscrbirArchivo();
         }
-
-
-
-
     }
 
+    private void crearYEscrbirArchivo()
+    {
+        // esto es por si el archivo esta corrupto
+        File file = new File(ACCESS_TOKEN_FILE);
 
+        // Utilizamos try-with-resources para asegurarnos de que el BufferedWriter se cierra adecuadamente
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("Sin token no tenes QR...");
+            writer.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void iniciarCliente(String accessToken){
 
@@ -78,65 +86,54 @@ public class DropBoxAPI {
         else // si no esta vacio creo el cliente
         {
 
-            try {
-                if (verificarSiElTokenEsValido(accessToken))
-                {
-                    cliente = new DbxClientV2(config, accessToken);
-                }
-            }catch (DbxException e)
+
+            if (verificarSiElTokenEsValido(accessToken))
             {
-                //JfrAutenticacionPopUp jfrAutenticacionPopUp= new JfrAutenticacionPopUp(this);
+                cliente = new DbxClientV2(config, accessToken);
             }
 
-
-
-
         }
-
     }
 
-    private boolean verificarSiElTokenEsValido(String token) throws DbxException {
+    public static boolean verificarSiElTokenEsValido(String token){
         DbxClientV2 clientePrueba= new DbxClientV2(config,token);
         boolean flag=false;
         try {
             FullAccount currentAccount = clientePrueba.users().getCurrentAccount();
             flag=true;
         } catch (DbxException e) {
-            throw new DbxException("Error token invalido");
+            flag=false;
         }
 
         return flag;
     }
 
-
-    public String autenticarTokenNuevoURL()//me sirve para el popUp
-    {
-        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
-        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
-        String authorizeUrl = webAuth.start();
-
-        return authorizeUrl;
-    }
-
-
-    public String autenticarCliente(String codigoDeAcceso)throws DbxException{
+    public static String autenticarCliente(String codigoDeAcceso)throws DbxException{
         String tokenDeAcceso=null;
 
-        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET); // app info me da la informacion de la app fitAdmin creada en dropbox
-        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
-        String authorizeUrl = webAuth.start();
 
-       /** System.out.println("1. Ve a: " + authorizeUrl);
-        System.out.println("2. Haz clic en \"Permitir\" (puede que necesites iniciar sesión primero)");
-        System.out.println("3. Copia el código de autorización."); ESTO ME SIRVE PARA LA CONSOLA. NO PARA LA GUI*/
+//        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+//        String authorizeUrl = webAuth.start();
+//
+//       /** System.out.println("1. Ve a: " + authorizeUrl);
+//        System.out.println("2. Haz clic en \"Permitir\" (puede que necesites iniciar sesión primero)");
+//        System.out.println("3. Copia el código de autorización."); ESTO ME SIRVE PARA LA CONSOLA. NO PARA LA GUI*/
+//
+        DbxWebAuth webAuth = new DbxWebAuth(config, appInfo);
+        DbxWebAuth.Request webAuthRequest = DbxWebAuth.newRequestBuilder()
+                .withNoRedirect()
+                .withTokenAccessType(TokenAccessType.OFFLINE) // This will request a refresh token
+                .build();
 
         DbxAuthFinish authFinish;
+
+
 
         try {
            /** BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             String code = br.readLine().trim();*/
 
-            authFinish = webAuth.finish(codigoDeAcceso);
+            authFinish = webAuth.finishFromCode(codigoDeAcceso);
             tokenDeAcceso= authFinish.getAccessToken();
 
         }catch (DbxException e) {
@@ -150,7 +147,20 @@ public class DropBoxAPI {
         return tokenDeAcceso;
     }
 
-    public void guardarTokenEnArchivo(String accessToken) {
+    public static String autenticarTokenNuevoURL()//me sirve para el popUp
+    {
+        DbxWebAuth webAuth = new DbxWebAuth(config, appInfo);
+        DbxWebAuth.Request webAuthRequest = DbxWebAuth.newRequestBuilder()
+                .withNoRedirect()
+                .withTokenAccessType(TokenAccessType.OFFLINE) // This will request a refresh token
+                .build();
+
+        String authorizeUrl = webAuth.authorize(webAuthRequest);
+
+        return authorizeUrl;
+    }
+
+    public static void guardarTokenEnArchivo(String accessToken) {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCESS_TOKEN_FILE))) {
             writer.write(accessToken);
@@ -161,7 +171,7 @@ public class DropBoxAPI {
 
     }
 
-    private String leerTokenDeAcceso() throws IOException {
+    public static String leerTokenDeAcceso(){
         File file = new File(ACCESS_TOKEN_FILE);
         String token=null;// si el archivo no existe retorno null
 
@@ -171,6 +181,8 @@ public class DropBoxAPI {
                 {
                     token= reader.readLine().trim(); //si el archivo no contiene nada devuelve string vacia
                 }
+            } catch (IOException e) {
+               token=null;
             }
         }
 
@@ -186,26 +198,22 @@ public class DropBoxAPI {
         return cliente.users().getCurrentAccount();
     }
 
-    public void subirPDF(String nombreArchivo)throws FileNotFoundException,GetMetadataErrorException,DbxException{
+    public void subirArchivo(File archivo,String ubicacion)throws FileNotFoundException,DbxException{
 
-        String rutaArchivo= nombreArchivo.concat(".pdf");
-        File pdf = new File(rutaArchivo);// obtiene el pdf de la carpeta
-        InputStream inputStream; // crea una entrada del archivo PDF
+        InputStream inputStream; // crea una entrada del archivo
 
-
-
-        String nombreDeArchivoCompleto="/";
-        nombreDeArchivoCompleto= nombreDeArchivoCompleto.concat(rutaArchivo);
+        ubicacion += archivo.getName();
+        //String nombreDeArchivoCompleto="/"+ archivo.getName(); //esto se puede recibir por parametro: String ubicacion
 
         try {
-            inputStream = new FileInputStream(pdf);
+            inputStream = new FileInputStream(archivo);
 
-            if (existeArchivoEnDropbox(nombreDeArchivoCompleto)){
-                eliminarArchivoEnDropbox(nombreDeArchivoCompleto);
+            if (existeArchivoEnDropbox(ubicacion)){
+                eliminarArchivoEnDropbox(ubicacion);
             }
 
-            UploadBuilder uploadBuilder = cliente.files().uploadBuilder(nombreDeArchivoCompleto);//guardar el archivo en la carpeta DropBox
-            uploadBuilder.withClientModified(new Date(pdf.lastModified()));//carga la fecha de la ultima modificacion
+            UploadBuilder uploadBuilder = cliente.files().uploadBuilder(ubicacion);//guardar el archivo en la carpeta DropBox
+            uploadBuilder.withClientModified(new Date(archivo.lastModified()));//carga la fecha de la ultima modificacion
             uploadBuilder.withMode(WriteMode.ADD);// elige el modo de acceso en que se va a utilizar el archivo
             uploadBuilder.withAutorename(false);// Si hay un archivo del mismo nombre, crea otro con un (x) por ejemplo PDF(1)
 
@@ -222,13 +230,30 @@ public class DropBoxAPI {
         }
         catch (DbxException e) {
             //error con obtener info cuenta dropbox
-          throw new DbxException("Error con db");
+          throw new DbxException("Error con dropbox");
         } catch (IOException e) {
             //error con el input/output (Archivo)
             e.getMessage();
         }
 
     }
+
+    public void descargarArchivo(File archivo) throws FileNotFoundException {
+
+        String rutaCarpetaFotosDePerfil="/fotosDePerfil/";
+        try{
+
+            OutputStream archivoADescargar= new FileOutputStream(archivo);
+
+            FileMetadata metadata = cliente.files().downloadBuilder(rutaCarpetaFotosDePerfil).download(archivoADescargar);
+
+            System.out.println("Archivo descargado: " + metadata.getName());
+        } catch (DbxException | IOException ex) {
+            System.err.println("Error al descargar el archivo: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 
     public String obtenerURL(String nombreArchivoDeDropbox)throws DbxException{
         //obtengo la url de Dropbox del archivo requerido
