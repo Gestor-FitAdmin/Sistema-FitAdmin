@@ -12,10 +12,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Rutina
+public class Rutina implements Serializable
 {
     //atributos
     private LinkedHashSet<Ejercicio> rutina;//nos importa el orden de realizacion de ejercicios

@@ -727,24 +727,26 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
         ObjectOutputStream out = null;
         try
         {
+            System.out.println("Entro al try 1");
             int i = 0;
             FileOutputStream fileOut = new FileOutputStream(nombreDelArchivo);//permite el flujo de salida de datos
             out = new ObjectOutputStream(fileOut);//crea un flujo de salida de objetos a partir de los datos(bytes)
 
+            System.out.println("Creo el objeto");
             Iterator<Map.Entry<Integer, Cliente>> entryIterator = clientes.entrySet().iterator();//Itero todos los clientes
             while(entryIterator.hasNext())
             {
+                System.out.println("Escribo los values en el archivo");
                 Map.Entry<Integer,Cliente> entry = entryIterator.next();//entrada del mapa para avanzar
                 out.writeObject(entry.getValue());//tengo todos los clientes
+                System.out.println("Aca yo lo escribi");
             }
 
         } catch (FileNotFoundException e)
         {
-            e.getMessage();
-            e.printStackTrace();
+            System.out.println("File not found");
         }catch (IOException e)
         {
-            e.getMessage();
             e.printStackTrace();
         }
         finally
@@ -754,7 +756,7 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
                 out.close();//cierro el flujo de datos
             } catch (IOException e)
             {
-                e.printStackTrace();
+                System.out.println("Cuando quiero cerrar el archivo");
             }
         }
 
