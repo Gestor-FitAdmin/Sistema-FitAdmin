@@ -11,7 +11,7 @@ public abstract class Actividad {
     private String modalidadDePago;
     */
     private int cupos;
-
+//todo si se crea una actividad la 1er letra es mayuscula y lo demas en miniscula sino no va a funcionar en la GUI
 
     //constructores
 
