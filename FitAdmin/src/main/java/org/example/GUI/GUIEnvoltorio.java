@@ -29,6 +29,7 @@ public class GUIEnvoltorio
         if (gimnasio == null)
         {
             gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "1234");
+            gimnasio.leerArchivoCliente("clientes.bin");
 
         }
         return gimnasio;
