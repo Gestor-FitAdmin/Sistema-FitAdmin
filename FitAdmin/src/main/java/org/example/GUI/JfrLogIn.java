@@ -59,7 +59,6 @@ public class JfrLogIn extends javax.swing.JFrame {
             //si el hilo no existe (osea la primera vez) voy a crearlo, ya despues no se creara mas, por mas que me mueva de ventanas
             //una vez creado el hilo, corriendo== false
             hiloAparte = new Thread(new HiloVerificarMailsNuevos(GUIEnvoltorio.getGimnasio()));
-
         }
         if (!hiloAparte.isAlive())
         {
@@ -87,8 +86,33 @@ public class JfrLogIn extends javax.swing.JFrame {
         BotonIngreso = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // No cerrar directamente
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+
+                // Crear el panel de opciones con los botones personalizados
+                Object[] options = {"Si", "No"};
+                int option = JOptionPane.showOptionDialog(
+                        JfrLogIn.this,
+                        "¿Desea salir?",
+                        "Confirmación de salida",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    // Llamar al método de guardar cambios antes de cerrar
+                    gimnasio.guardarClientesEnArchivo("clientes.bin");
+                    System.exit(0);
+                }
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 500));

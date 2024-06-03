@@ -8,9 +8,14 @@ import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.Modelo.Cliente;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrMenuPrincipal extends javax.swing.JFrame {
 
@@ -70,9 +75,33 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         jLabel2.setText("jLabel2");
 
 
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // No cerrar directamente
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
 
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                // Crear el panel de opciones con los botones personalizados
+                Object[] options = {"Si", "No"};
+                int option = JOptionPane.showOptionDialog(
+                        JfrMenuPrincipal.this,
+                        "¿Desea salir?",
+                        "Confirmación de salida",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                // Llamar al método de guardar cambios antes de cerrar
+                    gimnasio.guardarClientesEnArchivo("clientes.bin");
+                    System.exit(0);
+                }
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setForeground(new java.awt.Color(63, 63, 63));
