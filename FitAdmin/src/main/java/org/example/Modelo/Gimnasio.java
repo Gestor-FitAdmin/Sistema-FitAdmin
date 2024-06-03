@@ -740,17 +740,16 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
 
         } catch (FileNotFoundException e)
         {
-            e.getMessage();
-            e.printStackTrace();
+            System.out.println("File not found");
         }catch (IOException e)
         {
-            e.getMessage();
             e.printStackTrace();
         }
         finally
         {
             try
             {
+                System.out.println("Archvio guardado de manera correcta");
                 out.close();//cierro el flujo de datos
             } catch (IOException e)
             {

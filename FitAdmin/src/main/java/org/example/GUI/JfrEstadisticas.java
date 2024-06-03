@@ -4,8 +4,12 @@ import org.example.Enum.ESexo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Area;
 import java.util.Objects;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrEstadisticas  extends javax.swing.JFrame{
 
@@ -37,8 +41,33 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
         AreaDeTextoEstadisticas = new javax.swing.JTextArea();
         BotonAtras = new javax.swing.JButton();
         setResizable(false);
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // No cerrar directamente
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+
+                // Crear el panel de opciones con los botones personalizados
+                Object[] options = {"Si", "No"};
+                int option = JOptionPane.showOptionDialog(
+                        JfrEstadisticas.this,
+                        "¿Desea salir?",
+                        "Confirmación de salida",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    // Llamar al método de guardar cambios antes de cerrar
+                    gimnasio.guardarClientesEnArchivo("clientes.bin");
+                    System.exit(0);
+                }
+            }
+        });
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
 

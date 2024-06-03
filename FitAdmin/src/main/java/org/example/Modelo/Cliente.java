@@ -6,11 +6,12 @@ import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.GUIEnvoltorio;
 
 import javax.mail.MessagingException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona implements Serializable {
 
     //Metodos
     private int idCliente;

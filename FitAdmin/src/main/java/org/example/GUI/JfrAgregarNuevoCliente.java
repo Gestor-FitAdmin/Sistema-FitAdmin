@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -20,6 +22,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrAgregarNuevoCliente extends JFrame {
 
@@ -90,8 +94,31 @@ public class JfrAgregarNuevoCliente extends JFrame {
 
         jTextField2.setText("jTextField2");
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
 
+
+                // Crear el panel de opciones con los botones personalizados
+                Object[] options = {"Si", "No"};
+                int option = JOptionPane.showOptionDialog(
+                        JfrAgregarNuevoCliente.this,
+                        "¿Desea salir?",
+                        "Confirmación de salida",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    // Llamar al método de guardar cambios antes de cerrar
+                    gimnasio.guardarClientesEnArchivo("clientes.bin");
+                    System.exit(0);
+                }
+            }
+        });
 
 
         jPanel1.setBackground(new Color(63, 63, 63));

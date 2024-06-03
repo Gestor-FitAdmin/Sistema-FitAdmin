@@ -1,8 +1,9 @@
 package org.example.Modelo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Ejercicio {
+public class Ejercicio implements Serializable {
     //atributos
 
     private int idEjercicio;

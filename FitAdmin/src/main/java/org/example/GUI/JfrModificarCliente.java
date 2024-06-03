@@ -11,8 +11,12 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Objects;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrModificarCliente extends JFrame {
 
@@ -59,8 +63,33 @@ public class JfrModificarCliente extends JFrame {
         BotonGuardarCambios = new JButton();
         BotonIrAtras = new JButton();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // No cerrar directamente
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+
+                // Crear el panel de opciones con los botones personalizados
+                Object[] options = {"Si", "No"};
+                int option = JOptionPane.showOptionDialog(
+                        JfrModificarCliente.this,
+                        "¿Desea salir?",
+                        "Confirmación de salida",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    // Llamar al método de guardar cambios antes de cerrar
+                    gimnasio.guardarClientesEnArchivo("clientes.bin");
+                    System.exit(0);
+                }
+            }
+        });
         jPanel1.setBackground(new Color(63, 63, 63));
         jPanel1.setPreferredSize(new Dimension(750, 500));
 

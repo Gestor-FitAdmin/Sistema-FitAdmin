@@ -15,11 +15,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Objects;
+
+import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
 public class JfrAcceso extends javax.swing.JFrame {
 
@@ -62,8 +66,31 @@ public class JfrAcceso extends javax.swing.JFrame {
         ContadorIdUsuario = new javax.swing.JSpinner();
         BotonBuscarId = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
 
+
+                // Crear el panel de opciones con los botones personalizados
+                Object[] options = {"Si", "No"};
+                int option = JOptionPane.showOptionDialog(
+                        JfrAcceso.this,
+                        "¿Desea salir?",
+                        "Confirmación de salida",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]
+                );
+
+                if (option == JOptionPane.YES_OPTION) {
+                    // Llamar al método de guardar cambios antes de cerrar
+                    gimnasio.guardarClientesEnArchivo("clientes.bin");
+                    System.exit(0);
+                }
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(63, 63, 63));
         jPanel1.setToolTipText("");
