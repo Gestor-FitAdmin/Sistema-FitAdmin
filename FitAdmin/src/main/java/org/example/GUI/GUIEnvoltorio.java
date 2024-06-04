@@ -43,16 +43,28 @@ public class GUIEnvoltorio
         defaultTableModel.setRowCount(0);
     }
 
-    public static void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList) {
-        for (Cliente cliente : clienteArrayList) {
-            agregarUnClienteEnTablaDeClientes(defaultTableModel, cliente);
+    public static void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList, boolean opcion) {
+        if(opcion) {
+            for (Cliente cliente : clienteArrayList) {
+                agregarUnClienteEnTablaDeClientes(defaultTableModel, cliente);
+            }
         }
+        else{
+            for(Cliente cliente : clienteArrayList) {
+                agregarUnClienteEnTablaDeClientesCorto(defaultTableModel, cliente);
+            }
+            }
     }
 
+    public static  void agregarUnClienteEnTablaDeClientesCorto(DefaultTableModel defaultTableModel, Cliente unCliente){
+        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(),unCliente.getDNI(), unCliente.listarActividades(), String.valueOf(unCliente.getSexo()), String.valueOf(unCliente.isEstado())};
+
+        defaultTableModel.addRow(datosCliente);
+
+    }
 
     public static void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
-        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
-
+        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.listarActividades(), unCliente.geteMail(),unCliente.getDNI(), unCliente.getPeso().toString(), unCliente.getAltura().toString(), String.valueOf(unCliente.getSexo()), String.valueOf(unCliente.isCuotaPagada())};
 
         defaultTableModel.addRow(datosCliente);
     }

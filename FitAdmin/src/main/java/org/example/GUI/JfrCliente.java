@@ -160,14 +160,14 @@ public class JfrCliente extends JFrame {
         TablaClientes.setModel(new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                        "N° Socio", "Nombre", "Apellido", "DNI", "Actividad", "Sexo"
+                        "N° Socio", "Nombre", "Apellido", "DNI", "Actividad", "Sexo","Estado"
                 }
         ) {
             Class[] types = new Class[]{
-                    Object.class, Object.class, Object.class, Object.class, Object.class, Object.class
+                    Object.class, Object.class, Object.class, Object.class, Object.class, Object.class, Object.class
             };
             boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false, false
+                    false, false, false, false, false, false, false,
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -193,30 +193,11 @@ public class JfrCliente extends JFrame {
 
         }
 
-        //todo: Hay que ver por que no funciona el error que tira de que esta mal casteados los double
-/*
-        TablaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (TablaClientes.getSelectedRow() != -1) {
-                    cliente = new Cliente((String) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 0),
-                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 1).toString(),
-                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 2).toString(),
-                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 3).toString(),
-                            Double.parseDouble(TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 4).toString()),
-                            Double.parseDouble(TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 5).toString()),
-                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 6).toString(),
-                            TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 7).toString(),
-                            (Boolean) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 8)
-                    );
-                }
-            }
-        });
-*/
 
 
-        GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
 
+
+        GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes(), false);
 
         BotonAsignarRutina.setBackground(new Color(130, 130, 130));
         BotonAsignarRutina.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
@@ -607,7 +588,7 @@ public class JfrCliente extends JFrame {
         DefaultTableModel defaultTableModelClientes = (DefaultTableModel) TablaClientes.getModel();
 
         GUIEnvoltorio.limpiarTabla(defaultTableModelClientes);
-        GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes, arrayQueSeMostrara);
+        GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes, arrayQueSeMostrara, false);
     }
 
 
