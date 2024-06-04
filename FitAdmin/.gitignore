@@ -36,6 +36,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-### FITADMIN ###
-fitAdmin/access_token.txt

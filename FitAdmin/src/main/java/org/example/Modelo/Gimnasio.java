@@ -18,6 +18,7 @@ import com.sun.mail.imap.IMAPStore;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.example.API.DropBoxAPI;
 import org.example.API.TareaVerificarMailsNuevos;
 import org.example.Enum.ESexo;
@@ -56,8 +57,8 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
     private static Session session;
-    private static String mailFit = "f69343696@gmail.com"; //mail nuestro
-    private static String contraFit = "xpve mrro kysx ishp"; //contrasenia de app de google
+    private static String mailFit= Dotenv.load().get("MAILFIT"); //mail nuestro
+    private static String contraFit= Dotenv.load().get("CONTRAFIT"); //contrasenia de app de google
 
     //constructores
 
@@ -80,6 +81,14 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     }
 
     //getters y setters
+
+    public static void setMailFit(String mailFit) {
+        Gimnasio.mailFit = mailFit;
+    }
+
+    public static void setContraFit(String contraFit) {
+        Gimnasio.contraFit = contraFit;
+    }
 
     public String getUsuario() {
         return usuario;
@@ -483,6 +492,7 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
 
     private Store conectarConImap(Session sesionImap) throws MessagingException {
         IMAPStore store= (IMAPStore) sesionImap.getStore();
+
         store.connect("imap.gmail.com",mailFit,contraFit);
         return store;
     }
