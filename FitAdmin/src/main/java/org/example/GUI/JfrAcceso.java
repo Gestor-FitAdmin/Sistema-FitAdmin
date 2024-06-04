@@ -332,6 +332,8 @@ public class JfrAcceso extends javax.swing.JFrame {
         Cliente aux = GUIEnvoltorio.getGimnasio().buscar(idSocioLeido);
         if (aux != null) {
             idSocioLeido++;
+
+            //todo: modificar esto
             for (int i = 0; i < TableSeleccionarClienteQR.getColumnCount(); i++) {
 
                 Cliente cliente1 = GUIEnvoltorio.getGimnasio().buscar(idSocioLeido);

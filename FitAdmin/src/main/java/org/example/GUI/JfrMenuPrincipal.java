@@ -6,8 +6,11 @@ import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.Modelo.Cliente;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -107,7 +110,7 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/LOGO FINAL.png"))); // NOI18N
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[GUIEnvoltorio.getGimnasio().getClientes().size()][],
+                new Object[][]{},
                 new String[]{
                         "N° Socio", "Nombre", "Apellido", "Actividad", "Email", "DNI", "Peso", "Altura", "Sexo", "Cuota"
                 }
@@ -259,44 +262,15 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         String actividesString="";
 
 
-
-
-        for (Map.Entry<Integer,Cliente> entryCliente: hashMapCliente.entrySet())
+        ArrayList<Cliente> arrayListCliente= GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
+        for (Cliente cliente: arrayListCliente)
         {
-            clienteAux= entryCliente.getValue();
-
-            for (int j=0; j < 10;j++)
+            if (cliente.isEstado())
             {
-                if (clienteAux.isEstado())
-                {
-                    actividesString= clienteAux.listarActividades();
-                   // actividesString = actividesString.replace(" ","");
-
-                    tblDatos.setValueAt(clienteAux.getIdCliente(),i,0);
-                    tblDatos.setValueAt(clienteAux.getNombre(),i,1);
-                    tblDatos.setValueAt(clienteAux.getApellido(),i,2);
-                    tblDatos.setValueAt(actividesString,i,3);
-                    tblDatos.setValueAt(clienteAux.geteMail(),i,4);
-                    tblDatos.setValueAt(clienteAux.getDNI(),i,5);
-                    tblDatos.setValueAt(clienteAux.getPeso(),i,6);
-                    tblDatos.setValueAt(clienteAux.getAltura(),i,7);
-                    tblDatos.setValueAt(clienteAux.getSexo(),i,8);
-                    tblDatos.setValueAt(clienteAux.isCuotaPagada(),i,9);
-
-
-
-                }
-
+                GUIEnvoltorio.agregarUnClienteEnTablaDeClientes((DefaultTableModel) tblDatos.getModel(),cliente);
             }
-
-            i++;
         }
-
-
-
-
-
-
+        
 
     }
 
