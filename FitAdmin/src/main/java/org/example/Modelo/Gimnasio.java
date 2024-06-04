@@ -19,11 +19,11 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 
 import org.example.API.DropBoxAPI;
+import org.example.API.TareaVerificarMailsNuevos;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Excepciones.TokenDeAccesoInvalidoE;
-import org.example.GUI.GUIEnvoltorio;
-import org.example.GUI.PopUps.JfrAutenticacionPopUp;
+import org.example.GUI.JfrLogIn;
 import org.example.Interfaces.IMetodosCrud;
 import org.example.Interfaces.IEstadistica;
 
@@ -54,6 +54,8 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
     private String contrasenia;
     private ArrayList<Actividad> actividades;
 
+
+    private static Session session;
     private static String mailFit = "f69343696@gmail.com"; //mail nuestro
     private static String contraFit = "xpve mrro kysx ishp"; //contrasenia de app de google
 
@@ -171,7 +173,8 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil
             {
                 rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
-                System.out.println(cliente);
+                System.out.println(cliente.isTieneFotoPerfil());
+
                 //cliente.setTieneFotoPerfil(true);//es momentaneo para luego poder borrarla de la carpeta, luego deja de tener foto de perfil porque el usuario es temporal
             }
 
@@ -247,7 +250,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
 
-    private Session getSesionMailIniciada(Properties props)
+    private void getSesionMailIniciada(Properties props)
     {
 
 
@@ -255,14 +258,14 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         //ej: SMTP es SOLO Y EXCLUSIVAMENTE para enviar mails. IMAPS es para recibir y leer mails
 
 
-        Session session = Session.getDefaultInstance(props, new Authenticator() //inicio de sesion
+        session= Session.getInstance(props, new Authenticator() //inicio de sesion
         {
             protected PasswordAuthentication getPasswordAuthentication() //autenticacion de contrasenia
             {
                 return new PasswordAuthentication(mailFit, contraFit); //retornamos si se autentico correctamente la contrasenia
             }
         });
-        return session;
+
     }
 
 
@@ -315,9 +318,10 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         Properties props= propiedadesParaImap();
 
+        session=null;
         try {
         //obtengo la sesion con las propiedades especificadas
-            Session session= getSesionMailIniciada(props);
+            getSesionMailIniciada(props);
 
         //creo una conexion con el servidor de correo
             IMAPStore imapStore= (IMAPStore) conectarConImap(session);
@@ -338,7 +342,12 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                     carpetaEmail.idle();
                 }
 
-            }catch (FolderClosedException e)
+            }catch (IllegalStateException e)
+            {
+                System.out.println("ERORRRRR");
+
+            }
+            catch (FolderClosedException e)
             {
                 System.out.println("Se cerro la conexion con el server debido a la inactividad");
 
@@ -529,6 +538,10 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
         {
             throw new MailSinArrobaE();
         }
+        session=null;
+
+        JfrLogIn.getHiloAparte().interrupt();
+
 
         Properties props = new Properties(); //conjunto de propiedades para la autenticacion/verificacion
 
@@ -537,7 +550,7 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
         props.put("mail.smtp.auth", "true"); //enable authentication
         props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
 
-        Session session= getSesionMailIniciada(props);
+        getSesionMailIniciada(props);
 
         try{
             //todo: verificar el try catch ya que tiene q estar fuera de la clase(throws)
@@ -576,14 +589,15 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
             }
 
             Transport.send(message); // clase message finalizada y enviada por mail
+            System.out.println("mail enviado");
         }catch (MessagingException e){
 
             throw e;
         }
 
 
-
-
+        Thread thread= new Thread(new TareaVerificarMailsNuevos(this));
+        thread.start();
     }
 
 
