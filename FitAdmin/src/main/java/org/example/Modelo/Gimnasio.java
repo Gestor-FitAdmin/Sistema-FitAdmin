@@ -320,6 +320,28 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         }
         return rta;
     }
+    public boolean verificarPesoIngresadoCliente(double pesoAVerificar)
+    {
+        boolean rta = false;
+        double pesoMinimo = 30;
+        double pesoMaximo = 300;
+        if(pesoAVerificar < pesoMinimo||pesoAVerificar > pesoMaximo)//entre ese peso es algo real de la vida
+        {
+            rta = true;
+        }
+        return rta;
+    }
+    public boolean verificarAlturaIngresadoCliente(double alturaAVerificar)
+    {
+        boolean rta = false;
+        double alturaMinima = 120;
+        double alturaMaxima = 250;
+        if(alturaAVerificar < alturaMinima||alturaAVerificar > alturaMaxima)//si se encuentra fuera del algun limite, va a ser true
+        {
+        rta = true;
+        }
+        return rta;
+    }
 
     private Properties propiedadesParaImap()
     {
