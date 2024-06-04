@@ -179,11 +179,13 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
 
             // Ruta de la imagen de perfil
-            if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil
+            System.out.println(cliente);
+            System.out.println(cliente.isTieneFotoPerfil());
+            if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil//todo NO SE LE ESTA SETEANDO EN ESTE MOMENTO EL ESTADO
             {
                 rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
+                System.out.println(cliente);
                 System.out.println(cliente.isTieneFotoPerfil());
-
                 //cliente.setTieneFotoPerfil(true);//es momentaneo para luego poder borrarla de la carpeta, luego deja de tener foto de perfil porque el usuario es temporal
             }
 
@@ -207,11 +209,14 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             ImageData imageData = ImageDataFactory.create(rutaFotoPerfil);
             // Verificar la orientación de la imagen
             Image image = new Image(imageData);
+
+
             if (image.getImageScaledWidth() > image.getImageScaledHeight()) {//verifico como esta la imagen para ponerla de frente
-                image.setRotationAngle(-90); // Rotar 90 grados si es necesario
+                image.setRotationAngle(Math.toRadians(-90)); // Rotar 90 grados si es necesario
             }
 
-            image.scaleToFit(240, 240); // Ajustar el tamaño de la imagen
+            // Ajustar el tamaño de la imagen
+            image.scaleToFit(240, 240);// Ajustar el tamaño de la imagen
             table.addCell(image);//agrega en la 1er columno la imagen
 
             // Crear un párrafo con la información del socio
@@ -257,7 +262,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         } catch (TokenDeAccesoInvalidoE e) {
             e.printStackTrace();
         }
-            cliente.setTieneFotoPerfil(false);//yo no se si el cliente va a cambiar lo foto o si no esta mas, entonces siempre la voy a querer buscar para generarle el acceso y luego eliminarla de mi carpeta/repositorio por eso la dejo en false
+
         return rta;
 
     }
@@ -443,8 +448,8 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                                             // Si la parte es una imagen, la guardo en el repo para subirla a dropbox
                                             // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg,.jpeg o .png
                                             // Procesar y guardar la imagen
-                                            System.out.println("Entro a guardar imagen");
                                             auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
+                                            System.out.println("Entro a guardar imagen");
                                             System.out.println(auxCliente);
 
                                             String rutaDelArchivo= guardarImagenLeidaDeUnMail(parte,dniRecibido); // guardo la imagen en la carpeta FitAdmin
@@ -477,7 +482,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
 {
     boolean flag=false;
-    if (nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg") || nombreArchivo.endsWith("png"))
+    if (nombreArchivo.endsWith(".jpg") || nombreArchivo.endsWith(".jpeg") || nombreArchivo.endsWith(".png"))
     {
         flag=true;
     }
