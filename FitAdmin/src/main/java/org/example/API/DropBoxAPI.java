@@ -26,13 +26,15 @@ import java.util.Date;
 //todo: verificar si el TOKEN se vence
 
 import com.dropbox.core.v2.users.FullAccount;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.example.Excepciones.TokenDeAccesoInvalidoE;
+import org.example.Main;
 
 
 public class DropBoxAPI {
 
-    private static final String APP_KEY = "txclgtve4z6nla2";
-    private static final String APP_SECRET = "4l7sllt3ezkyhuf";
+    private static String APP_KEY= Dotenv.load().get("APP_KEY");
+    private static String APP_SECRET=Dotenv.load().get("APP_SECRET");
     private static final String ACCESS_TOKEN_FILE = "access_token.txt";
     private static final DbxRequestConfig config= DbxRequestConfig.newBuilder("dropbox/fitAdmin").build();;
     private static final DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET); // app info me da la informacion de la app fitAdmin creada en dropbox
@@ -60,6 +62,8 @@ public class DropBoxAPI {
             crearYEscrbirArchivo();
         }
     }
+
+
 
     private void crearYEscrbirArchivo()
     {
