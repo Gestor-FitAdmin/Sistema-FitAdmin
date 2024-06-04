@@ -389,15 +389,29 @@ public class JfrAgregarNuevoCliente extends JFrame {
         //validar altura
         try {
             altura= Double.parseDouble(TextAreaAltura.getText());
+            if(gym.verificarAlturaIngresadoCliente(altura))
+            {
+                posibleError= posibleError.concat("Ingrese una altura valida. ");
+                TextAreaAltura.setText(null);
+                flag = false;
+
+            }
         }
         catch (NumberFormatException e){
            posibleError= posibleError.concat("Ingrese un valor a la altura.");
 //            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un valor a la altura");
         }
+
         //validar peso
 
         try {
           peso= Double.parseDouble(TextAreaPeso.getText());
+            if(gym.verificarPesoIngresadoCliente(peso))
+            {
+                posibleError= posibleError.concat("Ingrese un peso valido. ");
+                TextAreaPeso.setText(null);
+                flag = false;
+            }
         }
         catch (NumberFormatException e){
             posibleError= posibleError.concat("Ingrese un valor al peso. ");
