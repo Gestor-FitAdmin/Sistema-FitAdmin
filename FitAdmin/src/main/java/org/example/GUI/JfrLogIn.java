@@ -58,7 +58,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         return hiloAparte;
     }
 
-    private void sethiloAparte(){
+    public static void sethiloAparte(){
         if (hiloAparte == null)
         {
             //si el hilo no existe (osea la primera vez) voy a crearlo, ya despues no se creara mas, por mas que me mueva de ventanas
