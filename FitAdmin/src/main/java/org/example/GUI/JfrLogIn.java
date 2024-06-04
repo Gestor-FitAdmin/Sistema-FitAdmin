@@ -23,7 +23,6 @@ import static org.example.GUI.GUIEnvoltorio.gimnasio;
 public class JfrLogIn extends javax.swing.JFrame {
 
 
-
     //atributos
     private javax.swing.JButton BotonIngreso;
     private javax.swing.JPasswordField TextAreaContrasena;
@@ -58,21 +57,18 @@ public class JfrLogIn extends javax.swing.JFrame {
         return hiloAparte;
     }
 
-    public static void sethiloAparte(){
-        if (hiloAparte == null)
-        {
+    public static void sethiloAparte() {
+        if (hiloAparte == null) {
             //si el hilo no existe (osea la primera vez) voy a crearlo, ya despues no se creara mas, por mas que me mueva de ventanas
             //una vez creado el hilo, corriendo== false
             hiloAparte = new Thread(new TareaVerificarMailsNuevos(GUIEnvoltorio.getGimnasio()));
         }
-        if (!hiloAparte.isAlive())
-        {
+        if (!hiloAparte.isAlive()) {
             //si el hilo NO esta corriendo lo empiezo a correr
             try {
                 hiloAparte.start();
                 System.out.println("Hilo comenzo");
-            }catch (IllegalThreadStateException e)
-            {
+            } catch (IllegalThreadStateException e) {
                 System.out.println("Se intento crear un hilo cuando ya habia uno en ejecucion");
             }
         }
@@ -172,7 +168,6 @@ public class JfrLogIn extends javax.swing.JFrame {
 
         jLabel6.setForeground(new java.awt.Color(242, 242, 242));
         jLabel6.setText("By: Caimmi Leonardo, Golisciano Fabrizio, Procelli Facundo");
-
 
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -363,41 +358,41 @@ public class JfrLogIn extends javax.swing.JFrame {
             //Si el dia y el mes coinciden
             if (fechaActualdM.equals(cumpleActualdM)) {
                 //Si la fecha no esta en el archvio
-                    if (!localDates.contains(fechaActualdMy)) {
+                if (!localDates.contains(fechaActualdMy)) {
 
-                        String mensaje = String.format(
-                                """
-                                        ¡Feliz cumpleaños, %s!
+                    String mensaje = String.format(
+                            """
+                                    ¡Feliz cumpleaños, %s!
 
-                                        Desde FitAdmin, queremos desearte un día lleno de alegría y celebración. Para hacerlo aún más especial, te estamos esperando en el gimnasio con un regalo sorpresa.
+                                    Desde FitAdmin, queremos desearte un día lleno de alegría y celebración. Para hacerlo aún más especial, te estamos esperando en el gimnasio con un regalo sorpresa.
 
-                                        ¡No olvides visitarnos hoy y recibir tu regalo por tu cumpleaños %d!
+                                    ¡No olvides visitarnos hoy y recibir tu regalo por tu cumpleaños %d!
 
-                                        ¡Feliz cumpleaños y que tengas un excelente día!
+                                    ¡Feliz cumpleaños y que tengas un excelente día!
 
-                                        Saludos cordiales,
-                                        El equipo de FitAdmin""",
-                                cliente.getNombre(), cliente.calcularEdad()
-                        );
-                        try {
-                            //Envio mensaje
-                            gimnasio.enviarUnMail(cliente.geteMail(), mensaje, false);
-                            System.out.println("envioMail");
-                        } catch (MessagingException e) {
-                            System.out.println("MessagingException");
-                        } catch (MailSinArrobaE e) {
-                            System.out.println("MailSinArroba");
-                        }
-                        //Grabo la fecha en el archivo
-                        grabarArchvioFechas(fechaActualdMy);
-                        System.out.println("grabo Archivo");
+                                    Saludos cordiales,
+                                    El equipo de FitAdmin""",
+                            cliente.getNombre(), cliente.calcularEdad()
+                    );
+                    try {
+                        //Envio mensaje
+                        gimnasio.enviarUnMail(cliente.geteMail(), mensaje, false);
+                        System.out.println("envioMail");
+                    } catch (MessagingException e) {
+                        e.getMessage();
+                    } catch (MailSinArrobaE e) {
+                        e.getMessage();
                     }
+                    //Grabo la fecha en el archivo
+                    grabarArchvioFechas(fechaActualdMy);
+                    System.out.println("grabo Archivo");
                 }
             }
-
         }
 
-//Función para leer el archivo de fechas
+    }
+
+    //Función para leer el archivo de fechas
     static ArrayList<String> leerArchivoFechas() {
 
         ArrayList<String> localDates = new ArrayList<>();
@@ -414,7 +409,8 @@ public class JfrLogIn extends javax.swing.JFrame {
             }
 
         } catch (FileNotFoundException e) {
-            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se encontro el archvio");
+            e.getMessage();
+            //JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se encontro el archvio");
         } catch (IOException e) {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se puedo abrir el archivo");
         } catch (ClassNotFoundException e) {
@@ -439,7 +435,7 @@ public class JfrLogIn extends javax.swing.JFrame {
         } finally {
             try {
                 //Cierro el archivo
-                if(objectOutputStream != null) {
+                if (objectOutputStream != null) {
                     objectOutputStream.close();
                 }
 
