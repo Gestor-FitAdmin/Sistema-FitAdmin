@@ -215,7 +215,7 @@ public class JfrCliente extends JFrame {
 */
 
 
-        agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
+        GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes());
 
 
         BotonAsignarRutina.setBackground(new Color(130, 130, 130));
@@ -230,7 +230,7 @@ public class JfrCliente extends JFrame {
 
         BuscarClienteMenu.setBackground(new Color(130, 130, 130));
         BuscarClienteMenu.setForeground(new Color(242, 242, 242));
-        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[]{"Todos", "Por ID", "Por Nombre", "Por Apellido", "Por Actividad", "Por Sexo", " "}));
+        BuscarClienteMenu.setModel(new DefaultComboBoxModel<>(new String[]{"Todos", "Por ID", "Por Nombre", "Por Apellido", "Por Actividad", "Por Sexo", "Por Dni"}));
         BuscarClienteMenu.setBorder(BorderFactory.createTitledBorder(null, "Buscar Cliente", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Segoe UI", 1, 14), new Color(242, 242, 242))); // NOI18N
         BuscarClienteMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
         BuscarClienteMenu.addActionListener(new ActionListener() {
@@ -569,20 +569,6 @@ public class JfrCliente extends JFrame {
                     ESexo sexoElegido = ESexo.valueOf(busqueda.toUpperCase());
                     if (!busqueda.isEmpty()) {
 
-// <<<<<<< ModificarPoP-UPS
-//                 if (!busqueda.isEmpty()) {
-
-//                     for (Cliente cliente : todosLosClientes) {
-//                         if (cliente.getSexo().equalsIgnoreCase(busqueda)) {
-//                             arrayQueSeMostrara.add(cliente);
-//                         }
-//                     }
-//                     if (arrayQueSeMostrara.isEmpty()) {
-//                         JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No hay ninguna persona del sexo elegido");
-//                     }
-//                 } else {
-//                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun sexo");
-// =======
                         for (Cliente cliente : todosLosClientes) {
                             if (cliente.getSexo() == sexoElegido) {
                                 arrayQueSeMostrara.add(cliente);
@@ -596,11 +582,22 @@ public class JfrCliente extends JFrame {
                     }
                 } catch (IllegalArgumentException e) {
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Ingrese un sexo valido: masculino o femenino");
-
-
                 }
+                break;
+            case "por dni":
+                if (!busqueda.isEmpty()) {
 
-
+                    for (Cliente cliente : todosLosClientes) {
+                        if (cliente.getDNI().equalsIgnoreCase(busqueda)) {
+                            arrayQueSeMostrara.add(cliente);
+                        }
+                    }
+                    if (arrayQueSeMostrara.isEmpty()) {
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se encontro el apellido buscado");
+                    }
+                } else {
+                    JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun apellido");
+                }
                 break;
             default:
                 arrayQueSeMostrara = GUIEnvoltorio.getGimnasio().retornarListaDeClientes();
@@ -609,30 +606,11 @@ public class JfrCliente extends JFrame {
 
         DefaultTableModel defaultTableModelClientes = (DefaultTableModel) TablaClientes.getModel();
 
-        limpiarTabla(defaultTableModelClientes);
-        agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes, arrayQueSeMostrara);
+        GUIEnvoltorio.limpiarTabla(defaultTableModelClientes);
+        GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes(defaultTableModelClientes, arrayQueSeMostrara);
     }
 
-    private void limpiarTabla(DefaultTableModel defaultTableModel) {
-        defaultTableModel.setRowCount(0);
-    }
 
-    private void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList) {
-        for (Cliente cliente : clienteArrayList) {
-            agregarUnClienteEnTablaDeClientes(defaultTableModel, cliente);
-        }
-    }
-
-    // <<<<<<< ModificarPoP-UPS
-//     private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
-//         String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), unCliente.getSexo()};
-// =======
-    private void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
-        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
-
-
-        defaultTableModel.addRow(datosCliente);
-    }
 
 
     private void TextBoxClienteBusquedaActionPerformed(ActionEvent evt) {

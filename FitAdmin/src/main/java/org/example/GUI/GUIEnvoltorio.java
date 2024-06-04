@@ -1,6 +1,10 @@
 package org.example.GUI;
 
+import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
+
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class GUIEnvoltorio
 {
@@ -34,4 +38,23 @@ public class GUIEnvoltorio
         }
         return gimnasio;
     }
+
+    public static void limpiarTabla(DefaultTableModel defaultTableModel) {
+        defaultTableModel.setRowCount(0);
+    }
+
+    public static void agregarUnArrayDeClientesEnTablaDeClientes(DefaultTableModel defaultTableModel, ArrayList<Cliente> clienteArrayList) {
+        for (Cliente cliente : clienteArrayList) {
+            agregarUnClienteEnTablaDeClientes(defaultTableModel, cliente);
+        }
+    }
+
+
+    public static void agregarUnClienteEnTablaDeClientes(DefaultTableModel defaultTableModel, Cliente unCliente) {
+        String[] datosCliente = new String[]{String.valueOf(unCliente.getIdCliente()), unCliente.getNombre(), unCliente.getApellido(), unCliente.getDNI(), unCliente.listarActividades(), String.valueOf(unCliente.getSexo())};
+
+
+        defaultTableModel.addRow(datosCliente);
+    }
+
 }
