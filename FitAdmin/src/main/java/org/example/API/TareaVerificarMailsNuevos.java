@@ -1,15 +1,14 @@
 package org.example.API;
 
-import org.example.GUI.GUIEnvoltorio;
 import org.example.Modelo.Gimnasio;
 
-public class HiloVerificarMailsNuevos implements Runnable {
+public class TareaVerificarMailsNuevos implements Runnable {
 
     //atributos
     private Gimnasio gimnasio;
     private boolean corriendo;
     //constructores
-    public HiloVerificarMailsNuevos(Gimnasio gimnasio)
+    public TareaVerificarMailsNuevos(Gimnasio gimnasio)
     {
         this.gimnasio=gimnasio;
         corriendo=false;
@@ -19,7 +18,6 @@ public class HiloVerificarMailsNuevos implements Runnable {
     public void run() {
         corriendo=true;
         gimnasio.leerMails();
-        Thread listenerThread = new Thread();
     }
 
     public boolean isCorriendo() {

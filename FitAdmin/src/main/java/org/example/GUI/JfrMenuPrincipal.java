@@ -2,13 +2,10 @@ package org.example.GUI;
 
 
 import org.example.API.DropBoxAPI;
-import org.example.API.HiloVerificarMailsNuevos;
-import org.example.Excepciones.TokenDeAccesoInvalidoE;
 import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.Modelo.Cliente;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;

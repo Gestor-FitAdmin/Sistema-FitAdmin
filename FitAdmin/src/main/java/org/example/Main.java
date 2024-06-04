@@ -1,18 +1,10 @@
 package org.example;
 
-import com.dropbox.core.DbxException;
-import org.example.API.DropBoxAPI;
-import org.example.API.HiloVerificarMailsNuevos;
 import org.example.Enum.ESexo;
-import org.example.Excepciones.TokenDeAccesoInvalidoE;
 import org.example.GUI.*;
-import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
-import javax.mail.MessagingException;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -33,9 +25,9 @@ public class Main {
 //
        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
 
-        GUIEnvoltorio.getGimnasio().agregar(cliente);
-        GUIEnvoltorio.getGimnasio().agregar(cliente1);
-        GUIEnvoltorio.getGimnasio().agregar(cliente2);
+//        GUIEnvoltorio.getGimnasio().agregar(cliente);
+//        GUIEnvoltorio.getGimnasio().agregar(cliente1);
+//        GUIEnvoltorio.getGimnasio().agregar(cliente2);
         //logro github...
 
 

@@ -389,6 +389,10 @@ public class JfrCliente extends JFrame {
                 {
                     gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
                     try {
+
+
+
+
                         gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true);//le envio la rutina de los dias que tenga grabados
                     } catch (MessagingException e) {
                         e.getMessage();

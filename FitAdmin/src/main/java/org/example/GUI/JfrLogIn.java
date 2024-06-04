@@ -1,6 +1,6 @@
 package org.example.GUI;
 
-import org.example.API.HiloVerificarMailsNuevos;
+import org.example.API.TareaVerificarMailsNuevos;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Main;
@@ -42,23 +42,28 @@ public class JfrLogIn extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
-
+        setVisible(true);
         //Cambiar el Icono de la app
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
 
         sethiloAparte();
-
+        //GUIEnvoltorio.getGimnasio().leerMails();
 
         //Enviar Saludos de cumpleaños
         enviarSaludosDeCumpleanos();
     }
+
+    public static Thread getHiloAparte() {
+        return hiloAparte;
+    }
+
     private void sethiloAparte(){
         if (hiloAparte == null)
         {
             //si el hilo no existe (osea la primera vez) voy a crearlo, ya despues no se creara mas, por mas que me mueva de ventanas
             //una vez creado el hilo, corriendo== false
-            hiloAparte = new Thread(new HiloVerificarMailsNuevos(GUIEnvoltorio.getGimnasio()));
+            hiloAparte = new Thread(new TareaVerificarMailsNuevos(GUIEnvoltorio.getGimnasio()));
         }
         if (!hiloAparte.isAlive())
         {
