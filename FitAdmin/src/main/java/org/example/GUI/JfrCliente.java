@@ -5,6 +5,7 @@ import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrAvisoPopUp;
 import org.example.GUI.PopUps.JfrErrorPopUp;
+import org.example.GUI.PopUps.JfrEsperaPopUp;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 import org.example.Modelo.Persona;
@@ -160,7 +161,7 @@ public class JfrCliente extends JFrame {
         TablaClientes.setModel(new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                        "N° Socio", "Nombre", "Apellido", "DNI", "Actividad", "Sexo","Estado"
+                        "N° Socio", "Nombre", "Apellido", "DNI", "Actividad", "Sexo", "Estado"
                 }
         ) {
             Class[] types = new Class[]{
@@ -192,9 +193,6 @@ public class JfrCliente extends JFrame {
             TablaClientes.getColumnModel().getColumn(5).setResizable(false);
 
         }
-
-
-
 
 
         GUIEnvoltorio.agregarUnArrayDeClientesEnTablaDeClientes((DefaultTableModel) TablaClientes.getModel(), GUIEnvoltorio.getGimnasio().retornarListaDeClientes(), false);
@@ -369,27 +367,47 @@ public class JfrCliente extends JFrame {
                 if (!cliente.getRutinaSemanal().isEmpty())//si la rutina contiene ejercicios
                 {
                     gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
-                    try {
 
 
+                    // Crear y mostrar la ventana de espera
+                    JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Enviando Email...");
+                    esperaPopUp.showWindow();
 
+                    // Crear y ejecutar la tarea en segundo plano
+                    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() { //Nos permite trabajar en un segundo plano
+                        @Override
+                        protected Void doInBackground() throws Exception { //Este metodo ejecuta el envio del correo y si hay problmeas los cachea
+                            try {
+                                gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true); // Enviar la rutina por email
+                            } catch (MessagingException e) {
+                                e.printStackTrace();
+                                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
+                                errorPopUp.setVisible(true);
+                            } catch (MailSinArrobaE e) {
+                                e.printStackTrace();
+                                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
+                                errorPopUp.setVisible(true);
+                            }
+                            return null;
+                        }
 
-                        gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true);//le envio la rutina de los dias que tenga grabados
-                    } catch (MessagingException e) {
-                        e.getMessage();
-                    } catch (MailSinArrobaE e) {
-                        e.getMessage();
-                    }
+                        @Override
+                        protected void done() { //Este metodo oculta la ventana
+
+                            esperaPopUp.hideWindow();
+                            JOptionPane.showMessageDialog(null, "Correo enviado correctamente!");
+                        }
+                    };
+
+                    // Ejecutar la tarea
+                    worker.execute();
+
                 } else {
                     JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
                 }
-
-
             } else {
                 JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
             }
-
-
         } else {
             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Seleccione un cliente");//si no selecciona nada es null por lo que necesito seleccione
         }
@@ -400,26 +418,22 @@ public class JfrCliente extends JFrame {
 
     private void BotonArchivarClienteActionPerformed(ActionEvent evt) {
 
-        if (TablaClientes.getSelectedRow() != -1)
-        {
+        if (TablaClientes.getSelectedRow() != -1) {
 
-            String idSocio = (String) TablaClientes.getValueAt(TablaClientes.getSelectedRow(),0);//aunque sea un int el id, si lo hago string se rompe y lanza una exception
+            String idSocio = (String) TablaClientes.getValueAt(TablaClientes.getSelectedRow(), 0);//aunque sea un int el id, si lo hago string se rompe y lanza una exception
             Cliente clienteSeleccionado = GUIEnvoltorio.getGimnasio().buscar(Integer.valueOf(idSocio));//paso el string a int(lo parseo)
             clienteSeleccionado.setEstado(!clienteSeleccionado.isEstado());//pongo el estado contrario al que estaba antes
-            if(clienteSeleccionado.isEstado())//si es true es activo
+            if (clienteSeleccionado.isEstado())//si es true es activo
             {
-               // System.out.println(clienteSeleccionado.isEstado());
-                JfrAvisoPopUp jfrErrorPopUp = new JfrAvisoPopUp(this,true,"Cliente activo");
-            }
-            else//inactivo/desarchivado
+                // System.out.println(clienteSeleccionado.isEstado());
+                JfrAvisoPopUp jfrErrorPopUp = new JfrAvisoPopUp(this, true, "Cliente activo");
+            } else//inactivo/desarchivado
             {
                 //System.out.println(clienteSeleccionado.isEstado());
-                JfrAvisoPopUp jfrErrorPopUp = new JfrAvisoPopUp(this,true,"Cliente archivado");
+                JfrAvisoPopUp jfrErrorPopUp = new JfrAvisoPopUp(this, true, "Cliente archivado");
             }
-        }
-        else
-        {
-            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this,true,"Seleccione un cliente");
+        } else {
+            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Seleccione un cliente");
         }
     }
 
@@ -529,7 +543,7 @@ public class JfrCliente extends JFrame {
 
                     for (Cliente cliente : todosLosClientes)//recorro todos los clientes
                     {
-                        
+
                         if (cliente.getActividadesInscripto().contains(formatearBusquedaPorActividad(busqueda)))//si el cliente coincide con la busqueda del usuario se lo muestro en la tabla
                         {
                             arrayQueSeMostrara.add(cliente);//lo añado a la tabla
@@ -592,8 +606,6 @@ public class JfrCliente extends JFrame {
     }
 
 
-
-
     private void TextBoxClienteBusquedaActionPerformed(ActionEvent evt) {
 
     }
@@ -634,7 +646,7 @@ public class JfrCliente extends JFrame {
 
         try {
             cliente = gym.buscar(idSocio);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "N° de socio no encontrado");
         }
 
@@ -647,10 +659,11 @@ public class JfrCliente extends JFrame {
 
             JfrModificarCliente modificarCliente = new JfrModificarCliente(obtenerClienteSeleccionado());
             modificarCliente.setVisible(true);
-        } 
+        }
 
 
     }
+
     private String formatearBusquedaPorActividad(String str) {
 
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();//formatea la 1er letra en mayuscula y lo demas en minuscula

@@ -2,9 +2,11 @@ package org.example.GUI;
 
 
 import com.dropbox.core.DbxException;
+import org.example.Excepciones.MailSinArrobaE;
 import org.example.Excepciones.TokenDeAccesoInvalidoE;
 import org.example.GUI.PopUps.JfrAutenticacionPopUp;
 import org.example.GUI.PopUps.JfrErrorPopUp;
+import org.example.GUI.PopUps.JfrEsperaPopUp;
 import org.example.Modelo.Cliente;
 import org.example.API.DropBoxAPI;
 import org.example.API.QrAPI;
@@ -12,9 +14,11 @@ import org.example.Modelo.Gimnasio;
 
 
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -274,55 +278,70 @@ public class JfrAcceso extends javax.swing.JFrame {
 
         if (filaSeleccionada != -1) //si no selecciono nada retorna -1
         {
-
             idSocioSeleccionado = (Integer) TableSeleccionarClienteQR.getValueAt(filaSeleccionada, 0); //obtengo el id en la columna 0
             Cliente clienteAux = GUIEnvoltorio.getGimnasio().buscar(idSocioSeleccionado); // busco el cliente
             if (clienteAux != null || idSocioSeleccionado != null) {
-                try {
-                    //intento entrar al api
-                    dropBoxAPI = new DropBoxAPI();
 
-                    gym.crearPDFParaQR(clienteAux);//GENERA LOS DATOS PARA LUEGO SUBIR EL PDF A DB
-                    dropBoxAPI.subirArchivo(new File(rutaQRaGenerar + ".pdf"), "/");//nombre del archivo de donde se genero el PDF del cliente
+                JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Generando QR...");
+                esperaPopUp.showWindow();
 
-                    String url = dropBoxAPI.obtenerURL(rutaQRaGenerar);
-                    qrAPI.generarQr(url);
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() { //Nos permite trabajar en un segundo plano
+                    @Override
+                    protected Void doInBackground() throws Exception { //Este metodo ejecuta el envio del correo y si hay problmeas los cachea
+                        try {
+                            // Intente entrar al API
+                            dropBoxAPI = new DropBoxAPI();
 
-                    // Ruta relativa a la imagen en la carpeta del proyecto
-                    String rutaImagen = "qrCliente.jpg";
+                            // Generar PDF y subirlo a Dropbox
+                            gym.crearPDFParaQR(clienteAux);
+                            dropBoxAPI.subirArchivo(new File(rutaQRaGenerar + ".pdf"), "/");
 
-                    // Eliminar cualquier posible caché de la imagen al recargarla
-                    BufferedImage bufferedImage = ImageIO.read(new File(rutaImagen));
+                            // Obtener URL del archivo subido y generar QR
+                            String url = dropBoxAPI.obtenerURL(rutaQRaGenerar);
+                            qrAPI.generarQr(url);
 
-                    // Cargar la imagen desde la ruta especificada
-                    ImageIcon icono = new ImageIcon(bufferedImage);
+                            // Actualizar la GUI con la imagen del QR
+                            String rutaImagen = "qrCliente.jpg";
+                            BufferedImage bufferedImage = ImageIO.read(new File(rutaImagen));
+                            ImageIcon icono = new ImageIcon(bufferedImage);
+                            MostrarImagenQR.setIcon(null);
+                            MostrarImagenQR.setIcon(icono);
+                            MostrarImagenQR.revalidate();
+                            MostrarImagenQR.repaint();
+
+                        }catch (DbxException e){
+                            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "Error al intentar concetar con DropBox");
+                        } catch (TokenDeAccesoInvalidoE e){
+                            JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(null, true);
+                        }catch(IOException e){
+                            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, "Error al cargar la imagen");
+                        }catch(Exception e){
+                            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, "Error inesperado");
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() { //Este metodo oculta la ventana
+
+                        esperaPopUp.hideWindow();
+                        //JOptionPane.showMessageDialog(null, "Codigo QR generado correctamente!");
+                    }
+                };
+
+                // Ejecutar la tarea
+                worker.execute();
 
 
-                    // Establecer el icono en el JLabel
-                    MostrarImagenQR.setIcon(null); // Limpiar el icono anterior
-                    MostrarImagenQR.setIcon(icono); // Establecer el nuevo icono
-                    MostrarImagenQR.revalidate(); // Actualizar el JLabel
-                    MostrarImagenQR.repaint(); // Repintar el JLabel
-
-                } catch (DbxException e) {
-                    //url invalida
-                    e.printStackTrace();
-                } catch (TokenDeAccesoInvalidoE e) {
-                    JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(this, true);
-                    e.getMessage();
-                } catch (IOException e) {
-                    System.out.println("Archivo roto");
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Error con el archivo");
-                }
             } else {
                 JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Busque un cliente para generar el QR");
             }
         } else {
             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Seleccione un cliente para generar el QR");
         }
-
-
     }
+
+
 
     private void BotonBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {
         // busco el id que esta seleccionado en el contador y lo muestro en la tabla
