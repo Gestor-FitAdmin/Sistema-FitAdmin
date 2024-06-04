@@ -596,8 +596,8 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
         }
 
 
-        Thread thread= new Thread(new TareaVerificarMailsNuevos(this));
-        thread.start();
+        JfrLogIn.sethiloAparte();
+
     }
 
 
