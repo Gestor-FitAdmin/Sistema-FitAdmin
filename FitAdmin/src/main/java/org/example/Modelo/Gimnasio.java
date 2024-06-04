@@ -211,11 +211,12 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             Image image = new Image(imageData);
 
 
-            image.scaleToFit(240, 240); // Ajustar el tamaño de la imagen
             if (image.getImageScaledWidth() > image.getImageScaledHeight()) {//verifico como esta la imagen para ponerla de frente
-                image.setRotationAngle(90); // Rotar 90 grados si es necesario
-
+                image.setRotationAngle(Math.toRadians(-90)); // Rotar 90 grados si es necesario
             }
+
+            // Ajustar el tamaño de la imagen
+            image.scaleToFit(240, 240);// Ajustar el tamaño de la imagen
             table.addCell(image);//agrega en la 1er columno la imagen
 
             // Crear un párrafo con la información del socio
