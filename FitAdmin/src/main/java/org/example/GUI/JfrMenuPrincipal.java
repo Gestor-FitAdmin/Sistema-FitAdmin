@@ -3,6 +3,7 @@ package org.example.GUI;
 
 import org.example.API.DropBoxAPI;
 import org.example.GUI.PopUps.JfrAutenticacionPopUp;
+import org.example.GUI.PopUps.PopupQR;
 import org.example.Modelo.Cliente;
 
 import javax.swing.*;
@@ -29,6 +30,8 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblDatos;
+    private javax.swing.JToggleButton BotonMostrarQRParaQueMandenMail;
+
     //private static boolean tokenEstaVerificado = false; //todo: verificar que no quede en blanco la pantalla
 
 
@@ -69,6 +72,8 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         BotonClientes = new javax.swing.JButton();
         BotonEstadisticas = new javax.swing.JButton();
         BotonIngresos = new javax.swing.JButton();
+        BotonMostrarQRParaQueMandenMail = new javax.swing.JToggleButton();
+
 
 
         jMenu3.setText("jMenu3");
@@ -176,6 +181,16 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        BotonMostrarQRParaQueMandenMail.setBackground(new java.awt.Color(130, 130, 130));
+        BotonMostrarQRParaQueMandenMail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        BotonMostrarQRParaQueMandenMail.setForeground(new java.awt.Color(242, 242, 242));
+        BotonMostrarQRParaQueMandenMail.setText("QR Mail");
+        BotonMostrarQRParaQueMandenMail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonMostrarQRParaQueMandenMailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -197,7 +212,11 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel1)
                                                 .addGap(281, 281, 281)))
-                                .addContainerGap(37, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BotonMostrarQRParaQueMandenMail)
+                                .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,9 +228,11 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
                                         .addComponent(BotonClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(BotonEstadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(BotonIngresos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                                .addGap(54, 54, 54))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BotonMostrarQRParaQueMandenMail)
+                                .addGap(13, 13, 13))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -272,6 +293,10 @@ public class JfrMenuPrincipal extends javax.swing.JFrame {
         }
         
 
+    }
+
+    private void BotonMostrarQRParaQueMandenMailActionPerformed(java.awt.event.ActionEvent evt) {
+        PopupQR popupQR = new PopupQR();
     }
 
 

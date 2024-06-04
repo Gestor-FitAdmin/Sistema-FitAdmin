@@ -175,7 +175,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
         try {
             DropBoxAPI dropBoxAPI= new DropBoxAPI();
-            String rutaFotoPerfil="FitAdmin/fotoDePerfilPredeterminada.jpg"; //por defecto tiene una foto de perfil predeterminada
+            String rutaFotoPerfil="FitAdmin/src/main/resources/Images/fotoDePerfilPredeterminada.jpg"; //por defecto tiene una foto de perfil predeterminada
 
 
             // Ruta de la imagen de perfil
