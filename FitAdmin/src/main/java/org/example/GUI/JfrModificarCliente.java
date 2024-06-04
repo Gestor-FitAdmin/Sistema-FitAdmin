@@ -348,8 +348,15 @@ public class JfrModificarCliente extends JFrame {
                 if(!busqueda.isEmpty()) {
                     try {
                         Double dato = Double.parseDouble(busqueda);
-                        cliente.modificarPesoCliente(dato);
-                        agregarClienteSeleccionadoATabla();
+                        if(!gimnasio.verificarPesoIngresadoCliente(dato))
+                        {
+                            cliente.modificarPesoCliente(dato);
+                            agregarClienteSeleccionadoATabla();
+                        }
+                        else
+                        {
+                            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un peso valido");
+                        }
 
                     }catch (NumberFormatException e){
                         JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un dato valido");
@@ -363,8 +370,15 @@ public class JfrModificarCliente extends JFrame {
                 if(!busqueda.isEmpty()) {
                     try {
                         Double dato = Double.parseDouble(busqueda);
-                        cliente.modificarAlturaCliente(dato);
-                        agregarClienteSeleccionadoATabla();
+                        if(!gimnasio.verificarAlturaIngresadoCliente(dato))
+                        {
+                            cliente.modificarAlturaCliente(dato);
+                            agregarClienteSeleccionadoATabla();
+                        }
+                        else
+                        {
+                            JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese una altura valida");
+                        }
                     }catch (NumberFormatException e){
                         JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Ingrese un dato valido");
                     }
