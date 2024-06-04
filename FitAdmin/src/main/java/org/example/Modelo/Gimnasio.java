@@ -196,7 +196,12 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
             // Agregar imagen de perfil
             ImageData imageData = ImageDataFactory.create(rutaFotoPerfil);
+            // Verificar la orientación de la imagen
             Image image = new Image(imageData);
+            if (image.getImageScaledWidth() > image.getImageScaledHeight()) {//verifico como esta la imagen para ponerla de frente
+                image.setRotationAngle(-90); // Rotar 90 grados si es necesario
+            }
+
             image.scaleToFit(240, 240); // Ajustar el tamaño de la imagen
             table.addCell(image);//agrega en la 1er columno la imagen
 
