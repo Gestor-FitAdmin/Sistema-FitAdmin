@@ -3,7 +3,6 @@ package org.example.GUI;
 import org.example.GUI.PopUps.JfrAvisoPopUp;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.Modelo.Cliente;
-import org.example.Modelo.Persona;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.Objects;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
@@ -26,7 +24,7 @@ public class JfrModificarCliente extends JFrame {
     private JComboBox<String> ComboBoxModificar;
     private JTable TablaClienteAModificar;
     private JTextField TextFieldModificar;
-    private JToggleButton ToggleButtonPagar;
+    private JButton BotonPagar;
     private JLabel jLabel1;
     private JLabel jLabel2;
     private JLabel jLabel3;
@@ -59,7 +57,7 @@ public class JfrModificarCliente extends JFrame {
         TextFieldModificar = new JTextField();
         jLabel3 = new JLabel();
         jLabel4 = new JLabel();
-        ToggleButtonPagar = new JToggleButton();
+        BotonPagar = new JButton();
         BotonGuardarCambios = new JButton();
         BotonIrAtras = new JButton();
 
@@ -156,13 +154,13 @@ public class JfrModificarCliente extends JFrame {
         jLabel4.setForeground(new Color(242, 242, 242));
         jLabel4.setText("Cuota");
 
-        ToggleButtonPagar.setBackground(new Color(130, 130, 130));
-        ToggleButtonPagar.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        ToggleButtonPagar.setForeground(new Color(242, 242, 242));
-        ToggleButtonPagar.setText("Pagar");
-        ToggleButtonPagar.addActionListener(new ActionListener() {
+        BotonPagar.setBackground(new Color(130, 130, 130));
+        BotonPagar.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        BotonPagar.setForeground(new Color(242, 242, 242));
+        BotonPagar.setText("Pagar");
+        BotonPagar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                ToggleButtonPagarActionPerformed(evt);
+                botonPagarActionPerformed(evt);
             }
         });
 
@@ -209,7 +207,7 @@ public class JfrModificarCliente extends JFrame {
                                                                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                                         .addComponent(TextFieldModificar)
                                                                         .addComponent(ComboBoxModificar, 0, 148, Short.MAX_VALUE)
-                                                                        .addComponent(ToggleButtonPagar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                        .addComponent(BotonPagar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                                 .addGap(230, 230, 230))
                                                         .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                                 .addComponent(BotonGuardarCambios, GroupLayout.PREFERRED_SIZE, 242, GroupLayout.PREFERRED_SIZE)
@@ -240,7 +238,7 @@ public class JfrModificarCliente extends JFrame {
                                 .addGap(13, 13, 13)
                                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel4)
-                                        .addComponent(ToggleButtonPagar, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(BotonPagar, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                                 .addComponent(BotonGuardarCambios, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
                                 .addGap(11, 11, 11)
@@ -262,10 +260,10 @@ public class JfrModificarCliente extends JFrame {
         pack();
     }// </editor-fold>
 
-    private void ToggleButtonPagarActionPerformed(ActionEvent evt) {
+    private void botonPagarActionPerformed(ActionEvent evt) {
+
             String mensaje= cliente.pagarCuotaCliente(); // estan todas las validaciones aca con los setters etc, y depende que pasa, me retorna un mensaje
-
-
+        
             if (cliente.isCuotaPagada())
             {
                 JfrAvisoPopUp jfrAvisoPopUp= new JfrAvisoPopUp(this,true,mensaje);
@@ -275,9 +273,6 @@ public class JfrModificarCliente extends JFrame {
                 JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,mensaje);
             }
 
-        else {
-            ToggleButtonPagar.setText("Pagado");
-        }
 
 
 
