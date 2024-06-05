@@ -238,7 +238,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
             if(accesoDelCliente)//si el acceso es true quiere decir que tiene la cuota vigente
             {
-                diasCuota = 15;//cliente.cantDiasRestantesCuota();
+                diasCuota = cliente.cantDiasRestantesCuota();
                 if(diasCuota>=20)//si esta la cuota optima
                 {
                 colorCuotaMensaje = "Te quedan "+diasCuota+" dias vigentes";
