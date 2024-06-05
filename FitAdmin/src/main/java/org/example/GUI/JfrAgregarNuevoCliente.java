@@ -387,37 +387,42 @@ public class JfrAgregarNuevoCliente extends JFrame {
 
 
         //validar altura
-        try {
+        try
+        {
             altura= Double.parseDouble(TextAreaAltura.getText());
-            if(gym.verificarAlturaIngresadoCliente(altura))
-            {
-                posibleError= posibleError.concat("Ingrese una altura valida. ");
-                TextAreaAltura.setText(null);
-                flag = false;
 
-            }
         }
         catch (NumberFormatException e){
+            flag = false;
            posibleError= posibleError.concat("Ingrese un valor a la altura.");
 //            JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un valor a la altura");
+        }
+        if(gym.verificarAlturaIngresadoCliente(altura))//si no esta en los rangos delimitados
+        {
+            posibleError= posibleError.concat("Ingrese una altura valida. ");
+            TextAreaAltura.setText(null);
+            flag = false;
+
         }
 
         //validar peso
 
-        try {
+        try
+        {
           peso= Double.parseDouble(TextAreaPeso.getText());
-            if(gym.verificarPesoIngresadoCliente(peso))
-            {
-                posibleError= posibleError.concat("Ingrese un peso valido. ");
-                TextAreaPeso.setText(null);
-                flag = false;
-            }
+
         }
         catch (NumberFormatException e){
+            flag = false;
             posibleError= posibleError.concat("Ingrese un valor al peso. ");
             //JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"Ingrese un valor al peso");
         }
-
+        if(gym.verificarPesoIngresadoCliente(peso))//si no esta en los rangos delimitados
+        {
+            posibleError= posibleError.concat("Ingrese un peso valido. ");
+            TextAreaPeso.setText(null);
+            flag = false;
+        }
 
         // Validar nombre
         if (verificarSiContieneNumero(TextAreaNombre.getText())) {
