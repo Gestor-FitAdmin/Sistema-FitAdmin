@@ -3,12 +3,14 @@ package org.example.GUI;
 import org.example.API.TareaVerificarMailsNuevos;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrErrorPopUp;
+import org.example.GUI.PopUps.JfrEsperaPopUp;
 import org.example.Main;
 import org.example.Modelo.Cliente;
 import org.example.Modelo.Gimnasio;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -360,37 +362,59 @@ public class JfrLogIn extends javax.swing.JFrame {
                 //Si la fecha no esta en el archvio
                 if (!localDates.contains(fechaActualdMy)) {
 
-                    String mensaje = String.format(
-                            """
-                                    ¡Feliz cumpleaños, %s!
+                    JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Generando QR...");
+                    esperaPopUp.showWindow();
 
-                                    Desde FitAdmin, queremos desearte un día lleno de alegría y celebración. Para hacerlo aún más especial, te estamos esperando en el gimnasio con un regalo sorpresa.
+                    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            try {
+                                //Envio mensaje
+                                System.out.println("Enviando Mail de Feliz cumple");
+                                gimnasio.enviarUnMail(cliente.geteMail(), mensajeFelizCumple(cliente.getNombre(), cliente.calcularEdad()), false);
+                                System.out.println("Mail enviado");
+                            } catch (MessagingException e) {
+                                System.out.println("Error de mensaje");
+                                e.getMessage();
+                            } catch (MailSinArrobaE e) {
+                                e.getMessage();
+                            }
 
-                                    ¡No olvides visitarnos hoy y recibir tu regalo por tu cumpleaños %d!
-
-                                    ¡Feliz cumpleaños y que tengas un excelente día!
-
-                                    Saludos cordiales,
-                                    El equipo de FitAdmin""",
-                            cliente.getNombre(), cliente.calcularEdad()
-                    );
-                    try {
-                        //Envio mensaje
-                        gimnasio.enviarUnMail(cliente.geteMail(), mensaje, false);
-                        System.out.println("envioMail");
-                    } catch (MessagingException e) {
-                        e.getMessage();
-                    } catch (MailSinArrobaE e) {
-                        e.getMessage();
-                    }
-                    //Grabo la fecha en el archivo
-                    grabarArchvioFechas(fechaActualdMy);
-                    System.out.println("grabo Archivo");
+                            //Grabo la fecha en el archivo
+                            grabarArchvioFechas(fechaActualdMy);
+                            System.out.println("grabo fecha en el archivo");
+                            return null;
+                        }
+                        @Override
+                        protected  void done(){
+                            esperaPopUp.hideWindow();
+                        }
+                    };
+                    worker.execute();
                 }
             }
         }
-
     }
+
+    public String mensajeFelizCumple(String nombre, int edad) {
+        String mensaje = String.format(
+                """
+                        ¡Feliz cumpleaños, %s!
+
+                        Desde FitAdmin, queremos desearte un día lleno de alegría y celebración. Para hacerlo aún más especial, te estamos esperando en el gimnasio con un regalo sorpresa.
+
+                        ¡No olvides visitarnos hoy y recibir tu regalo por tu cumpleaños %d!
+
+                        ¡Feliz cumpleaños y que tengas un excelente día!
+
+                        Saludos cordiales,
+                        El equipo de FitAdmin""",
+                nombre, edad
+        );
+
+        return mensaje;
+    }
+
 
     //Función para leer el archivo de fechas
     static ArrayList<String> leerArchivoFechas() {
@@ -402,17 +426,21 @@ public class JfrLogIn extends javax.swing.JFrame {
         try {
             FileInputStream fileInputStream = new FileInputStream("fechas.bin");
             objectInputStream = new ObjectInputStream(fileInputStream);
-
-            while (true) {
+            boolean flag = true;
+            while (flag) {
+                try{
                 String fecha = (String) objectInputStream.readObject();
                 localDates.add(fecha);
+            } catch (EOFException e){
+                    System.out.println("Termina el archivo");
+                    flag = false;
+                }
             }
 
         } catch (FileNotFoundException e) {
-            e.getMessage();
-            //JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se encontro el archvio");
+            System.out.println("No se encontro el archivo de fechas");
         } catch (IOException e) {
-            JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se puedo abrir el archivo");
+            System.out.println("No se pudo abrir el archivo de fechas");
         } catch (ClassNotFoundException e) {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "Problemas con los tipos de clases");
         }
@@ -440,7 +468,7 @@ public class JfrLogIn extends javax.swing.JFrame {
                 }
 
             } catch (IOException e) {
-                JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se pudo errar el archivo");
+                JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "No se pudo cerrar el archivo");
 
             }
 
