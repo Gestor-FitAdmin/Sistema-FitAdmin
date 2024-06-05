@@ -10,9 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
-public abstract class Persona implements Serializable {//todo : implemet Serializable para poder luego hacer un archivo de las clases que hereden de serializable
-
-
+public abstract class Persona implements Serializable {
 
 //Atributos
     private String nombre;

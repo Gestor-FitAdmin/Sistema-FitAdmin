@@ -25,13 +25,11 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
         super(parent,"Autenticacion",modal);
         this.parent=parent;
         initComponents();
-        urlAAsignar.setText(DropBoxAPI.autenticarTokenNuevoURL());
+        urlAAsignar.setText("Click Aqui para autenticarse con dropbox");
 
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-
-
     }
 
 
@@ -196,7 +194,7 @@ public class JfrAutenticacionPopUp extends javax.swing.JDialog{
 
     private void urlAAsignarMouseClicked(java.awt.event.MouseEvent evt) {
         try {
-            Desktop.getDesktop().browse(new URI(urlAAsignar.getText()));
+            Desktop.getDesktop().browse(new URI(DropBoxAPI.autenticarTokenNuevoURL()));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

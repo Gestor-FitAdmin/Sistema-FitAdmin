@@ -2,13 +2,11 @@ package org.example.Modelo;
 
 import org.example.Enum.EDiasSemana;
 import org.example.Enum.ESexo;
-import org.example.Excepciones.MailSinArrobaE;
-import org.example.GUI.GUIEnvoltorio;
 
-import javax.mail.MessagingException;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Cliente extends Persona implements Serializable {
@@ -22,6 +20,9 @@ public class Cliente extends Persona implements Serializable {
     private HashSet<String> actividadesInscripto;
     private boolean tieneFotoPerfil;
 
+    private LocalDate fechaVencimientoCuota;
+
+
     //Constructor
 
 
@@ -32,8 +33,8 @@ public class Cliente extends Persona implements Serializable {
         this.eMail = eMail;
         this.cuotaPagada = cuotaPagada;
         this.estado = true; //cuando se crea el cliente el estado siempre es true
-
         tieneFotoPerfil=false;
+        fechaVencimientoCuota= LocalDate.now().plusDays(30);
 
         setRutinaSemanal();
         actividadesInscripto = new HashSet<>();
@@ -68,7 +69,14 @@ public class Cliente extends Persona implements Serializable {
     }
 
     public boolean isCuotaPagada() {
-        return cuotaPagada;
+        boolean flag=false;
+
+        if (cantDiasRestantesCuota() >= 0) // si es 0 la tiene que pagar maniana
+        {
+            flag=true;
+        }
+
+        return flag;
     }
 
     public void setCuotaPagada(boolean cuotaPagada) {
@@ -108,22 +116,69 @@ public class Cliente extends Persona implements Serializable {
     }
 
     //Metodos
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
+
+    public String pagarCuotaCliente()
+    {
+        String mensaje="";
+        System.out.println(isCuotaPagada());
+        if (isCuotaPagada())
+        {
+            System.out.println(isEstado());
+            if (isEstado())
+            {
+                //tambien tengo que obtener el changui que queda si el cliente me paga antes del vencimiento
+
+                int difDeDias= cantDiasRestantesCuota();
+                int unaCuota=30;
+                System.out.println("Diferencia de dias: "+ difDeDias);
+                if (difDeDias >= 0) //si mi diferencia de dias es positiva, significa que me estas pagando antes
+                {
+                    //por lo tanto, le agrego una cuota(que son 30 dias)
+                    //no agrego la dif de dias, ya que no es necesario, si se me vence en 9 dias la cuota y me la paga antes, le sumo una cuota (30 dias) y mi nueva fecha de vencimiento seria en 39 dias
+                    fechaVencimientoCuota= fechaVencimientoCuota.plusDays(unaCuota);
+                    // System.out.println("Fecha de venc: "+ fechaVencimientoCuota);
+                }
+                else {
+                    //si la diferencia es negativa, signifca que me esta debiendo cuota(Alto rata). Por lo tanto hago:
+                    //le resto los dias que NO me pago a unaCuota(que son 30 dias)
+                    fechaVencimientoCuota= fechaVencimientoCuota.plusDays(unaCuota+difDeDias);
+                }
+                // System.out.println("Nueva fecha de venc: "+fechaVencimientoCuota);
+                setCuotaPagada(true);
+                mensaje="Cuota pagada con exito";
+            }
+            else {
+                mensaje="El cliente esta archivado";
+            }
+        }
+        else {
+            mensaje="Cuota ya esta pagada";
+        }
+        return mensaje;
     }
 
-    @Override
-    public int hashCode() {
-        return 1;
+    public int cantDiasRestantesCuota()
+    {
+        LocalDate fechaActual= LocalDate.now();
+//        System.out.println(fechaActual);
+//        System.out.println(fechaVencimientoCuota);
+        int data= Math.toIntExact(ChronoUnit.DAYS.between(fechaActual, fechaVencimientoCuota));
+       // System.out.println(Integer.parseInt(String.valueOf(data)));
+        System.out.println(data);
+        return data; //obtengo la cantidad de dias que le quedan a la cuota del cliente
     }
 
-//    public void asignarUnaRutinaAUnDia(Rutina nuevaRutina, EDiasSemana diaAsignado){
-//        String stringDiaAsignado = diaAsignado.name(); //obtengo el valor del enum pero en formato String (lo parseo a un string)
-//
-//        rutinaSemanal.put(stringDiaAsignado,nuevaRutina);
-//    }
+    public boolean estaLaCuotaVencida()
+    {
+        boolean flag=false;
 
+        if (cantDiasRestantesCuota() < 0)
+        {
+            flag=true;
+        }
+
+        return flag;
+    }
 
     //Esta funcion me va a servir para ordenar por dias y luego imprimir el PDF correctamente
     public String formatearDatosCliente(Cliente cliente)
@@ -145,6 +200,16 @@ public class Cliente extends Persona implements Serializable {
         }
 
         return msj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
     }
 
     public Rutina getUnaRutinaEspecifica(Enum diaRequerido)
@@ -191,39 +256,6 @@ public class Cliente extends Persona implements Serializable {
             setCuotaPagada(true);
         }
     }
-
-    public void verificarSiEsCumpleanos()
-    {
-        LocalDate fechaNacimiento = LocalDate.parse(getFechaDeNacimiento(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
-        int diaActual=LocalDate.now().getDayOfMonth(),mesActual=LocalDate.now().getMonthValue();
-        int diaCliente= fechaNacimiento.getDayOfMonth(),mesCliente=fechaNacimiento.getMonthValue();
-
-        String mensajeCumple="";
-        int nuevaEdad=0;
-
-
-
-        if (diaActual == diaCliente && mesActual == mesCliente)
-        {
-            nuevaEdad= calcularEdad();
-
-
-            setEdad(nuevaEdad);
-
-
-            mensajeCumple="Adminfit te desea un muy feliz cumpleaños. Felices "+getEdad()+" "+getNombre()+"!!!!!"+".Mas te vale que vengas ;)";
-            try {
-                GUIEnvoltorio.getGimnasio().enviarUnMail(geteMail(),mensajeCumple,false);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            } catch (MailSinArrobaE e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
 
     @Override
     public String toString() {

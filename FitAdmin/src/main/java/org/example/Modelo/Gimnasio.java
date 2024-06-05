@@ -20,7 +20,6 @@ import com.itextpdf.layout.properties.UnitValue;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.example.API.DropBoxAPI;
-import org.example.API.TareaVerificarMailsNuevos;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Excepciones.TokenDeAccesoInvalidoE;
@@ -199,7 +198,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             // Crear el PdfDocument
             PdfDocument pdf = new PdfDocument(writer);
             // Crear el Document
-            Document document = new Document(pdf);
+            Document documento = new Document(pdf);
 
             // Crear una tabla con dos columnas
             Table table = new Table(UnitValue.createPercentArray(new float[]{1, 2}));
@@ -227,28 +226,40 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             table.addCell(infoParagraph);//agrego los datos del cliente en la 2da columna
 
             // Agregar la tabla al documento
-            document.add(table);
+            documento.add(table);
 
             // Agregar mensaje de acceso
             String mensajeDeAcceso;
-            Paragraph accessParagraph = new Paragraph();
+            Paragraph parrafoDeAcceso = new Paragraph();
 
             if (accesoDelCliente)
             {
                 mensajeDeAcceso = "ACCESO CONCEDIDO";
-                accessParagraph.setFontColor(ColorConstants.GREEN);//si tiene la cuota pagada es concedido
+                parrafoDeAcceso.setFontColor(ColorConstants.GREEN);//si tiene la cuota pagada es concedido
             } else
             {
                 mensajeDeAcceso = "ACCESO DENEGADO";
-                accessParagraph.setFontColor(ColorConstants.RED);//si no tiene la cuota pagada es denegado
+                parrafoDeAcceso.setFontColor(ColorConstants.RED);//si no tiene la cuota pagada es denegado
             }
-            accessParagraph.add(mensajeDeAcceso).setFontSize(20).setTextAlignment(TextAlignment.CENTER);//tamaño y posicionamiento del mensaje de acceso
+            parrafoDeAcceso.add(mensajeDeAcceso).setFontSize(20).setTextAlignment(TextAlignment.CENTER);//tamaño y posicionamiento del mensaje de acceso
 
-            document.add(accessParagraph);//añade el mensaje de acceso con sus ajustes
+            documento.add(parrafoDeAcceso);//añade el mensaje de acceso con sus ajustes
 
+            String cuotaTexto="";
+
+            if (accesoDelCliente)
+            {
+                cuotaTexto="Tu cuota vence en: "+cliente.cantDiasRestantesCuota()+" dias";
+            }
+            else {
+                cuotaTexto="Tu cuota esta vencida!!!";
+            }
+            Paragraph parrafoDeCuantosDiasLeQuedanCuota= new Paragraph(cuotaTexto);
+            parrafoDeCuantosDiasLeQuedanCuota.setFontSize(15).setTextAlignment(TextAlignment.CENTER);
+            documento.add(parrafoDeCuantosDiasLeQuedanCuota);
 
             // Cerrar el documento
-            document.close();
+            documento.close();
             rta = true;
             if (cliente.isTieneFotoPerfil())
             {
@@ -736,34 +747,44 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
     public void leerArchivoCliente(String nombreDelArchivo)
     {
         ObjectInputStream in = null;
+        File archivo= new File(nombreDelArchivo);
+
+
         try
         {
-            FileInputStream fileIn = new FileInputStream(nombreDelArchivo);//permite el flujo de entrada de datos
-            in = new ObjectInputStream(fileIn);//crea un flujo de entrada de objetos a partir de los datos(bytes)
-
-            while(true)//hasta que rompa el archivo
+            if (archivo.exists())
             {
-                Cliente cliente = (Cliente) in.readObject();
-                clientes.put(cliente.getIdCliente(),cliente);
+
+                FileInputStream fileIn = new FileInputStream(nombreDelArchivo);//permite el flujo de entrada de datos
+                in = new ObjectInputStream(fileIn);//crea un flujo de entrada de objetos a partir de los datos(bytes)
+
+                while(true)//hasta que rompa el archivo
+                {
+                    Cliente cliente = (Cliente) in.readObject();
+                    clientes.put(cliente.getIdCliente(),cliente);
+                }
+            }else {
+                archivo.createNewFile();
             }
         } catch (EOFException e)
         {
-            //e.getMessage();
+            //System.out.println("Se llego al final del archivo");
             //e.printStackTrace();
         }
         catch (FileNotFoundException e)
         {
-            e.getMessage();
+
             e.printStackTrace();
         }
         catch (IOException e)
         {
-            e.getMessage();
+
             e.printStackTrace();
         }
         catch (ClassNotFoundException e)
         {
-            e.getMessage();
+            //e.getMessage();
+            e.printStackTrace();
         }
         finally
         {
@@ -772,12 +793,20 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
                 in.close();//cierro el flujo de datos
             }catch (IOException e)
             {
-                e.getMessage();
+                //e.getMessage();
                 e.printStackTrace();
+            }catch (NullPointerException e)
+            {
+                System.out.println("El flujo de datos, no se cerro debido a que no fue creado");
+
             }
         }
-
     }
+
+
+
+
+
     public void guardarClientesEnArchivo(String nombreDelArchivo)
     {
         ObjectOutputStream out = null;
@@ -991,7 +1020,16 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
 
     @Override
     public double recaudacionTotal() {
-        return 0;
+        ArrayList<Cliente> clienteArrayList= retornarListaDeClientes();
+        double total=0;
+        for (Cliente cliente: clienteArrayList)
+        {
+            if (cliente.isCuotaPagada())
+            {
+                total+= 1000;
+            }
+        }
+        return total;
     }
 
     @Override
