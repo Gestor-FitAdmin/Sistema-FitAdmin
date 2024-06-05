@@ -120,10 +120,10 @@ public class Cliente extends Persona implements Serializable {
     public String pagarCuotaCliente()
     {
         String mensaje="";
-        System.out.println(isCuotaPagada());
-        if (isCuotaPagada())
+        //System.out.println(isCuotaPagada());
+        if (!isCuotaPagada())
         {
-            System.out.println(isEstado());
+            //System.out.println(isEstado());
             if (isEstado())
             {
                 //tambien tengo que obtener el changui que queda si el cliente me paga antes del vencimiento
@@ -163,8 +163,9 @@ public class Cliente extends Persona implements Serializable {
 //        System.out.println(fechaActual);
 //        System.out.println(fechaVencimientoCuota);
         int data= Math.toIntExact(ChronoUnit.DAYS.between(fechaActual, fechaVencimientoCuota));
-       // System.out.println(Integer.parseInt(String.valueOf(data)));
-        System.out.println(data);
+        // System.out.println(Integer.parseInt(String.valueOf(data)));
+        //System.out.println(data);
+        
         return data; //obtengo la cantidad de dias que le quedan a la cuota del cliente
     }
 
