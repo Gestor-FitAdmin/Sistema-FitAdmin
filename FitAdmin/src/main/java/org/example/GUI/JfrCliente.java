@@ -1,31 +1,26 @@
 package org.example.GUI;
 
 
+import org.example.Enum.EDiasSemana;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.GUI.PopUps.JfrAvisoPopUp;
 import org.example.GUI.PopUps.JfrErrorPopUp;
 import org.example.GUI.PopUps.JfrEsperaPopUp;
 import org.example.GUI.PopUps.PopupQR;
-import org.example.Modelo.Cliente;
-import org.example.Modelo.Gimnasio;
-import org.example.Modelo.Persona;
+import org.example.Modelo.*;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
@@ -384,7 +379,7 @@ public class JfrCliente extends JFrame {
             {
                 Cliente cliente = gym.buscar(idSocioAuxInteger);//agarro el cliente
 
-                if (!cliente.getRutinaSemanal().isEmpty())//si la rutina contiene ejercicios
+                if (isTieneEjerciciosLaRutina(cliente))//si la rutina contiene ejercicios
                 {
                     gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
 
@@ -397,8 +392,11 @@ public class JfrCliente extends JFrame {
                     SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() { //Nos permite trabajar en un segundo plano
                         @Override
                         protected Void doInBackground() throws Exception { //Este metodo ejecuta el envio del correo y si hay problmeas los cachea
-                            try {
+                            try
+                            {
+
                                 gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true); // Enviar la rutina por email
+
                             } catch (MessagingException e) {
                                 e.printStackTrace();
                                 JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
@@ -423,7 +421,7 @@ public class JfrCliente extends JFrame {
                     worker.execute();
 
                 } else {
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "No tiene una rutina para enviar");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
+                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "La rutina se encuentra vacia");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
                 }
             } else {
                 JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
@@ -694,7 +692,22 @@ public class JfrCliente extends JFrame {
 
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();//formatea la 1er letra en mayuscula y lo demas en minuscula
     }
+    private boolean isTieneEjerciciosLaRutina(Cliente cliente)
+    {
+        boolean rta = false;
 
+        for(EDiasSemana dia : EDiasSemana.values())//recorro cada dia de la semana
+         {
+            Rutina rutinaDiaria = cliente.getUnaRutinaEspecifica(dia);
+            LinkedHashSet<Ejercicio> ejerciciosDeLaRutina = rutinaDiaria.getRutina();
+            if(!ejerciciosDeLaRutina.isEmpty())//verifica que la rutina tenga por lo menos un ejercicio y no este vacia
+            {
+                rta = true;//cuando encuentre un ejercicio es true
+            }
+         }
+
+        return rta;
+    }
 
     private void BotonMostrarQRParaQueMandenMailActionPerformed(java.awt.event.ActionEvent evt) {
         PopupQR popupQR = new PopupQR();
