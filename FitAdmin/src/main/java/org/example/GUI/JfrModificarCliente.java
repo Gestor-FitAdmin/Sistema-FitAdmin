@@ -263,14 +263,24 @@ public class JfrModificarCliente extends JFrame {
     }// </editor-fold>
 
     private void ToggleButtonPagarActionPerformed(ActionEvent evt) {
+            String mensaje= cliente.pagarCuotaCliente(); // estan todas las validaciones aca con los setters etc, y depende que pasa, me retorna un mensaje
 
-        if (ToggleButtonPagar.isSelected()) {
-            ToggleButtonPagar.setText("Pagar");
-            cliente.modificarCuotaCliente();
-        } else {
+
+            if (cliente.isCuotaPagada())
+            {
+                JfrAvisoPopUp jfrAvisoPopUp= new JfrAvisoPopUp(this,true,mensaje);
+
+            }
+            else {
+                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,mensaje);
+            }
+
+        else {
             ToggleButtonPagar.setText("Pagado");
-            cliente.modificarCuotaCliente();
         }
+
+
+
         agregarClienteSeleccionadoATabla();
     }
 
