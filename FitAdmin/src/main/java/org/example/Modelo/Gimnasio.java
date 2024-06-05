@@ -761,6 +761,14 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
                 while(true)//hasta que rompa el archivo
                 {
                     Cliente cliente = (Cliente) in.readObject();
+
+                    if(cliente.estaLaCuotaVencida()) //verifico si la cuota esta vencida, asi los setteo con la cuota
+                    {
+                        cliente.setCuotaPagada(false);
+                    }
+                    else {
+                        cliente.setCuotaPagada(true);
+                    }
                     clientes.put(cliente.getIdCliente(),cliente);
                 }
             }else {
