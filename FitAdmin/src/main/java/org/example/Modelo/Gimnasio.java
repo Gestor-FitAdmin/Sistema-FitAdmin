@@ -3,10 +3,13 @@ package org.example.Modelo;
 import com.dropbox.core.DbxException;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
@@ -220,13 +223,56 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
             // Crear un párrafo con la información del socio
             Paragraph infoParagraph = new Paragraph();
-            String formatoConSaltosDeLinea = cliente.formatearDatosCliente(cliente);//"Número de socio: " + cliente.getIdCliente() + "\n" + "Nombre: " + cliente.getNombre() + "\n" + "Apellido:  " + cliente.getApellido()+"\n";
-            infoParagraph.add(formatoConSaltosDeLinea);
+            String formatoConSaltosDeLinea = cliente.formatearDatosCliente(cliente);//Le agrego todos los datos del cliente;
 
+            infoParagraph.add(formatoConSaltosDeLinea);//agrego los datos basicos del cliente
             table.addCell(infoParagraph);//agrego los datos del cliente en la 2da columna
-
             // Agregar la tabla al documento
             documento.add(table);
+
+            //mensaje del estado de la cuota
+            int diasCuota = 0;
+            String colorCuotaMensaje = null;
+            Paragraph colorDeLaCuota = new Paragraph();
+            Color color;
+
+            if(accesoDelCliente)//si el acceso es true quiere decir que tiene la cuota vigente
+            {
+                diasCuota = 15;//cliente.cantDiasRestantesCuota();
+                if(diasCuota>=20)//si esta la cuota optima
+                {
+                colorCuotaMensaje = "Te quedan "+diasCuota+" dias vigentes";
+                colorDeLaCuota.add(colorCuotaMensaje);
+                color = new DeviceRgb(25,191,58);
+
+                colorDeLaCuota.setFontColor(color);
+
+                }
+                else if(diasCuota>=10 && diasCuota < 20)//si la cuota se acerca al vencimiento
+                {
+                    colorCuotaMensaje = "Te quedan "+diasCuota+" dias vigentes";
+                    colorDeLaCuota.add(colorCuotaMensaje);
+                    color = new DeviceRgb(215,215,16);
+
+                    colorDeLaCuota.setFontColor(color);
+                }
+                else//si ya es menor a 10 dias quiere decir que esta semana ya debo pagar
+                {
+                    colorCuotaMensaje = "Te quedan "+diasCuota+" dias vigentes";
+                    colorDeLaCuota.add(colorCuotaMensaje);
+                    colorDeLaCuota.setFontColor(ColorConstants.RED);
+                }
+            }
+            else
+            {
+                colorCuotaMensaje = "Usted debe pagar la cuota";
+                colorDeLaCuota.add(colorCuotaMensaje);
+                colorDeLaCuota.setFontColor(ColorConstants.RED);
+            }
+            colorDeLaCuota.setFontSize(15).setTextAlignment(TextAlignment.RIGHT);
+
+            documento.add(colorDeLaCuota);
+
 
             // Agregar mensaje de acceso
             String mensajeDeAcceso;
@@ -235,28 +281,19 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             if (accesoDelCliente)
             {
                 mensajeDeAcceso = "ACCESO CONCEDIDO";
-                parrafoDeAcceso.setFontColor(ColorConstants.GREEN);//si tiene la cuota pagada es concedido
+                parrafoDeAcceso.setFontColor(new DeviceRgb(25,191,58));//si tiene la cuota pagada es concedido
             } else
             {
                 mensajeDeAcceso = "ACCESO DENEGADO";
                 parrafoDeAcceso.setFontColor(ColorConstants.RED);//si no tiene la cuota pagada es denegado
             }
+            parrafoDeAcceso.setBold();//texto en negrita
+            parrafoDeAcceso.setBorder(new SolidBorder(ColorConstants.BLACK, 1));//re cuadro
             parrafoDeAcceso.add(mensajeDeAcceso).setFontSize(20).setTextAlignment(TextAlignment.CENTER);//tamaño y posicionamiento del mensaje de acceso
 
             documento.add(parrafoDeAcceso);//añade el mensaje de acceso con sus ajustes
 
-            String cuotaTexto="";
 
-            if (accesoDelCliente)
-            {
-                cuotaTexto="Tu cuota vence en: "+cliente.cantDiasRestantesCuota()+" dias";
-            }
-            else {
-                cuotaTexto="Tu cuota esta vencida!!!";
-            }
-            Paragraph parrafoDeCuantosDiasLeQuedanCuota= new Paragraph(cuotaTexto);
-            parrafoDeCuantosDiasLeQuedanCuota.setFontSize(15).setTextAlignment(TextAlignment.CENTER);
-            documento.add(parrafoDeCuantosDiasLeQuedanCuota);
 
             // Cerrar el documento
             documento.close();
