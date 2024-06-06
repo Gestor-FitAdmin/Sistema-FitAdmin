@@ -612,7 +612,7 @@ public class JfrCliente extends JFrame {
                         }
                     }
                     if (arrayQueSeMostrara.isEmpty()) {
-                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se encontro el apellido buscado");
+                        JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No se encontro el DNI buscado");
                     }
                 } else {
                     JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "No ingreso ningun apellido");
