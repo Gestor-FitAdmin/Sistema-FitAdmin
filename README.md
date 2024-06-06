@@ -69,6 +69,10 @@ La interfaz incluye botones para acceder a estas funcionalidades y utiliza venta
 
 El proyecto está organizado de la siguiente manera:
 
+
+Para representar la estructura del proyecto en un archivo Markdown (.md), puedes utilizar un bloque de código con un formato similar al que proporcionaste. Aquí tienes cómo se vería:
+
+
 FitAdmin/
 ├── java
 │   ├── API
