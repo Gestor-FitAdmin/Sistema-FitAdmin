@@ -18,7 +18,11 @@ public class Main {
 
          //todo falta verificar cada vez que se prende el programa las cuotas
         //todo MAÑANA SE ENTREGA EL PROYECTO AAAAAAA:)
+
         System.out.println("Hello world");
+
+        //Esto es muy bueno 
+
        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
        guiEnvoltorio.iniciarPrograma();
 
