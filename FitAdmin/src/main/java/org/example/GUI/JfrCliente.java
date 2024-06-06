@@ -379,7 +379,7 @@ public class JfrCliente extends JFrame {
             {
                 Cliente cliente = gym.buscar(idSocioAuxInteger);//agarro el cliente
 
-                if (isTieneEjerciciosLaRutina(cliente))//si la rutina contiene ejercicios
+                if (gym.isTieneEjerciciosLaRutina(cliente))//si la rutina contiene ejercicios
                 {
                     gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
 
@@ -692,22 +692,7 @@ public class JfrCliente extends JFrame {
 
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();//formatea la 1er letra en mayuscula y lo demas en minuscula
     }
-    private boolean isTieneEjerciciosLaRutina(Cliente cliente)
-    {
-        boolean rta = false;
 
-        for(EDiasSemana dia : EDiasSemana.values())//recorro cada dia de la semana
-         {
-            Rutina rutinaDiaria = cliente.getUnaRutinaEspecifica(dia);
-            LinkedHashSet<Ejercicio> ejerciciosDeLaRutina = rutinaDiaria.getRutina();
-            if(!ejerciciosDeLaRutina.isEmpty())//verifica que la rutina tenga por lo menos un ejercicio y no este vacia
-            {
-                rta = true;//cuando encuentre un ejercicio es true
-            }
-         }
-
-        return rta;
-    }
 
     private void BotonMostrarQRParaQueMandenMailActionPerformed(java.awt.event.ActionEvent evt) {
         PopupQR popupQR = new PopupQR();
