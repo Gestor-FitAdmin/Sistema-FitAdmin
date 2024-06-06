@@ -17,8 +17,7 @@ public class Main {
          gimnasio = new Gimnasio("fitAdmin", "Villa urquiza", "gonza", "1234");
 
          //todo falta verificar cada vez que se prende el programa las cuotas
-
-
+        //todo MAÑANA SE ENTREGA EL PROYECTO AAAAAAA:)
        GUIEnvoltorio guiEnvoltorio = new GUIEnvoltorio();
        guiEnvoltorio.iniciarPrograma();
 
