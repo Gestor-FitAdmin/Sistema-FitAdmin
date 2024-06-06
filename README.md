@@ -37,7 +37,9 @@ FitAdmin resuelve el problema de implementar una solución integral para la gest
 1. **Abre el proyecto en IntelliJ IDEA**.
 2. **Configura Dropbox**:
    - Asegúrate de tener una cuenta en Dropbox y configura las credenciales necesarias en el proyecto.
-3. **Compila y ejecuta el proyecto desde IntelliJ IDEA**.
+3. **Configura Gmail**
+   - Asegúrate de tener una cuenta en Gmail y configura las credenciales necesarias en el proyecto
+5. **Compila y ejecuta el proyecto desde IntelliJ IDEA**.
 
 ## Uso
 
