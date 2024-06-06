@@ -159,7 +159,7 @@ public class JfrEstadisticas  extends javax.swing.JFrame{
 
         textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo masculino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.MASCULINO)+"\n");
         textoConEstadisticas= textoConEstadisticas.concat("Total de clientes sexo femenino: "+ GUIEnvoltorio.getGimnasio().contarClientesXGenero(ESexo.FEMENINO)+"\n");
-        textoConEstadisticas= textoConEstadisticas.concat("Total recaudado: $"+ GUIEnvoltorio.getGimnasio().recaudacionTotal()+"\n");
+        //textoConEstadisticas= textoConEstadisticas.concat("Total recaudado: $"+ GUIEnvoltorio.getGimnasio().recaudacionTotal()+"\n");todo en implementar cuotas con recaudacion
 
 
         AreaDeTextoEstadisticas.setText(textoConEstadisticas);
