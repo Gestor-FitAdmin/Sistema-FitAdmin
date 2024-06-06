@@ -23,6 +23,7 @@ import com.itextpdf.layout.properties.UnitValue;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.example.API.DropBoxAPI;
+import org.example.Enum.EDiasSemana;
 import org.example.Enum.ESexo;
 import org.example.Excepciones.MailSinArrobaE;
 import org.example.Excepciones.TokenDeAccesoInvalidoE;
@@ -135,27 +136,34 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
             for (Map.Entry<String, Rutina> entry : cliente.getRutinaSemanal().entrySet()) { // Iterar sobre las entradas del HashMap
 
-                document.add(new Paragraph("Día: " + entry.getKey())); // Agregar el día de la rutina como encabezado
-
-
-                float[] columnWidths = {1, 1, 3};// Crear una tabla con 3 columnas (Ejercicio,Series, Repeticiones)
-                Table table = new Table(columnWidths);
-
-                // Agregar los encabezados de la tabla
-                table.addHeaderCell(new Cell().add(new Paragraph("Ejercicio")));
-                table.addHeaderCell(new Cell().add(new Paragraph("Series")));
-                table.addHeaderCell(new Cell().add(new Paragraph("Repeticiones")));
                 Rutina rutina1 = cliente.getRutinaSemanal().get(entry.getKey());
-                // Agregar las filas de la rutina
-                for (Ejercicio ejercicio : rutina1.getRutina()) {
-                    table.addCell(new Cell().add(new Paragraph(ejercicio.getNombreEjercicio())));
-                    table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getSeries()))));
-                    table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getRepeticiones()))));
-                }
+                    if(!rutina1.getRutina().isEmpty())//si tiene ejercicios creo el encabezado con todos los datos correspondientes
+                    {
 
-                document.add(table); // Agregar la tabla al documento
 
-                document.add(new Paragraph("\n"));// Agregar un salto de línea entre días
+                    document.add(new Paragraph("Día: " + entry.getKey())); // Agregar el día de la rutina como encabezado
+
+
+                    float[] columnWidths = {1, 1, 3};// Crear una tabla con 3 columnas (Ejercicio,Series, Repeticiones)
+                    Table table = new Table(columnWidths);
+
+                    // Agregar los encabezados de la tabla
+                    table.addHeaderCell(new Cell().add(new Paragraph("Ejercicio")));
+                    table.addHeaderCell(new Cell().add(new Paragraph("Series")));
+                    table.addHeaderCell(new Cell().add(new Paragraph("Repeticiones")));
+                     rutina1 = cliente.getRutinaSemanal().get(entry.getKey());
+                    // Agregar las filas de la rutina
+                    for (Ejercicio ejercicio : rutina1.getRutina()) {
+                        table.addCell(new Cell().add(new Paragraph(ejercicio.getNombreEjercicio())));
+                        table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getSeries()))));
+                        table.addCell(new Cell().add(new Paragraph(String.valueOf(ejercicio.getRepeticiones()))));
+                    }
+                    document.add(table); // Agregar la tabla al documento
+
+                    document.add(new Paragraph("\n"));// Agregar un salto de línea entre días
+                    }
+
+
             }
 
             document.close();  // Cerrar el documento
@@ -390,6 +398,23 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
         }
         return rta;
     }
+    public boolean isTieneEjerciciosLaRutina(Cliente cliente)
+    {
+        boolean rta = false;
+
+        for(EDiasSemana dia : EDiasSemana.values())//recorro cada dia de la semana
+        {
+            Rutina rutinaDiaria = cliente.getUnaRutinaEspecifica(dia);
+            LinkedHashSet<Ejercicio> ejerciciosDeLaRutina = rutinaDiaria.getRutina();
+            if(!ejerciciosDeLaRutina.isEmpty())//verifica que la rutina tenga por lo menos un ejercicio y no este vacia
+            {
+                rta = true;//cuando encuentre un ejercicio es true
+            }
+        }
+
+        return rta;
+    }
+
 
     private Properties propiedadesParaImap()
     {
