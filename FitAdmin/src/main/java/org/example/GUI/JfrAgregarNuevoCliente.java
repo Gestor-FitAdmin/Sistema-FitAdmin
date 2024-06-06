@@ -93,6 +93,7 @@ public class JfrAgregarNuevoCliente extends JFrame {
         jTextField1.setText("jTextField1");
 
         jTextField2.setText("jTextField2");
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // No cerrar directamente
 
         addWindowListener(new WindowAdapter() {
             @Override

@@ -53,6 +53,8 @@ public class JfrCliente extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
+
+
         //Cambiar el Icono de la app
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/Images/LOGO CORTO.png")));
         setIconImage(icon.getImage());
@@ -124,6 +126,9 @@ public class JfrCliente extends JFrame {
                     gimnasio.guardarClientesEnArchivo("clientes.bin");
                     System.exit(0);
                 }
+
+
+
             }
         });
 
@@ -379,50 +384,58 @@ public class JfrCliente extends JFrame {
             {
                 Cliente cliente = gym.buscar(idSocioAuxInteger);//agarro el cliente
 
-                if (gym.isTieneEjerciciosLaRutina(cliente))//si la rutina contiene ejercicios
+                if (cliente.isEstado())
                 {
-                    gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
+
+                    if (gym.isTieneEjerciciosLaRutina(cliente))//si la rutina contiene ejercicios
+                    {
+                        gym.crearUnPDFConUnaRutina(cliente);//le genero el PDF con la rutina
 
 
-                    // Crear y mostrar la ventana de espera
-                    JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Enviando Email...");
-                    esperaPopUp.showWindow();
+                        // Crear y mostrar la ventana de espera
+                        JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Enviando Email...");
+                        esperaPopUp.showWindow();
 
-                    // Crear y ejecutar la tarea en segundo plano
-                    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() { //Nos permite trabajar en un segundo plano
-                        @Override
-                        protected Void doInBackground() throws Exception { //Este metodo ejecuta el envio del correo y si hay problmeas los cachea
-                            try
-                            {
+                        // Crear y ejecutar la tarea en segundo plano
+                        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() { //Nos permite trabajar en un segundo plano
+                            @Override
+                            protected Void doInBackground() throws Exception { //Este metodo ejecuta el envio del correo y si hay problmeas los cachea
+                                try
+                                {
 
-                                gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true); // Enviar la rutina por email
+                                    gym.enviarUnMail(cliente.geteMail(), "Rutina semanal", true); // Enviar la rutina por email
 
-                            } catch (MessagingException e) {
-                                e.printStackTrace();
-                                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
-                                errorPopUp.setVisible(true);
-                            } catch (MailSinArrobaE e) {
-                                e.printStackTrace();
-                                JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
-                                errorPopUp.setVisible(true);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
+                                    errorPopUp.setVisible(true);
+                                } catch (MailSinArrobaE e) {
+                                    e.printStackTrace();
+                                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, e.getMessage());
+                                    errorPopUp.setVisible(true);
+                                }
+                                return null;
                             }
-                            return null;
-                        }
 
-                        @Override
-                        protected void done() { //Este metodo oculta la ventana
+                            @Override
+                            protected void done() { //Este metodo oculta la ventana
 
-                            esperaPopUp.hideWindow();
-                            JOptionPane.showMessageDialog(null, "Correo enviado correctamente!");
-                        }
-                    };
+                                esperaPopUp.hideWindow();
+                                JOptionPane.showMessageDialog(null, "Correo enviado correctamente!");
+                            }
+                        };
 
-                    // Ejecutar la tarea
-                    worker.execute();
+                        // Ejecutar la tarea
+                        worker.execute();
 
-                } else {
-                    JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "La rutina se encuentra vacia");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
+                    } else {
+                        JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "La rutina se encuentra vacia");//si la rutina esta vacia le aviso que no se le va a enviar porque esta vacia
+                    }
                 }
+                else {
+                    JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"No es posible enviar una rutina ya que el cliente se encuentra archivado");
+                }
+
             } else {
                 JfrErrorPopUp errorPopUp = new JfrErrorPopUp(this, true, "Busque un cliente para enviar la rutina");//si no selecciona nada es null por lo que necesito seleccione
             }
@@ -469,9 +482,17 @@ public class JfrCliente extends JFrame {
             String idSocioSeleccionado = (String) TablaClientes.getValueAt(filaSeleccionada, 0);
             Cliente clienteAux = GUIEnvoltorio.getGimnasio().buscar(Integer.valueOf(idSocioSeleccionado));
 
-            this.setVisible(false);
-            JfrGenerarRutina rut = new JfrGenerarRutina(clienteAux);
-            rut.setVisible(true);
+            if (clienteAux.isEstado())
+            {
+
+                this.setVisible(false);
+                JfrGenerarRutina rut = new JfrGenerarRutina(clienteAux);
+                rut.setVisible(true);
+            }
+            else {
+                JfrErrorPopUp jfrErrorPopUp= new JfrErrorPopUp(this,true,"El cliente elegido esta archivado");
+            }
+
         } else {
             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "Elija un cliente primero para asignarle una rutina");
         }

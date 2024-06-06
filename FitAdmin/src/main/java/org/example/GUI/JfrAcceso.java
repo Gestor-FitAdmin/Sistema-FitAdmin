@@ -70,6 +70,9 @@ public class JfrAcceso extends javax.swing.JFrame {
         ContadorIdUsuario = new javax.swing.JSpinner();
         BotonBuscarId = new javax.swing.JButton();
 
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // No cerrar directamente
+
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
