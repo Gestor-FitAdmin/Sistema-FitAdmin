@@ -18,9 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 
 import static org.example.GUI.GUIEnvoltorio.gimnasio;
 
@@ -335,7 +333,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
         //si no tengo ejercicios elegidos no puedo crear una rutina vacia, por lo tanto popUp que no se puede agregar rutina vacia
 
         if (!ejerciciosElegidos.isEmpty()) {
-            if(ejerciciosElegidos.size() >= 3) {
+            if (ejerciciosElegidos.size() >= 3) {
                 rutinaSeleccionada.setObjetivo((String) SelectorDeObjetivos.getSelectedItem());
 
                 for (int i = 0; i < ejerciciosElegidos.size(); i++) {
@@ -343,8 +341,7 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 }
 
                 JfrAvisoPopUp jfrAvisoPopUp = new JfrAvisoPopUp(this, true, "Rutina generada con exito");
-            }
-            else {
+            } else {
                 JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "La rutina no puede tener menos de 3 ejercicios");
             }
         } else {
@@ -370,9 +367,15 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
 
         if (filaSeleccionada != -1 && TablaDeEjercicios.getValueAt(filaSeleccionada, 0) != null) {
 
+            //Guardo los ejercicios de la rutina actual en el arraylist de ejercicios elegidos
+            HashSet<Ejercicio> rutina = rutinaSeleccionada.getRutina();
+            ejerciciosElegidos.addAll(rutina);
+
+
             nombreEjercicioElegido = (String) TablaDeEjercicios.getValueAt(filaSeleccionada, 0); // obtengo el nombre
             ejercicio = rutinaSeleccionada.buscarUnEjercicioXNombre(nombreEjercicioElegido); //busco el ejercicio
 
+            //Agrego un ejercicio no repetido a la tabla y rutina
             DefaultTableModel modeloDatosDefault = (DefaultTableModel) TablaRutinaActual.getModel(); //este es un formateo para poder agregar filas
             if (!ejercicioRepetido(nombreEjercicioElegido)) {
                 JfrAgregarSriesYRepsPopUp jfrAgregarSriesYRepsPopUp = new JfrAgregarSriesYRepsPopUp(this, true, ejercicio);//asigno series y ejercicios
@@ -380,7 +383,6 @@ public class JfrGenerarRutina extends javax.swing.JFrame {
                 ejerciciosElegidos.add(ejercicio); //agrego al arraylist stage para luego subirlo a la rutina
             } else {
                 JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(this, true, "El ejercicio ya esta en la rutina");
-
             }
 
         } else {
