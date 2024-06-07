@@ -242,7 +242,7 @@ public class DropBoxAPI {
 
     }
 
-    public String descargarArchivoDeDropbox(File archivo){
+    public String descargarArchivoDeDropbox(File archivo) throws IOException,DbxException {
 
         String rutaLocal="FitAdmin/"+archivo.getName()+".jpg";
 
@@ -260,15 +260,13 @@ public class DropBoxAPI {
             canalDeDatos.close();
 
         }catch (DownloadErrorException e){
-            e.printStackTrace();
-            System.out.println("NO SE ENCONTRO EL ARCHYIVO");
+            throw e;
         }
         catch (DbxException e) {
-            System.err.println("Error al descargar el archivo: " + e.getMessage());
-            e.printStackTrace();
+            throw e;
         }catch (IOException e)
         {
-            e.printStackTrace();
+            throw e;
         }
 
         return rutaLocal;
