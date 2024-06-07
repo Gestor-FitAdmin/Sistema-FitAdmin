@@ -1,6 +1,7 @@
 package org.example.Modelo;
 
 import com.dropbox.core.DbxException;
+import com.dropbox.core.v2.files.DownloadErrorException;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.Color;
@@ -193,7 +194,17 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
             System.out.println(cliente.isTieneFotoPerfil());
             if (cliente.isTieneFotoPerfil()) // si el cliente tiene foto de perfil//todo NO SE LE ESTA SETEANDO EN ESTE MOMENTO EL ESTADO
             {
-                rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
+                try {
+                    rutaFotoPerfil= dropBoxAPI.descargarArchivoDeDropbox(new File(cliente.getDNI())); // la busco en dropbox
+                }
+                catch (DbxException e) {
+                    //si se elimino la foto de forma manual en dropbox
+                    cliente.setTieneFotoPerfil(false); //le ponemos el atributo en false ya que asi puede enviar una foto nuevamente
+
+                } catch (IOException e) {
+                    cliente.setTieneFotoPerfil(false); //le ponemos el atributo en false ya que asi puede enviar una foto nuevamente
+
+                }
                 System.out.println(cliente);
                 System.out.println(cliente.isTieneFotoPerfil());
                 //cliente.setTieneFotoPerfil(true);//es momentaneo para luego poder borrarla de la carpeta, luego deja de tener foto de perfil porque el usuario es temporal
@@ -543,7 +554,6 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                                             // Si la parte es una imagen, la guardo en el repo para subirla a dropbox
                                             // me doy cuenta que es una imagen ya que tiene que estar adjunta(ATTACHMENT o INLINE) y debe terminar en .jpg,.jpeg o .png
                                             // Procesar y guardar la imagen
-                                            auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
                                             System.out.println("Entro a guardar imagen");
                                             System.out.println(auxCliente);
 
@@ -553,6 +563,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
 
                                             eliminarImagen(new File(rutaDelArchivo)); // el file sera con el nombre del dni por lo tanto lo elimino con ese nombre
 
+                                            auxCliente.setTieneFotoPerfil(true); // le pongo que ahora SI tiene foto de perfil
 
                                         }
                                     }
@@ -560,7 +571,7 @@ public class Gimnasio implements IEstadistica, IMetodosCrud<Cliente> {
                             }
                             else{
                                 //si ya tiene foto de perfil no se asigna nada
-                                System.out.println("retornar un error al mail que nos envio el mensaje");
+                                System.out.println("ya tiene foto de perfil");
                             }
                         }
 
@@ -601,9 +612,11 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
 
     public void eliminarImagen(File archivo)
     {
-        System.out.println("Imagen eliminada de la carpeta nuestra, quedo en dropbox");
+
         if (archivo.exists())
         {
+
+            System.out.println("Imagen eliminada de la carpeta nuestra, quedo en dropbox");
             boolean flag= archivo.delete();
         }
 
@@ -617,9 +630,13 @@ private boolean verificarSiMensajeMailEsImagen(String nombreArchivo)
 
         Path pathArchivo= Path.of(destinoRutaArchivo);//convierto string a ruta
 
+//        if (Files.exists(pathArchivo))
+//        {
+            Files.deleteIfExists(pathArchivo);//si el archivo existe lo elimino, sino tira FileAlreadyExistsException
+//        }
+
         Files.copy(inputStream,pathArchivo); // copio la foto recibida del mail, a la carpeta/repositorio actual
 
-       // Files.deleteIfExists(pathArchivo);//si el archivo existe lo elimino, sino tira FileAlreadyExistsException
 
         inputStream.close(); // cierro el canal de datos de input
 

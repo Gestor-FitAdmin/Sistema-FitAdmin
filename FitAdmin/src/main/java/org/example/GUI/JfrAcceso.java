@@ -316,11 +316,15 @@ public class JfrAcceso extends javax.swing.JFrame {
                             JfrErrorPopUp jfrErrorPopUp = new JfrErrorPopUp(null, true, "Error al intentar concetar con DropBox");
                         } catch (TokenDeAccesoInvalidoE e){
                             JfrAutenticacionPopUp jfrAutenticacionPopUp = new JfrAutenticacionPopUp(null, true);
-                        }catch(IOException e){
+                        }
+
+                        catch(IOException e){
                             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, "Error al cargar la imagen");
                         }catch(Exception e){
                             JfrErrorPopUp errorPopUp = new JfrErrorPopUp(null, true, "Error inesperado");
                         }
+
+
                         return null;
                     }
 
