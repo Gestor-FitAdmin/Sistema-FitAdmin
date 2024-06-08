@@ -362,7 +362,7 @@ public class JfrLogIn extends javax.swing.JFrame {
                 //Si la fecha no esta en el archvio
                 if (!localDates.contains(fechaActualdMy)) {
 
-                    JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Generando QR...");
+                    JfrEsperaPopUp esperaPopUp = new JfrEsperaPopUp((Frame) SwingUtilities.getWindowAncestor(this), "Enviando saludos de cumpleaños...");
                     esperaPopUp.showWindow();
 
                     SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
